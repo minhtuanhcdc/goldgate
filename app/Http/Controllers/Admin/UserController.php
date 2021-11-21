@@ -137,7 +137,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(SaveUserRequest $request,User $user, UploadFile $uploadeFile){  
-       
+       //dd($user->id);
        
         try{
             DB::beginTransaction();
@@ -161,6 +161,7 @@ class UserController extends Controller
 
        return redirect()->route('users.index')->with('success','Add User successfully!');
         }
+   
 
     /**
      * Remove the specified resource from storage.

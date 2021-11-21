@@ -44,8 +44,12 @@ Route::middleware(['auth', 'verified'])
     Route::get('/result',[ResultController::class,'index'])->name('result');
 
     Route::resource('/menus','MenuController');
+    Route::resource('/chilemenus','ChilemenuController');
+    Route::resource('/menupermision','MenuPermisionController');
     Route::resource('/users','UserController');
+    Route::put('/useredit','UserController@updateEdit');
     Route::resource('/roles','RoleController');
+   
     Route::resource('/permissions','PermissionController');
     Route::resource('/addresses','AddressController');
 

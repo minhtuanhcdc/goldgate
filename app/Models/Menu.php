@@ -15,4 +15,8 @@ class Menu extends Model
         return $this->belongsToMany(User::class);
        //return $this->belongsToMany(User::class, 'menu_users', 'id_menu', 'id_user')->withDefault();
     }
+    public function menupermissions(){
+        dd(User::class,'menu_users', 'id_user','id_menu');
+        return $this->belongsToMany(User::class,'menu_users', 'id_user','id_menu');
+    }
 }

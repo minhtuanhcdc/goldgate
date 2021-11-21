@@ -7,7 +7,31 @@
       <Card>
         <form @submit.prevent="savePermission">
           <!--Name--->+
-        
+          <div class="">
+            <jet-label for="name" value="Tên menu" />
+            <jet-input
+              id="name"
+              type="text"
+              class="mt-1 block w-full"
+              v-model="form.name"
+              autocomplete="name"
+            />
+            <jet-input-error :message="form.errors.name" class="mt-2" />
+          </div>
+          <!--Display Name--->
+          <div class="">
+            <jet-label for="display_name" value="Display name" />
+            <jet-input
+              id="display_name"
+              type="text"
+              class="mt-1 block w-full"
+              v-model="form.display_name"
+              autocomplete="display_name"
+            />
+            <jet-input-error :message="form.errors.display_name" class="mt-2" />
+          </div>
+          <!--Slug--->
+
           <!--Id Parent--->
           <div class="mt-4">
             <jet-label for="parent_id" value="Parent menu" />
@@ -15,7 +39,7 @@
               name="parent_id"
               id="parent_id"
               class="block w-full form-input"
-              v-model="form.menu_id"
+              v-model="form.parent_id"
             >
               <option value="" disabled>--Choose Permission Parent--</option>
               <option value="0">Không</option>
@@ -27,35 +51,33 @@
                 {{ permission.name }}
               </option>
             </select>
-           
+            <jet-input-error :message="form.errors.parent_id" class="mt-2" />
           </div> 
           <!--Url--->
 
           <!--Status--->
           <div class="px-4 w-full grid grid-cols-4">
-            <div v-for="chilemenu in chilemenus.data" :key="chilemenu.id">
+            <div>
+            <Checkbox :checked="checkededit" v-model="form.status" /><span class="ml-2"
+              >Show</span
+            >
+          </div>
+            <div>
+            <Checkbox :checked="checkededit" v-model="form.status" /><span class="ml-2"
+              >Add</span
+            >
+          </div>
+            <div>
+            <Checkbox :checked="checkededit" v-model="form.status" /><span class="ml-2"
+              >Edit</span
+            >
+          </div>
+            <div>
+            <Checkbox :checked="checkededit" v-model="form.status" /><span class="ml-2"
+              >Delete</span
+            >
+          </div>
            
-              <Checkbox
-                    :checked="checkededit"
-                      class="form-checkbox text-pink-600 h-4 w-4"
-                      id="menuselected.id"
-                      v-model:checkedChile="form.menuchile_id"
-                      :value="chilemenu.id"
-                    />
-                    <span class="ml-2">{{chilemenu.name}}</span>
-          </div>
-            
-          </div>
-            <div class="">
-            <jet-label for="display_name" value="Display name" />
-            <jet-input
-              id="display_name"
-              type="text"
-              class="mt-1 block w-full"
-              v-model="form.display_name"
-              autocomplete="display_name"
-            />
-            <jet-input-error :message="form.errors.display_name" class="mt-2" />
           </div>
           <!--Action--->
           <div class="text-right mt-2">
@@ -101,7 +123,7 @@ export default {
   props: {
     edit: Boolean,
     permissions: Object,
-    chilemenus: "",
+    permissiondit: "",
   },
   components: {
     AppLayout,
@@ -125,11 +147,11 @@ export default {
       form: this.$inertia.form(
         {
           _method: this.edit ? "PUT" : "",
-          menu_id: "",
+          name: "",
           display_name: "",
-          menuchile_id:[],
-          display_nameChile:[],
-     
+          parent_id: "",
+          level_tag: "",
+          status: "",
         },
         {
           resetOnSuccess: false,

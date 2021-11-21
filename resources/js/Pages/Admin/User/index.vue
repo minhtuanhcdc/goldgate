@@ -33,8 +33,9 @@
             <td>
               <div class="flex items-center justify-end space-x-3">
                 <EditBtn
-                  :href="route('roles.edit', { role: user.id })"
-                  title="Cấp quyền"
+                  :href="route('menupermision.edit',`${user.id }`)"
+               
+                  title="Cấp quyền Menu"
                   class="text-green-800"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -25,7 +25,7 @@ class PermissionController extends Controller
         
         return Inertia::render('Admin/Permission/Index',
         [
-            'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->get())
+            'permissions'=>PermissionResource::collection(Permission::get())
            
         ]);
     }
@@ -52,20 +52,18 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-        $permision=Permission::create([
-            'menu_id'=>$request->menu_id,
-            'display_name'=>$request->display_name,
-            'parent_id'=>0
-        ]);
-        foreach($request->menuchile_id as $value){
-            Permission::create([
-                'menu_id'=>$value,
-                'display_name'=>$value,  
-                'parent_id'=>$permision->id,
-                'key_code'=>$request->menu_id.'_'.$value
-            ]);
-        }
+        dd($request->all());
+        try{
+            DB::beginTransaction();
+            $data=$request->all();        
+           $user= Permission::create($data);
+           //$user->permissions()->attach($request->permission_id);
+            DB::commit();
+            return redirect()->route('permissions.index')->with('success','Add role successfully!');
+            }catch(Exception $excepton){
+                DB::rollBack();
+                Log::error('Message:'.$excepton->getMessage().'---Line:'.$excepton->getLine());
+            }
        return redirect()->route('permissions.index')->with('success','Add permission successfully!');
     }
     /**

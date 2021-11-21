@@ -1,33 +1,24 @@
 <template>
-  <app-layout title="Menu list">
+  <app-layout title="Chile menu">
     <template #header>
       <Breadcrumb :items="breadcrumbs" />
     </template>
     <Container>
       <Card>
         <div class="grid justiry-items-stretch">
-          <JetButton :href="route('permissions.create')" class="mb-1 justify-self-end"
-            >Add Permission(Menu_hasUrl)</JetButton
+          <JetButton :href="route('chilemenus.create')" class="mb-1 justify-self-end"
+            >Add Chile Menu</JetButton
           >
         </div>
         <AppTable :headers="headers">
-          <tr v-for="(permission, i) in permissions.data" :key="i">
+          <tr v-for="(chilemenu, i) in chilemenus.data" :key="i">
             <td>{{ i + 1 }}</td>
-            <td>{{ permission.id }}</td>
-            <td>
-              <span v-if="permission.parent_id==0" class="font-bold text-blue-800">{{permission.menus.name}}</span>
-              <span v-else class="pl-8">{{permission.menuchiles.name}}</span>            
-            </td>
-            <td>{{ permission.display_name }}</td>
-            <td>{{ permission.parent_id }}</td>
-            <td>{{ permission.key_code }}</td>
-            <td>{{ permission.created_at_for_human }}</td>
+            <td>{{ chilemenu.id }}</td>
+            <td>{{ chilemenu.name }}</td>
+            <td>{{ chilemenu.created_at_forhuman }}</td>
             <td class="text-right">
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn
-                  :href="route('permissions.edit', { permission: permission.id })"
-                  title="Edit"
-                >
+                <EditBtn :href="route('chilemenus.edit', { chilemenu: chilemenu.id })" title="Edit">
                   <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
                     fill="none"
@@ -43,21 +34,18 @@
                     ></path></svg
                 ></EditBtn>
                 <DeleteBtn
-                 
+                :url="route('chilemenus.destroy', { chilemenu: chilemenu.id })"
                   title="Xóa"
                   class="p-0 cursor-pointer text-red-800"
-                  module-name="Permission"
+                  module-name="chileMenu"
                 />
               </div>
             </td>
           </tr>
         </AppTable>
-        <div class="mt-4">
-          <!-- <CompSimplePage
-            :prevUrl="permissions.links.prev"
-            :nextUrl="permissions.links.next"
-          /> -->
-        </div>
+        <!-- <div class="mt-4">
+          <CompSimplePage :prevUrl="menus.links.prev" :nextUrl="menus.links.next" />
+        </div> -->
       </Card>
     </Container>
   </app-layout>
@@ -77,7 +65,7 @@ import JetButton from "@/Jetstream/Button";
 
 export default defineComponent({
   props: {
-    permissions: {},
+    chilemenus: {},
   },
   components: {
     AppLayout,
@@ -95,7 +83,7 @@ export default defineComponent({
     breadcrumbs() {
       return [
         {
-          label: "Permission",
+          label: "Chile menu",
           class: "text-white",
         },
       ];
@@ -105,10 +93,7 @@ export default defineComponent({
         { name: "#" },
         { name: "Id" },
         { name: "Name" },
-        { name: "Display name" },
-        { name: "Parent Id" },
-        { name: "Key code" },
-        { name: "Date create" },
+        { name: "Created" },
         { name: "Action", class: "text-right" },
       ];
     },

@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class Role extends Model
 {
@@ -11,7 +15,10 @@ class Role extends Model
     protected $guarded = [];
 
     public function permissions(){
-        return $this->belongsToMany(Pemission::class,'permissios_role', 'role_id','permission_role');
+        //dd(123);
+        return $this->belongsToMany(Permission::class,'permission_role', 'role_id','permission_id');
     }
+
+   
    
 }

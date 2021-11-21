@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Menu;
 use App\Models\MenuUser;
 use App\Models\Permission;
+use DB;
 
 use Inertia\Inertia;
 use App\Http\Resources\RoleResource;
@@ -34,7 +35,6 @@ class RoleController extends Controller
         return Inertia::render('Admin/Role/index',[
             'roles'=>RoleResource::collection(Role::get()),
             //'users'=>$user,
-           
         ]);
     }
 
@@ -45,16 +45,12 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //$permission=$this->permission->where('parent_id',0)->get();
-
-        //dd($permission);
         return Inertia::render('Admin/Role/AddRole',[
             'edit'=>false,
-            'permissions'=>PermissionResource::collection(Permission::select(['id','name','parent_id'])->get()),
+            'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->select(['id','name','menu_id','parent_id'])->get()),
             'role'=>new RoleResource(new Role())
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -63,12 +59,13 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        $data = $request->all();
-        Role::create($data);
+        $role=$this->role->create([
+            'name'=>$request->name,
+            'display_name'=>$request->display_name,
+        ]);
+        $role->permissions()->attach($request->menuselected);
         return redirect()->route('roles.index')->with('success', 'Add role successfully!');
     }
-
     /**
      * Display the specified resource.
      *
@@ -86,29 +83,26 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //dd($id);
-       $user=User::where('id',$id)->select('id','name')->get();
-       $menus=MenuResource::collection(Menu::select('id','name','id_parent')->get());
-       $menuedits=MenuUser::where('id_user',$id)->select('id_menu')->get();
-       $arrays=[];
-       if($menuedits){
-        foreach($menuedits as $object)
-        {
-            $arrays[] = $object->id_menu;
-        }
-       }
-        
-            // Dump array with object-arrays
-            //dd($arrays);
-       return Inertia::render('Admin/Role/Create',[
-           'edit'=>true,
-           'menus'=>$menus,
-           'userRole'=>$user,
-           'menuedits'=>$arrays,
-           
-       ]);
+       // dd(123);
+
+        $permisionData=array();
+        $rolesper = $this->role->all();
+
+        $role1=$this->role->find($role->id);
+       
+        $permissionOfRole= $role1->permissions;
+        foreach($permissionOfRole as $roleselected){
+            $permisionData[]=$roleselected->id;
+          };
+        return Inertia::render('Admin/Role/AddRole',[
+            'edit'=>true,
+            'role'=>new RoleResource($role),
+            'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->select(['id','name','menu_id','parent_id'])->get()),
+            //'permissions'=>PermissionResource::collection(Permission::select(['id','name','parent_id'])->get()),
+            'permisionData'=>$permisionData  
+        ]);  
     }
     /**
      * Update the specified resource in storage.
@@ -117,22 +111,18 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Role $role)
     {
         //dd($request->all());
-        MenuUser::where('id_user',$request->id_user)->delete();
-        $data=[];
-        foreach($request->menuSelected as $menu_id){
-            $data[]=[
-                'id_user'=>$request->id_user,
-                'id_menu'=>$menu_id,
-                'created_at'=>date('Y-m-d H:i:s'),    
-                'updated_at'=>date('Y-m-d H:i:s'),    
-            ];
-        }
-        //dd($data);
-        MenuUser::insert($data);
-        return redirect()->route('users.index')->with('success','Create permission successfully!');    
+        $data = $request->validate([  
+            'name' => ['required', 'string'],
+            'display_name' => ['required', 'string'],
+        ]);
+
+        $role->update($data);
+        $role->permissions()->sync($request->menuselected);
+
+            return redirect()->route('roles.index')->with('success', 'Add role successfully!'); 
     }
     /**
      * Remove the specified resource from storage.
@@ -140,8 +130,31 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+        return redirect()->route('roles.index')->with('success', "Role deleted successfully!");
+    }
+    public function menuAccess($id){
+       // dd($id);
+        $user=User::where('id',$id)->select('id','name')->get();
+        $menus=MenuResource::collection(Menu::select('id','name','id_parent')->get());
+        $menuedits=MenuUser::where('id_user',$id)->select('id_menu')->get();
+        $arrays=[];
+        if($menuedits){
+         foreach($menuedits as $object)
+         {
+             $arrays[] = $object->id_menu;
+         }
+        }
+             // Dump array with object-arrays
+             //dd($arrays);
+        return Inertia::render('Admin/Role/Create',[
+            'edit'=>true,
+            'menus'=>$menus,
+            'userRole'=>$user,
+            'menuedits'=>$arrays,
+            
+        ]);
     }
 }

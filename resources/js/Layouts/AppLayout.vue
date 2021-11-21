@@ -44,6 +44,22 @@
                   </li>
                   <li>
                     <jet-nav-link
+                      :href="route('menus.index')"
+                      :active="route().current('menus.index')"
+                    >
+                      <b class="menu_item">Menu</b>
+                    </jet-nav-link>
+                  </li>
+                  <li>
+                    <jet-nav-link
+                      :href="route('chilemenus.index')"
+                      :active="route().current('chilemenus.index')"
+                    >
+                      <b class="menu_item">Chile menu</b>
+                    </jet-nav-link>
+                  </li>
+                  <li>
+                    <jet-nav-link
                       :href="route('roles.index')"
                       :active="route().current('roles.index')"
                     >

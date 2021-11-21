@@ -148,7 +148,7 @@ export default {
     saveRole($id) {
       //alert($id);
       this.edit
-        ? this.form.put(route("menupermision.update", { id: $id }))
+        ? this.form.put(route("menupermision.update",{ id: $id }))
         : this.form.post(route("users.store"));
     },
   },

@@ -21,7 +21,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        if(Gate::allows('view_category')){
+        if(Gate::allows('list-category')){
             return Inertia::render('Categories/Index',[
                 'categories'=>CategoryResource::collection(Category::simplePaginate(10)),
             ]);
@@ -39,7 +39,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create_category')){
+        if(Gate::allows('create-category')){
             return Inertia::render('Categories/Create');
         }
         else{
@@ -57,7 +57,7 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        ///dd(1234);
+       
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', Rule::unique(Category::class)],
@@ -65,7 +65,7 @@ class CategoriesController extends Controller
      Category::create($data);
 
      return redirect()->route('categories.index')->with('success', ' Category saved successfully');
-
+    
     }
 
     /**
@@ -87,11 +87,15 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
-      
+        if(Gate::allows('edit-category')){
         return Inertia::render('Categories/Create',[
             'edit'=> true,
             'category'=>new CategoryResource($category)
         ]);
+        }
+        else{
+            return redirect()->back()->with('failure','khong duoc apdate');
+        }
     }
 
     /**
@@ -102,7 +106,7 @@ class CategoriesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Category $category){
-    dd($request->all());
+    
         $data=$request->validate([
             'name'=>['required','string'],
             'slug'=>['required','string',Rule::unique(Category::class)->ignore($category->id)],
@@ -119,9 +123,13 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-    // dd(123);
-       $category->delete();
-
-       return redirect()->route('categories.index')->with('failure', "Category deleted successfully!");
+        if(Gate::allows('delete-category'))
+        { 
+        $category->delete();
+        return redirect()->route('categories.index')->with('failure', "Category deleted successfully!");
+        }
+        else{
+            return back()->withInput()->with('failure', "Ban khong duoc phep xoa");
+        }
     }
 }

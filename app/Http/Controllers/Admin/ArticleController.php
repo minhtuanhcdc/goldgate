@@ -12,6 +12,7 @@ use App\Models\Category;
 use Inertia\Inertia;
 use App\Actions\UploadFile;
 use Illuminate\Support\Facedes\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
 {
@@ -22,9 +23,14 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        if(Gate::allows('list-article')){
         return Inertia::render('Articles/Index',[
             'articles'=>ArticleResource::collection(Article::with(['category'])->Paginate(10))
-        ]);
+            ]);
+        }
+        else{
+            abort(403);
+          }
     }
 
     /**

@@ -19,9 +19,11 @@ class PermissionResource extends JsonResource
             'name'=>$this->name,
             'display_name'=>$this->display_name,
             'parent_id'=>$this-> parent_id,
-            'level_tag'=>$this-> level_tag,
+            'key_code'=>$this-> key_code,
             'status'=>$this-> status,
             'permissionsChildrent'=>new PermissionResource($this->whenLoaded('permissionsChildrent')),
+            'menus'=>new MenuResource($this->whenLoaded('menus')),
+            'menuchiles'=>new ChilemenuResource($this->whenLoaded('menuchiles')),
             'created_at_for_human'=>$this->when($this->created_at, function(){
                 return $this->created_at->diffForHumans();
             }),

@@ -49,7 +49,7 @@
             </td>
             <td>
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn title="Edit">
+                <EditBtn    :href="route('roles.edit', { role: role.id })" title="Edit">
                   <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
                     fill="none"
@@ -68,6 +68,7 @@
                   title="Xóa"
                   class="p-0 cursor-pointer text-red-800"
                   module-name="user"
+                  :url="route('roles.destroy', { role: role.id })"
                 />
               </div>
             </td>

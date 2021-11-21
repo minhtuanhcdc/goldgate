@@ -100,6 +100,26 @@ class User extends Authenticatable
     }
 
     public function roles(){
+        //dd($this->belongsToMany(Role::class,'user_role','user_id','role_id'));
         return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
+    }
+    public function menuRoles(){
+        //dd($this->belongsToMany(Menu::class,'menu-users','user_id','role_id'));
+        return $this->belongsToMany(Menu::class,'menu-users','user_id','role_id');
+    }
+    public function checkPermissionAccess($permissionCheck){
+        //B1: Get all permission user
+        //So sanh gia tri dua vao cua router hien xem cos ton tai trong cac quyen da lay B1
+        //user login co quyen xem, sua, xoa;
+
+        $roles=auth()->user()->roles;
+        //dd($roles);
+        foreach($roles as $role){
+           $permissions=$role->permissions;
+           if($permissions->contains('key_code',$permissionCheck)){
+               return true;
+           }
+        }
+        return false;
     }
 }
