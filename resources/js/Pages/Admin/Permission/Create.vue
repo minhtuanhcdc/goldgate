@@ -32,9 +32,8 @@
           <!--Url--->
 
           <!--Status--->
-          <div class="px-4 w-full grid grid-cols-4">
+          <div class="px-4 w-full grid grid-cols-5">
             <div v-for="chilemenu in chilemenus.data" :key="chilemenu.id">
-           
               <Checkbox
                     :checked="checkededit"
                       class="form-checkbox text-pink-600 h-4 w-4"
@@ -102,6 +101,8 @@ export default {
     edit: Boolean,
     permissions: Object,
     chilemenus: "",
+    Permission:"",
+    
   },
   components: {
     AppLayout,
@@ -125,7 +126,7 @@ export default {
       form: this.$inertia.form(
         {
           _method: this.edit ? "PUT" : "",
-          menu_id: "",
+          menu_id:"",
           display_name: "",
           menuchile_id:[],
           display_nameChile:[],
@@ -155,18 +156,18 @@ export default {
     savePermission() {
       //alert(123);
       this.edit
-        ? this.form.put(route("permissions.update", { id: this.menuedit.data.id }))
+        ? this.form.put(route("permissions.update", { id: this.Permission.data.id }))
         : this.form.post(route("permissions.store"));
     },
   },
   mounted() {
     if (this.edit) {
-      this.form.name = this.permissiondit.data.name;
-      this.form.id_parent = this.permissiondit.data.id_parent;
-      this.form.url = this.permissiondit.data.url;
-      this.form.icon = this.permissiondit.data.icon;
-      this.form.status = this.permissiondit.data.status;
-      this.checkededit = this.permissiondit.data.status == 1 ? true : false;
+      this.form.menu_id = this.Permission.data.menu_id;
+      this.form.id_parent = this.Permission.data.id_parent;
+      this.form.menuchile_id = this.Permission.data.menuchile_id;
+      // this.form.icon = this.permissiondit.data.icon;
+      // this.form.status = this.permissiondit.data.status;
+      // this.checkededit = this.permissiondit.data.status == 1 ? true : false;
     }
   },
 };

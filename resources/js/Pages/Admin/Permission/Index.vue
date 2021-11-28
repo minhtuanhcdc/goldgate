@@ -23,8 +23,8 @@
             <td>{{ permission.key_code }}</td>
             <td>{{ permission.created_at_for_human }}</td>
             <td class="text-right">
-              <div class="flex items-center justify-end space-x-3">
-                <EditBtn
+              <div class="flex items-center justify-end space-x-3" >
+                <EditBtn v-show="permission.parent_id==0"
                   :href="route('permissions.edit', { permission: permission.id })"
                   title="Edit"
                 >
@@ -43,7 +43,7 @@
                     ></path></svg
                 ></EditBtn>
                 <DeleteBtn
-                 
+                 v-show="permission.parent_id==0"
                   title="Xóa"
                   class="p-0 cursor-pointer text-red-800"
                   module-name="Permission"

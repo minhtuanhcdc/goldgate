@@ -14,6 +14,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        //dd ($this->whenLoaded('roles'));
         return [
             'id'=>$this->id,
             'name'=>$this->name,
@@ -21,7 +22,7 @@ class UserResource extends JsonResource
             'email'=>$this->email,
             'phone'=>$this->phone,
             'address'=>new AddressResource($this->whenLoaded('address')),
-            //'roles'=>new MenuUserResource($this->whenLoaded('roles')),
+            'permissionroles'=>$this->whenLoaded('permissionroles'),
           
             'profile_photo_path'=>$this->imageUrl(),
             'created_at_forhuman'=>$this->when($this->created_at, function(){

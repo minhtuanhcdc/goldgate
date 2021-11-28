@@ -18,6 +18,7 @@ class PermissionResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'display_name'=>$this->display_name,
+            'menu_id'=>$this->menu_id,
             'parent_id'=>$this-> parent_id,
             'key_code'=>$this-> key_code,
             'status'=>$this-> status,

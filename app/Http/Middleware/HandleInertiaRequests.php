@@ -52,8 +52,10 @@ class HandleInertiaRequests extends Middleware
                         ->orderBy('menus.id','ASC')  
                         ->get();
                         //dd($menuchas);
+                        $pemissions=$request->user()->roles;
                         return [
                             'menuAccess' =>$menuAccess,
+                            'pemissions' =>$pemissions,
                         ];
                     }
                   

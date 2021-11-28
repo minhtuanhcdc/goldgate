@@ -7,7 +7,7 @@
       <Card>
         <div class="grid justiry-items-stretch">
           <JetButton :href="route('users.create')" class="mb-1 justify-self-end"
-            >Add User</JetButton
+           v-show="$page.props.user.can.create" >Add User</JetButton
           >
         </div>
         <Table :headers="headers" :addClass="addClass">
@@ -15,21 +15,21 @@
             <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>
-              <div class="flex-shrink-0 h-20 w-20 m-0">
-                <img
-                  class="h-20 w-20 rounded-full"
-                  :src="`${user.profile_photo_path}`"
-                  :alt="`${user.profile_photo_path}`"
+                <AppImage
+                  class="mt-2"  
+                  :image-url="`${user.profile_photo_path}`"
+                  label="Image"
                 />
-              </div>
             </td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.phone }}</td>
             <td>
-              <!-- <span v-for="(menu, i) in user.menus" :key="i"> {{ menu.id_menu }}, </span> -->
+               <span v-for="(role,i) in user.permissionroles" :key="i" class="ml-2 bg-blue-500 px-1 rounded-lg text-white">
+                  {{role.name}}  
+              </span>
+            
             </td>
-            <td>hehe,hehe</td>
             <td>
               <div class="flex items-center justify-end space-x-3">
                 <EditBtn
@@ -52,7 +52,7 @@
                     />
                   </svg>
                 </EditBtn>
-                <EditBtn :href="route('users.edit', { user: user.id })" title="Edit">
+                <EditBtn  v-show="$page.props.user.can.update" :href="route('users.edit', { user: user.id })" title="Edit">
                   <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
                     fill="none"
@@ -68,6 +68,7 @@
                     ></path></svg
                 ></EditBtn>
                 <DeleteBtn
+                 v-show="$page.props.user.can.delete"
                   :url="route('users.destroy', { user: user.id })"
                   title="Xóa"
                   class="p-0 cursor-pointer text-red-800"
@@ -93,7 +94,7 @@ import Container from "@/Components/Container";
 import Card from "@/Components/Card";
 import Table from "@/Components/Table";
 import CompSimplePage from "@/Components/SimplePage";
-
+import AppImage from "@/Components/ImageView";
 import EditBtn from "@/Components/EditButton";
 import DeleteBtn from "@/Components/DeleteBtn";
 import JetButton from "@/Jetstream/Button";
@@ -113,6 +114,7 @@ export default defineComponent({
     EditBtn,
     DeleteBtn,
     JetButton,
+    AppImage
   },
   computed: {
     breadcrumbs() {
@@ -131,7 +133,6 @@ export default defineComponent({
         { name: "Username" },
         { name: "Email" },
         { name: "Phone" },
-        { name: "Country" },
         { name: "Roles" },
         { name: "Action", class: "text-right" },
       ];

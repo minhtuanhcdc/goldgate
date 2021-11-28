@@ -37,12 +37,12 @@ class AppServiceProvider extends ServiceProvider
 
         });
       
-        Inertia::share('menu', function(){
+        //Inertia::share('menu', function(){
            //$menuPermission=MenuUser::
             //return [
             //    'parentRole'=>$parentRole,
            //     'chileRole'=>$chileRole,
             //];
-        });
+        //});
     }
 }

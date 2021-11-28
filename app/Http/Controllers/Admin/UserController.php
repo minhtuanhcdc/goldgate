@@ -38,12 +38,10 @@ class UserController extends Controller
     {
         //$users = $this->user->get();
         //dd($users);
-          //$user=UserResource::collection(User::with(['address', 'menus'])->get());
-                   
+        //$user=User::with(['roles'])->get();
+        //dd($users);        
        return Inertia::render('Admin/User/index',[
-           'users'=>UserResource::collection(User::with(['address'])->get()),
-           //'users'=>$user,
-          
+           'users'=>UserResource::collection(User::with(['permissionroles'])->get()),    
        ]);
     }
     /**
@@ -52,9 +50,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-       
-         
+    {       
         return Inertia::render('Admin/User/Create',[
             'edit'=>false,
             'roles'=>RoleResource::collection(Role::select('id','name')->get()),
@@ -73,7 +69,6 @@ class UserController extends Controller
         //dd($request->all());
         try{
             DB::beginTransaction();
-
             $data=$request->all();     
             $data['password']= Hash::make('246357@');
             $data['profile_photo_path']=$uploadeFile->setFile($request->file('profile_photo_path'))
@@ -115,7 +110,6 @@ class UserController extends Controller
         $roles = $this->role->all();
         $user1=$this->user->find($user->id);
         $roleOfUser= $user1->roles;
-     
             foreach($roleOfUser as $roleselected){
                 $roleData[]=$roleselected->id;
           }

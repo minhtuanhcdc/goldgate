@@ -15,6 +15,7 @@ use DB;
 
 class PermissionController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -41,7 +42,7 @@ class PermissionController extends Controller
             'edit'=>false,
             'permissions'=>MenuResource::collection(Menu::where('url','!=','')->select(['id','name'])->get()),
             'chilemenus'=>ChilemenuResource::collection(Menuchile::get()),
-            'Pemission'=>new PermissionResource(new Permission())
+            'Permission'=>new PermissionResource(new Permission())
         ]);
     }
 
@@ -52,7 +53,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+       // dd($request->all());
         $permision=Permission::create([
             'menu_id'=>$request->menu_id,
             'display_name'=>$request->display_name,
@@ -85,11 +86,16 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Permission $permission)
     {
-        dd(123);
+        return Inertia::render('Admin/Permission/Create',[
+            'edit'=>true,
+            'permissions'=>MenuResource::collection(Menu::where('url','!=','')->select(['id','name'])->get()),
+            'chilemenus'=>ChilemenuResource::collection(Menuchile::get()),
+            'Permission'=>new PermissionResource($permission)
+           
+        ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -97,9 +103,23 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Permission $permission)
     {
-        //
+         dd($request->all());
+         $permission=Permission::create([
+            'menu_id'=>$request->menu_id,
+            'display_name'=>$request->display_name,
+            'parent_id'=>0
+        ]);
+        foreach($request->menuchile_id as $value){
+            Permission::create([
+                'menu_id'=>$value,
+                'display_name'=>$value,  
+                'parent_id'=>$permission->id,
+                'key_code'=>$request->menu_id.'_'.$value
+            ]);
+        }
+       return redirect()->route('permissions.index')->with('success','Add permission successfully!');
     }
 
     /**
