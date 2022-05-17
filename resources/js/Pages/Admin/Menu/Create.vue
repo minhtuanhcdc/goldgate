@@ -16,19 +16,19 @@
           
                 <!--Id Parent--->
                     <div class="mt-4">
-                        <jet-label for="id_parent"
+                        <jet-label for="parent_id"
                                 value="Parent menu" />
-                        <select name="id_parent"
-                                id="id_parent"
+                        <select name="parent_id"
+                                id="parent_id"
                                 class="block w-full form-input"
-                                v-model="form.id_parent">
+                                v-model="form.parent_id">
                         <option value="">===Select===</option>
                         <option value="0">Không</option>
                         <option v-for="menu in menus.data"
                                 :key="menu.id"
                                 :value="menu.id">{{ menu.name }}</option>
                         </select>
-                        <jet-input-error :message="form.errors.id_parent"
+                        <jet-input-error :message="form.errors.parent_id"
                             class="mt-2" />
                     </div>
                    <!--Url--->
@@ -117,7 +117,7 @@ import AppTable from '@/Components/Table'
                 form: this.$inertia.form({
                     "_method": this.edit ? 'PUT' : "",
                     name:"",
-                    id_parent:"",
+                    parent_id:"",
                     url:"",
                     icon:"",
                     status:"",

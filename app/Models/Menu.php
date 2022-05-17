@@ -16,7 +16,11 @@ class Menu extends Model
        //return $this->belongsToMany(User::class, 'menu_users', 'id_menu', 'id_user')->withDefault();
     }
     public function menupermissions(){
-        dd(User::class,'menu_users', 'id_user','id_menu');
-        return $this->belongsToMany(User::class,'menu_users', 'id_user','id_menu');
+       
+        return $this->hasMany(User::class,'menu_users', 'id_user','id_menu');
+    }
+
+    public function menuChieldent(){
+        return $this->belongsToMany(Menu::class,'parent_id');
     }
 }

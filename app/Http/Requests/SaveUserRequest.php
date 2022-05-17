@@ -25,12 +25,11 @@ class SaveUserRequest extends FormRequest
     {
         return [
             'name'=>['required','string'],
-            'username'=>['required','string'],
-            
-            'email'=>['required','email'],
-            'phone'=>['required','numeric'],
+            'username'=>['required','string'],    
+            'email'=>['nullable','email'],
+            'phone'=>['nullable','numeric'],
             'image' => ['nullable', 'image', 'max:3000'],
-           //'profile_photo_path'=>['required','string'],
+           'profile_photo_path'=>['nullable','string'],
         ];
     }
 }

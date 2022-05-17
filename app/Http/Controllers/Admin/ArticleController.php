@@ -13,6 +13,7 @@ use Inertia\Inertia;
 use App\Actions\UploadFile;
 use Illuminate\Support\Facedes\Storage;
 use Illuminate\Support\Facades\Gate;
+use Auth;
 
 class ArticleController extends Controller
 {
@@ -23,14 +24,26 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        if(Gate::allows('list-article')){
         return Inertia::render('Articles/Index',[
-            'articles'=>ArticleResource::collection(Article::with(['category'])->Paginate(10))
+            'can' => [
+                    'create' => Auth::user()->checkPermissionAccess(config('permissions.access.create-article')),
+                    'edit' => Auth::user()->checkPermissionAccess(config('permissions.access.edit-article')),
+                    'delete' => Auth::user()->checkPermissionAccess(config('permissions.access.delete-article')),
+                    'view' => Auth::user()->checkPermissionAccess(config('permissions.access.list-article')),
+                    
+                ],
+            'articles'=>ArticleResource::collection(Article::with(['category'])->Paginate(10)),
+            //'can'=>Gate::allows('list-article')
             ]);
-        }
-        else{
-            abort(403);
-          }
+      
+        // if(Gate::allows('list-article')){
+        // return Inertia::render('Articles/Index',[
+        //     'articles'=>ArticleResource::collection(Article::with(['category'])->Paginate(10))
+        //     ]);
+        // }
+        // else{
+        //     return redirect()->route('categories.index')->with('success', 'Ban kg co quyen vao');
+        //   }
     }
 
     /**
@@ -69,7 +82,6 @@ class ArticleController extends Controller
         ->execute();
 
        Article::create($data);
-
        return redirect()->route('articles.index')->with('success','Add article successfully!');
     }
 

@@ -76,6 +76,7 @@ class User extends Authenticatable
     public function imageUrl(string $column = 'profile_photo_path'): ?string
    {
        //$imageName = Arr::get($this->data, $column);
+       //dd($this->uploadFolder());
        $imageName = $this->$column;
        return $imageName === null
            ? "https://ui-avatars.com/api/?name={$column}&color=7F9CF5&background=EBF4FF"
@@ -93,7 +94,7 @@ class User extends Authenticatable
 
     public function menus() {
         //dd($this->belongsTo(MenuUser::class));
-        return $this->hasMany(MenuUser::class,'id_user');
+        return $this->hasMany(MenuUser::class,'user_id');
     }
 
     public function address(){
@@ -101,11 +102,12 @@ class User extends Authenticatable
     }
 
     public function roles(){
+        //dd($this->belongsToMany(Role::class,'user_role','user_id','role_id'));
         return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
     }
     public function menuRoles(){
         //dd($this->belongsToMany(Menu::class,'menu-users','user_id','role_id'));
-        return $this->belongsToMany(Menu::class,'menu-users','id_user','id_menu');
+        return $this->belongsToMany(Menu::class,'menu-users','user_id','menu_id');
     }
     public function checkPermissionAccess($permissionCheck){
         //B1: Get all permission user
@@ -122,8 +124,8 @@ class User extends Authenticatable
         return false;
     }
     public function permissionroles(){
-        //dd($this->belongsToMany(Role::class,'user_role','user_id','role_id'));
-        return $this->belongsToMany(Role::class,'user_role','user_id','role_id')->select('name');
+        //dd($this->belongsToMany(Role::class,'user_role','user_id','role_id')->get());
+        return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
     }
 
 }

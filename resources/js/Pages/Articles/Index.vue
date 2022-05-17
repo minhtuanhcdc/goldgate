@@ -6,7 +6,7 @@
     <Container>
       <Card>
         <div class="grid justiry-items-stretch">
-          <JetButton :href="route('articles.create')" class="mb-1 justify-self-end"
+          <JetButton v-show="$page.props.can.create" :href="route('articles.create')" class="mb-1 justify-self-end"
             >Add Article</JetButton
           >
         </div>
@@ -29,7 +29,7 @@
             <td>{{ article.created_at_for_humans }}</td>
             <td>
               <div class="flex items-center justify-end space-x-2">
-                <EditBtn :href="route('articles.edit', { article: article.id })">
+                <EditBtn v-show="$page.props.can.edit" :href="route('articles.edit', { article: article.id })">
                   <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
                     fill="none"
@@ -45,6 +45,7 @@
                     ></path></svg
                 ></EditBtn>
                 <DeleteBtn
+                  v-show="$page.props.can.delete"
                   :url="route('articles.destroy', { article: article.id })"
                   class="p-0 cursor-pointer"
                   module-name="article"

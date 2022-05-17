@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Support\Facedes\Storage;
+use Auth;
 
 class CategoriesController extends Controller
 {
@@ -21,14 +22,27 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        if(Gate::allows('list-category')){
-            return Inertia::render('Categories/Index',[
-                'categories'=>CategoryResource::collection(Category::simplePaginate(10)),
-            ]);
-        }
-        else{
-          abort(403);
-        }
+         
+        return Inertia::render('Categories/Index',[
+            'can' => [
+                'create' => Auth::user()->checkPermissionAccess(config('permissions.access.create-category')),
+                'edit' => Auth::user()->checkPermissionAccess(config('permissions.access.edit-category')),
+                'delete' => Auth::user()->checkPermissionAccess(config('permissions.access.delete-category')),
+                'view' => Auth::user()->checkPermissionAccess(config('permissions.access.list-category')),
+                
+            ],
+            'categories'=>CategoryResource::collection(Category::simplePaginate(10)),
+            
+        ]);
+        // if(Gate::allows('list-category')){
+        //     return Inertia::render('Categories/Index',[
+        //         'categories'=>CategoryResource::collection(Category::simplePaginate(10)),
+        //         'view'=>true
+        //     ]);
+        // }
+        // else{
+        //   abort(403);
+        // }
       
     }
 
@@ -87,15 +101,13 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
-        if(Gate::allows('edit-category')){
+       // $this->authorize('update', $category);
+        
         return Inertia::render('Categories/Create',[
             'edit'=> true,
             'category'=>new CategoryResource($category)
         ]);
-        }
-        else{
-            return redirect()->back()->with('failure','khong duoc apdate');
-        }
+     
     }
 
     /**

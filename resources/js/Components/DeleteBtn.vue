@@ -12,17 +12,17 @@
     <template #content>
       Are you delete {{moduleName}}
     </template>
-    <template #footer>
+     <template #footer>
       <SecondaryButton @click.prevent="show=false">
         Cancel
       </SecondaryButton>
-      <DangerButton 
+       <DangerButton 
         @click.native="deleteItem"
         :class="{'opacity-25':form.processing}"
         :disabled="form.processing">
           Delete
       </DangerButton>
-    </template>
+    </template> 
   </JetConfirmationModal>
   </div>
 </template>

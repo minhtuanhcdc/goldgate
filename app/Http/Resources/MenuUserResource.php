@@ -16,8 +16,9 @@ class MenuUserResource extends JsonResource
     {
         return [
             "id"=>$this->id,
-            "id_menu"=>$this->id_menu,
-            "id_user"=>$this->id_user,
+            "menu_id"=>$this->id_menu,
+            "user_id"=>$this->id_user,
+            'menus'=>new MenuResource($this->whenLoaded('menus')),
         ];
     }
 }

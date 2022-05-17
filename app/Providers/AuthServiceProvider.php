@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Services\PermissionGatePolicyAccess;
+use App\Policies\PostPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        //Post::class=>PostPolicy::class
     ];
 
     /**
@@ -25,14 +27,13 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
         //Define Permission
         $permissionGatePolicy=new PermissionGatePolicyAccess();
         $permissionGatePolicy->setGatePolicyAccess();
 
-        Gate::define('list-article', function($user){ 
-            return $user->checkPermissionAccess(config('permissions.access.list-article'));
-         });
+        // Gate::define('list-article', function($user){ 
+        //     return $user->checkPermissionAccess(config('permissions.access.list-article'));
+        //  });
     }
   
     

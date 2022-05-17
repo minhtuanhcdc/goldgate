@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SaveMenuRequest;
 use Inertia\Inertia;
 use App\Http\Resources\MenuResource;
+use App\Http\Resources\MenuUserResource;
 use App\Models\Menu;
+use App\Models\MenuUser;
 
 class MenuController extends Controller
 {
@@ -18,9 +20,13 @@ class MenuController extends Controller
      */
     public function index()
     {
+        $menu = MenuUserResource::collection(MenuUser::with(['menus'])->get());
+//dd($menu);
+
         return Inertia::render('Admin/Menu/index',[
             'edit'=>false,
             'menus'=>MenuResource::collection(Menu::paginate(10)),
+            'hehe'=>$menu
            
         ]);
     }
@@ -49,7 +55,7 @@ class MenuController extends Controller
     public function store(SaveMenuRequest $request)
     {
         $data = $request->all();
-
+       // dd($data);
         Menu::create($data);
 
         return redirect()->route('menus.index')->with('success', 'Add menu successfully!');

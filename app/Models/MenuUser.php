@@ -16,10 +16,12 @@ class MenuUser extends Model
 
     public function user():BelongsToMany
     {
-        return $this->BelongsToMany(User::class,'id_user')->withDefault();;
+        return $this->BelongsToMany(User::class,'user_id')->withDefault();;
     }
-    public function menu():BelongsToMany
+    public function menus()
     {
-        return $this->belongsToMany(Menu::class,'id_menu');
+        //dd($this->belongsToMany(Menu::class,'id_menu'));
+        return $this->belongsTo(Menu::class,'menu_id');
+       
     }
 }

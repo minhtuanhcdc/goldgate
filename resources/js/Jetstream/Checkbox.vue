@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  emits: ["update:checked123"],
+  emits: ["update:checked"],
 
   props: {
     checkedChile: {

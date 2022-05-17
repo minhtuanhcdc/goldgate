@@ -20,7 +20,23 @@
                         leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                         leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                     <div v-show="show" class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto" :class="maxWidthClass">
-                        <slot v-if="show"></slot>
+                        <div class="container">
+                                <header :titleHeader="titleHeader">
+                                    <slot name="header"></slot>
+                                </header>
+                                <main>
+                                    <slot></slot>
+                                </main>
+                                <!-- <footer>
+                                    <div class="px-6 py-2 bg-gray-100 text-right">
+                                        <Button class="mb-2 float-right bg-primary-500 mr-2">Save</Button>
+                                        <Button  @click="closeModal" class="mb-2 float-right bg-gray-500">close</Button>
+                                    </div>
+                                </footer> -->
+                        </div>
+
+                           
+                       
                     </div>
                 </transition>
             </div>
@@ -30,16 +46,20 @@
 
 <script>
 import { defineComponent, onMounted, onUnmounted } from "vue";
+import Button from '@/Jetstream/Button';
 
 export default defineComponent({
         emits: ['close'],
-
+       components: {
+            Button,
+        },
         props: {
             show: {
                 default: false
             },
+           
             maxWidth: {
-                default: '2xl'
+                default: 'sm'
             },
             closeable: {
                 default: true
@@ -92,6 +112,12 @@ export default defineComponent({
                     'xl': 'sm:max-w-xl',
                     '2xl': 'sm:max-w-2xl',
                 }[this.maxWidth]
+            }
+        },
+        methods:{
+            closeModal(){
+                this.$emit('closeModalEvent')
+                 
             }
         }
     })

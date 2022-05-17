@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\DashboardController;
 //use App\Http\Controllers\Admin\InputInfoController;
@@ -10,6 +11,9 @@ use App\Http\Controllers\Admin\ResultController;
 //use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\InfoLaboController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\ClassesController;
+use App\Http\Controllers\Admin\Postcontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +25,9 @@ use App\Http\Controllers\Admin\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/backup', function(){
+    Storage::disk('google')->put('example.txt','hello the world');
+});
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -43,6 +49,15 @@ Route::middleware(['auth', 'verified'])
     Route::get('/infolabo',[InfoLaboController::class,'index'])->name('infolabo');
     Route::get('/result',[ResultController::class,'index'])->name('result');
 
+    Route::get('/student',[StudentController::class,'index'])->name('student');
+    Route::get('/search',[StudentController::class,'search'])->name('search');
+    Route::delete('/destroystudent/{student}',[StudentController::class,'destroy'])->name('destroystudent');
+    Route::delete('/massdetroy/{students}',[StudentController::class,'massdetroy'])->name('');
+
+    Route::get('/classes',[ClassesController::class,'getClass'])->name('classes');
+    Route::get('/post',[PostController::class,'index'])->name('posts');
+    Route::get('/show/{id}',[PostController::class,'show'])->name('show');
+
     Route::resource('/menus','MenuController');
     Route::resource('/chilemenus','ChilemenuController');
     Route::resource('/menupermision','MenuPermisionController');
@@ -58,6 +73,12 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/setting','SettingController');
     Route::post('/setting-about','SettingController@saveAbout')->name('setting.about');
     Route::post('/setting-contact','SettingController@saveContact')->name('setting.contact');
+   
     Route::resource('/categories','CategoriesController');
     Route::resource('/articles','ArticleController');
+    Route::resource('/ousents','OusentController');
+
+    Route::resource('/labogroups','LabogroupController');
+    Route::resource('/testnames','TestnameController');
+   
 });

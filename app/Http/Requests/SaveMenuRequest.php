@@ -25,7 +25,7 @@ class SaveMenuRequest extends FormRequest
     {
         return [
           'name'=>['required','string'],
-          'id_parent'=>['required','integer'],
+          'parent_id'=>['required','integer'],
           'url'=>['nullable','string'],
           'icon'=>['nullable','string'],
           'status'=>['nullable','boolean'],

@@ -18,7 +18,7 @@
               v-model="form.menu_id"
             >
               <option value="" disabled>--Choose Permission Parent--</option>
-              <option value="0">Không</option>
+              <option :value=0>Không</option>
               <option
                 v-for="permission in permissions.data"
                 :key="permission.id"

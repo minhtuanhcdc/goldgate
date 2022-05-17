@@ -53,12 +53,15 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
+        //dd($request->all());
+        //$menuName =Menu::where('id',$request->menu_id)->select('name')->get();
+        //dd($menuName);
         $permision=Permission::create([
             'menu_id'=>$request->menu_id,
             'display_name'=>$request->display_name,
             'parent_id'=>0
         ]);
+      
         foreach($request->menuchile_id as $value){
             Permission::create([
                 'menu_id'=>$value,
@@ -105,7 +108,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-         dd($request->all());
+         //dd($request->all());
          $permission=Permission::create([
             'menu_id'=>$request->menu_id,
             'display_name'=>$request->display_name,

@@ -6,7 +6,7 @@
     <Container>
       <Card>
         <div class="grid justiry-items-stretch">
-          <JetButton :href="route('categories.create')" class="mb-2 justify-self-end"
+          <JetButton v-show="$page.props.can.create"  :href="route('categories.create')" class="mb-2 justify-self-end"
             >Add Category</JetButton
           >
         </div>
@@ -17,15 +17,15 @@
         <AppTable :headers="headers">
        
           <tr v-for="(category, index) in categories.data" :key="index">
-            <td>{{ index + 1 }}</td>
+            <td>{{ category.id }}</td>
             <td>{{ category.name }}</td>
             <td>{{ category.slug }}</td>
             <td>{{ category.created_at_for_human }}</td>
             <td with="10%">
               <div class="flex items-center justify-end space-x-4">
-             <div v-for="(role, i) in $page.props.user.roles" :key="i">
-               <span  v-for="(keycode ,index) in role.permissions" :key="index">
-                <EditButton v-if="keycode.key_code=='1_3'"  :href="route('categories.edit', { category: category.id })" >
+             <div >
+               <span >
+                <EditButton v-show="$page.props.can.edit"  :href="route('categories.edit', { category: category.id })" >
                   <svg
                     class="w-6 h-6 text-blue-800"
                     fill="none"
@@ -42,7 +42,7 @@
                 ></EditButton>
                </span>
              </div>
-                <DeleteBtn
+                <DeleteBtn v-show="$page.props.can.delete" 
                   :url="route('categories.destroy', { category: category.id })"
                   class="p-0 cursor-pointer"
                   module-name="category"
@@ -77,6 +77,7 @@ export default {
   name: "Category",
   props: {
     categories: {},
+    view:Boolean
   },
   components: {
     AppLayout,

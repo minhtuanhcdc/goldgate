@@ -9,6 +9,12 @@ use App\Traits\HasCan;
 class Category extends Model
 {
     use HasFactory;
+    use HasCan;
+    protected $appends = [
+         'can',
+    ];
+    
 
     protected $guarded = ['id'];
+   
 }

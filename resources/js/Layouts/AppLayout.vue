@@ -14,98 +14,51 @@
                   <jet-application-mark class="block h-9 w-auto" />
                 </Link>
               </div>
-              <div class="">
-                <ul
-                  class="flex justify-between items-center mx-auto space-x-2 sm:ml-2 relative"
-                >
-                  <li>
-                    <jet-nav-link
-                      :href="route('categories.index')"
-                      :active="route().current('categories.index')"
-                    >
-                      <b class="menu_item">Categories</b>
-                    </jet-nav-link>
-                  </li>
-                  <li>
-                    <jet-nav-link
-                      :href="route('articles.index')"
-                      :active="route().current('articles.index')"
-                    >
-                      <b class="menu_item">Article</b>
-                    </jet-nav-link>
-                  </li>
-                  <li>
-                    <jet-nav-link
-                      :href="route('users.index')"
-                      :active="route().current('users.index')"
-                    >
-                      <b class="menu_item">User list</b>
-                    </jet-nav-link>
-                  </li>
-                  <li>
-                    <jet-nav-link
-                      :href="route('menus.index')"
-                      :active="route().current('menus.index')"
-                    >
-                      <b class="menu_item">Menu</b>
-                    </jet-nav-link>
-                  </li>
-                  <li>
-                    <jet-nav-link
-                      :href="route('chilemenus.index')"
-                      :active="route().current('chilemenus.index')"
-                    >
-                      <b class="menu_item">Chile menu</b>
-                    </jet-nav-link>
-                  </li>
-                  <li>
-                    <jet-nav-link
-                      :href="route('roles.index')"
-                      :active="route().current('roles.index')"
-                    >
-                      <b class="menu_item">Role list</b>
-                    </jet-nav-link>
-                  </li>
-                  <li>
-                    <jet-nav-link
-                      :href="route('permissions.index')"
-                      :active="route().current('permissions.index')"
-                    >
-                      <b class="menu_item">Permission list</b>
-                    </jet-nav-link>
-                  </li>
-                  <li
-                    class="group"
+               <div class="">
+                 <ul class="flex justify-between items-center mx-auto space-x-1 sm:ml-1 relative">
+                   <li
+                    class="group hover:bg-blue-700 "
                     v-for="(parentMenu, i) in $page.props.menuPermission.menuAccess"
                     :key="i"
                   >
-                    <span class="menu_item" v-show="parentMenu.id_parent == 0">
-                      {{ parentMenu.name }}
-                    </span>
-                    <ul class="sub_item">
-                      <li
+                    <div class="menu_item" v-show="parentMenu.parent_id == 0">
+                        <jet-nav-link
+                            :href="
+                              route(
+                                `${parentMenu.Url !== null ? parentMenu.Url : 'dashboard'}`
+                              )
+                            "
+                            class=""
+                          >
+                              <span class="text-base text-gray-800 font-bold hover:text-white hover:text-lg"> {{ parentMenu.menuName }}</span>
+                          </jet-nav-link>
+                   
+                    </div>
+                    <ul class="sub_item bg-blue-700 hover:bg-blue-700 pl-0">
+                       <li
                         class="w-full"
                         v-for="(chileMenu, i) in $page.props.menuPermission.menuAccess"
                         :key="i"
                       >
-                        <div v-show="parentMenu.id == chileMenu.id_parent">
+                        <div v-show="parentMenu.menuId == chileMenu.parent_id">
                           <jet-nav-link
                             :href="
                               route(
-                                `${chileMenu.url !== null ? chileMenu.url : 'dashboard'}`
+                                `${chileMenu.Url !== null ? chileMenu.Url : 'dashboard'}`
                               )
-                            "
-                            :active="route().current(`${chileMenu.url}`)"
+                            "  
                             class="items"
                           >
-                            <span> {{ chileMenu.name }}</span>
+                            <span class="pl-3"> {{ chileMenu.menuName }}</span>
                           </jet-nav-link>
                         </div>
-                      </li>
+                      </li> 
                     </ul>
                   </li>
-                </ul>
+                </ul> 
               </div>
+   
+<!-- menu Dropdown -->
             </div>
             <div class="hidden sm:flex sm:items-center sm:ml-6">
               <div class="ml-3 relative">
@@ -194,14 +147,14 @@
                     <div class="border-t border-gray-100"></div>
                     <!-- Authentication -->
                     <form @submit.prevent="logout">
-                      <jet-dropdown-link as="button"> Log Out </jet-dropdown-link>
+                      <jet-dropdown-link as="button"> Log Out123 </jet-dropdown-link>
                     </form>
                   </template>
                 </jet-dropdown>
               </div>
             </div>
             <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden">
+            <!-- <div class="-mr-2 flex items-center sm:hidden">
               <button
                 @click="showingNavigationDropdown = !showingNavigationDropdown"
                 class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
@@ -234,7 +187,7 @@
                   />
                 </svg>
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- Responsive Navigation Menu -->
@@ -299,51 +252,9 @@
               </jet-responsive-nav-link>
               <!-- Authentication -->
               <form method="POST" @submit.prevent="logout">
-                <jet-responsive-nav-link as="button"> Log Out </jet-responsive-nav-link>
+                <jet-responsive-nav-link as="button"> Log Out121212121 </jet-responsive-nav-link>
               </form>
-              <!-- Team Management -->
-              <template v-if="$page.props.jetstream.hasTeamFeatures">
-                <div class="border-t border-gray-200"></div>
-                <div class="block px-4 py-2 text-xs text-gray-400">Manage Team</div>
-                <!-- Team Settings -->
-                <jet-responsive-nav-link
-                  :href="route('teams.show', $page.props.user.current_team)"
-                  :active="route().current('teams.show')"
-                >
-                  Team Settings
-                </jet-responsive-nav-link>
-                <jet-responsive-nav-link
-                  :href="route('teams.create')"
-                  :active="route().current('teams.create')"
-                  v-if="$page.props.jetstream.canCreateTeams"
-                >
-                  Create New Team
-                </jet-responsive-nav-link>
-                <div class="border-t border-gray-200"></div>
-                <!-- Team Switcher -->
-                <div class="block px-4 py-2 text-xs text-gray-400">Switch Teams</div>
-                <template v-for="team in $page.props.user.all_teams" :key="team.id">
-                  <form @submit.prevent="switchToTeam(team)">
-                    <jet-responsive-nav-link as="button">
-                      <div class="flex items-center">
-                        <svg
-                          v-if="team.id == $page.props.user.current_team_id"
-                          class="mr-2 h-5 w-5 text-green-400"
-                          fill="none"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div>{{ team.name }}</div>
-                      </div>
-                    </jet-responsive-nav-link>
-                  </form>
-                </template>
-              </template>
+           
             </div>
           </div>
         </div>
@@ -379,6 +290,7 @@ import FlashMessage from "@/Components/FlashMessage";
 export default defineComponent({
   props: {
     title: String,
+    view:Boolean
   },
 
   components: {
@@ -418,3 +330,4 @@ export default defineComponent({
   },
 });
 </script>
+

@@ -6,8 +6,9 @@
     <Container>
       <Card>
         <form @submit.prevent="saveRole">
-          <!--Name--->+
+          <!--Name--->+ Cap quyen cho - {{$page.props.user.id}}
           <div class="grid grid-cols-2">
+             
             <div class="">
               <jet-label for="name" value="Tên quyền" />
               <jet-input
@@ -35,7 +36,7 @@
 
           <!--Status--->
            <div class="mt-4 container">
-            <h2>Permission Menu123</h2>
+            <h2 class="font-bold">Permission Menu</h2>
             <div>
             <Checkbox 
               v-model="selected"
@@ -46,24 +47,27 @@
               class="mt-1 card bg-gray-200"
               v-for="(permission,i) in permissions.data"
               :key="i"
+                 v-show="permission.parent_id == 0"
             >
-              <div
+               <div
                 class="card-header bg-blue-300 py-2 px-4"
-                v-show="permission.parent_id == 0"
+               
               >
+
                 <Checkbox
-                  v-model:checkedChile="selected"
-                  :value="permission.id"
+                  v-model:checkedChile="form.menuParentchecked"
+                  :value="permission.menu_id"
                 />
 
                 <span class="ml-2">{{ permission.menus.name }}</span>
               </div>
-              <div class="card-body grid grid-cols-5">
+
+               <div class="card-body grid grid-cols-5">
                 <div
                   v-for="chilePermission in permissions.data"
                   :key="chilePermission.id"
                 >
-                  <div class="py-1" v-if="permission.id == chilePermission.parent_id">
+                  <div class="py-1" v-show="permission.id == chilePermission.parent_id">
                     <Checkbox
                     :checked="true"
                       class="form-checkbox text-pink-600 h-4 w-4"
@@ -71,10 +75,10 @@
                       v-model:checkedChile="form.menuselected"
                       :value="chilePermission.id"
                     />
-                     <span class="ml-1">{{ chilePermission.menuchiles.name }}</span>  
+                      <span class="ml-1" v-if="chilePermission.menuchiles">{{ chilePermission.menuchiles.name }}</span>  
                   </div>
                 </div>
-              </div>
+              </div> 
             </div>
               <div class="mt-4">
                   <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2 font-bold">Active</span>     
@@ -92,7 +96,7 @@
               :disabled="form.processing"
             >
               <span v-if="edit">Update</span>
-              <span v-else>Save</span>
+              <span v-else>Save </span>
             </jet-button>
           </div>
         </form>
@@ -121,6 +125,7 @@ import { strSlug } from "@/helpers.js";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Banner from "@/Jetstream/Banner";
 
+
 export default {
   name: "Add Role",
   props: {
@@ -145,7 +150,8 @@ export default {
     JetActionMessage,
     ClassicEditor,
     Checkbox,
-    Banner,
+    Banner
+   
   },
   data() {
     return {
@@ -157,7 +163,9 @@ export default {
           name: "",
           display_name: "",
           menuselected: [],
+          menuParentchecked:[],
           status: [],
+          user_id:''
         },
         {
           resetOnSuccess: false,
@@ -188,27 +196,39 @@ export default {
     checkAll() {
    this.selected = !this.selected;  
       var arrAll=[];
-      var $test= this.permissions.data;
+      if(!this.selected){
+         var $test= this.permissions.data;
         $test.forEach((value, index) => {      
             arrAll.push(value.id);                            
       });
         this.form.menuselected=arrAll;     
+        this.form.menuParentchecked=arrAll;     
+      }else{
+          var $test= this.permissions.data;
+          $test.forEach((value, index) => {      
+              arrAll.push('');                            
+        });
+            this.form.menuselected=arrAll;     
+        this.form.menuParentchecked=arrAll;    
+      }
+     
     },
-    checkParent($id){ 
-      var arr=[]; 
-      var $test= this.permissions.data;
-        $test.forEach((value, index) => {  
-            if(value.parent_id==$id) {   
-              arr.push(value.id); 
-        }  
-      });  
-      this.form.menuselected=arr;      
-    },
+    // checkParent($id){ 
+    //   var arr=[]; 
+    //   var $test= this.permissions.data;
+    //     $test.forEach((value, index) => {  
+    //         if(value.parent_id==$id) {   
+    //           arr.push(value.id); 
+    //     }  
+    //   });  
+    //   this.form.menuselected=arr;      
+    // },
   },
   mounted() {
     if (this.edit) {
       this.form.name = this.role.data.name;
       this.form.display_name = this.role.data.display_name;
+      this.form.status = this.role.data.status;
       this.form.menuselected = this.permisionData !== "" ? this.permisionData : "";
     }
   },

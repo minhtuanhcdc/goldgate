@@ -5,10 +5,12 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
-//use App\Models\Menu;
+use App\Models\Menu;
 //use App\Models\User;
-//use App\Models\MenuUser;
-//use Illuminate\Support\Facades\Auth;
+use App\Models\MenuUser;
+use App\Http\Resources\MenuResource;
+use App\Http\Resources\MenuUserResource;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,13 +38,15 @@ class AppServiceProvider extends ServiceProvider
             ];
 
         });
+//         Inertia::share('menus', function(){
+//             $menu = MenuUserResource::collection(MenuUser::where('id_user',auth()->id())->with(['menus'])->get());
+// //dd($menu);
+//             return [
+//                 'menuparent'=>$menu,
+//                 //'menuchile'=>"menuchile"
+//             ];
+
+//         });
       
-        //Inertia::share('menu', function(){
-           //$menuPermission=MenuUser::
-            //return [
-            //    'parentRole'=>$parentRole,
-           //     'chileRole'=>$chileRole,
-            //];
-        //});
     }
 }

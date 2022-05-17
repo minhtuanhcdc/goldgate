@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 use Illuminate\Support\Facades\DB;
-
-
+use Auth;
 
 class UserController extends Controller
 {
@@ -41,7 +40,15 @@ class UserController extends Controller
         //$user=User::with(['roles'])->get();
         //dd($users);        
        return Inertia::render('Admin/User/index',[
-           'users'=>UserResource::collection(User::with(['permissionroles'])->get()),    
+        'can' => [
+            'create' => Auth::user()->checkPermissionAccess(config('permissions.access.create-user')),
+            'edit' => Auth::user()->checkPermissionAccess(config('permissions.access.edit-user')),
+            'delete' => Auth::user()->checkPermissionAccess(config('permissions.access.delete-user')),
+            'view' => Auth::user()->checkPermissionAccess(config('permissions.access.list-user')),
+            
+        ],
+            'users'=>UserResource::collection(User::with(['permissionroles'])->orderBy('id','asc')->paginate(4)),
+           'roles'=>RoleResource::collection(Role::select('id','name')->get()),    
        ]);
     }
     /**
@@ -64,7 +71,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SaveUserRequest $request, UploadFile $uploadeFile)
+    public function store(SaveUserRequest $request,UploadFile $uploadeFile)
     {
         //dd($request->all());
         try{
@@ -106,6 +113,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        
         $roleData=array();
         $roles = $this->role->all();
         $user1=$this->user->find($user->id);
@@ -130,8 +138,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SaveUserRequest $request,User $user, UploadFile $uploadeFile){  
-       //dd($user->id);
+    public function update(Request $request,User $user, UploadFile $uploadeFile){  
+      //dd($request->all());
        
         try{
             DB::beginTransaction();

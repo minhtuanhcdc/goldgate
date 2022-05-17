@@ -3,7 +3,7 @@
             <thead>
                 <tr class="text-left">
                     <th class="" v-for="(header,index) in headers" :key="`header-${index}`"
-                              :class="header.class || 'text-left'"
+                        :class="header.class || 'text-left'"
                      >
                      <div class="flex">
                      <span>{{header.name}}</span>
@@ -20,7 +20,9 @@
 </template>
 
 <script>
+//var dt = require( 'datatables.net' )( window, $ );
 import $ from "jquery";
+import dt from "datatables.net-bs4"
 export default {
     props:{
         headers:{
@@ -32,39 +34,38 @@ export default {
               $("#myTable").DataTable({
                     "search": {                     
                         "search":'',
-                        className:'bg-red-400'
+                        className:'text-red-900'
                     },
                     dom:"Bfrtip",
                          buttons: {
-                             className:'justify-between',
+                             className:'text-yellow-600 text-bold text-2xl',
                             buttons: [
-                                { extend: 'pageLength', className: 'mr-20 bg-blue-800' },
-                                { extend: 'copy', className: 'bg-cyan-400 bg-cyan-500 border-cyan-600'  },
-                                { extend: 'print', className: 'mx-1 bg-cyan-600 border-cyan-600' },
+                                { extend: 'pageLength', className: 'rounded-md text-white bg-blue-600 py-1 px-3 mr-2' },
+                                { extend: 'copy', className: 'rounded-md text-white bg-blue-600 py-1 px-3 mr-2'  },
+                                { extend: 'print', className: 'rounded-md text-white bg-blue-600 py-1 px-3 mr-2' },
                                {
                                 // text: '<i class="fa fa-lg fas-file-text-o"></i>',
                                 text:'xuat file Excel',
                                     extend: 'csv',
-                                    className: 'bg-cyan-600 border-cyan-600',
+                                    className: 'bordered-md bg-blue-600 py-1 px-3 mr-2',
                                     title: 'export_filename',
                                     extension: '.xls'
                                 },
-                                {
-                                text: 'Excel',
-                                extend: 'excel',
-                                className: 'bg-cyan-700',
-                                title: 'export_filename',
-                                extension: '.xls'
-                            }, 
+                            //     {
+                            //     text: 'Excel',
+                            //     extend: 'excel',
+                            //     className: 'bordered-md bg-blue-600 py-1 px-3 mr-2',
+                            //     title: 'export_filename',
+                            //     extension: '.xls'
+                            // }, 
                               
                             ],    
                                               
                     },
-               
                      scrollY:480,                                        
                     lengthMenu: [
-                        [ 10, 25, 50, -1 ],
-                        [ '10 rows', '25 rows', '50 rows', 'All' ]
+                        [ 5, 10, 25, 50, -1 ],
+                        [ '5 rows','10 rows', '25 rows', '50 rows', 'All' ]
                     ],                              
                     });
                
@@ -101,7 +102,11 @@ div.dataTables_length {
   }
   
 .dataTables_wrapper .dataTables_paginate {
-float:right;
+  margin: auto !important;
   text-align: center;
-}
+  float: right;
+
+
+  }
+
 </style>
