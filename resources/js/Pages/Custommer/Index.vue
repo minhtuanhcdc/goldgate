@@ -209,7 +209,7 @@
                                   <div class="grid grid-cols-4">
                                      <div class="col-span-2 text-right pr-1 text-bold text-lg text-blue-800 w-full m-0"> Giới tính <span class="m-0 font-normal text-base font-italic text-gray-400">(gender)</span></div>
                                     <div class="border-solid border-1 border-gray-300 rounded-md h-14 px-1 col-span-2">
-                                      <input type="radio" id="female" value="One" v-model="form.gender">
+                                      <input :checked="true" type="radio" id="female" value="One" v-model="form.gender">
                                       <label for="one" class="ml-2">Nữ</label>
                                       <br>
                                       <input type="radio" id="man" value="Two" v-model="form.gender">
