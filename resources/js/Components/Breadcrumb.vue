@@ -1,5 +1,5 @@
  <template>
-    <h4 class="font-semibold tex-xl text-red-800">
+    <h4 class="font-semibold tex-xl text-white">
         <span v-for="(item, index) in items" :key="index">
             <jet-nav-link v-if="item.url" :href="item.url" class="text-red-600 text-xl" >
                     <span >{{item.label}}</span>

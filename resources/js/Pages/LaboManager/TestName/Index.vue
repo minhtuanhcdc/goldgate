@@ -5,16 +5,77 @@
     
     </template>
     <Container>
-      <!---
-       :src="pathImage+`${ou.logo}`"
-       src="/storage/image_Ousent/202205161136.jpg"
-      --->
       <Card>
-           <Button  class="mb-1 float-right cursor-pointer"  @click="addTestName">+ Add</Button>
+      <div class="grid grid-cols-1 mb-2">
+        <div class="flex flex-1">
+           <Button  class="mb-1 float-right cursor-pointer bg-blue-600"  @click="addTestName">+ Add</Button>
+        </div>
+        <div class="grid grid-flow-col justify-items-right">
+          <div class=" text-right"></div>
+          <div class=" text-right"></div>
+          <div class=" px-2 mr-0 text-right">
+             <div class="grid grid-cols-2 mb-2 text-right h-8 p-0">
+                    <jet-label class="text-right text-bold text-lg pr-1" for="testgroup" value="Nhóm xét nghiệm:" />
+                    <select
+                      name="testgroup"
+                      id="testgroup"
+                      class="block py-0 w-full form-input h-8 rounded-lg"
+                      v-model="groupName"
+                    >
+                      <option value="all">All</option>
+                      <option
+                        v-for="(tg,i) in testGroups"
+                        :key="i"
+                        :value="tg.id"
+                      >
+                        {{ tg.name }}
+                      </option>
+                    </select>
+                  </div>
+            </div>
+          <div class="p-0 pt-0 flex">
+            <Button class="py-1 bg-indigo-600" @click="fileGroup">
+             <span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+              </svg>
+            </span> 
+            </Button>
+              <button @click="refreshFill" class=" px-2 py-1 text-white font-bold bg-blue-400 rounded-md text-sm">
+                Refresh
+              </button>
+          </div>
+          <div class="p-0 text-right rounded-sm">
+            <div class="flex flex-row justify-end">
+                    <jet-label class="text-right text-bold text-lg pr-1" for="testgroup" value="perPage:" />
+                    <select
+                      name="perPage"
+                      id="perPage"
+                      class="block py-0 w-24 form-input h-8 rounded-lg"
+                      v-model="perPage"
+                      @change="getPageFill"
+                    > 
+                      <option value="1">1</option>
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                       <option value="all">All</option>
+                    </select>
+             
+            </div>
+          </div>
+         
+        </div>
+      </div>
         <Table :headers="headers" :addClass="addClass">
-          <tr class="hover:bg-blue-300" v-for="(te,i) in testnames.data" :key="i">
+          <tr class="hover:bg-gray-300 " v-for="(te,i) in testNames.data" :key="i">
             <td class="border-r-2 text-center">{{i}}</td>
-            <td class="border-r-2"></td>
+            <td class="border-r-2">{{te.name}}</td>
+            <td class="border-r-2">{{te.get_group.name}}</td>
             <td class="text-center border-r-2 w-24">
                 <EditBtn            
                   title="Edit"
@@ -38,17 +99,13 @@
                <EditBtn 
                v-else           
                   title="Edit"
-                  class="text-green-800"
-                
-                  >
+                  class="text-green-800">
               <svg
-               
                 class="w-6 h-6 text-gray-200"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -87,19 +144,12 @@
               </div>
             </td>
           </tr>
-        </Table>
-        <div class="mt-4">
-         <div class="flex">
-            <template v-for="(link, i) in testnames.links" :key="i" >
-             <div v-if="link.url === null" v-html="link.label" class="mb-1 mr-1 px-3 py-2 text-gray-400 text-sm leading-4 border rounded"></div>
-             <Link v-else :href="link.url" v-html="link.label" class="mb-1 mr-1 px-3 py-2 text-gray-400 text-sm leading-4 border rounded
-             focus:text-indigo-500 focus:border-indigo-500
-             hover:bg-red-400"
-             :class="{'bg-blue-500 text-white' : link.active}"
-             />
-           </template> 
-         </div>
-        </div> 
+        </Table> 
+         <div class="mt-4">
+          <div class="flex">
+            <Pagination :links="testNames.links"/>
+          </div>
+          </div>
         <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave">
              <template v-slot:title >
                <div class="flex justify-between">
@@ -115,7 +165,7 @@
                     @submit.prevent="saveTestName(form)">
                     <div class="grid grid-cols-1">
                       <div class="mt-2">
-                        <jet-label for="name" class="text-bold text-lg" value="Nhóm xét nghiệm" />
+                        <jet-label for="name" class="text-bold text-lg" value="Tên xét nghiệm" />
                         <jet-input
                           required
                           id="name"
@@ -126,8 +176,26 @@
                         />
                          <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>  
                       </div>
+                  <div class="mt-4">
+                    <jet-label for="testgroup" value="Nhóm xét nghiệm" />
 
-                      <div class="mt-4">
+                    <select
+                      name="testgroup"
+                      id="testgroup"
+                      class="block w-full form-input"
+                      v-model="form.group_id"
+                    >
+                      <option value="">Select</option>
+                      <option
+                        v-for="(tg,i) in testGroups"
+                        :key="i"
+                        :value="tg.id"
+                      >
+                        {{ tg.name }}
+                      </option>
+                    </select>
+                  </div>
+                    <div class="mt-4">
                           <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2">Hiển thị</span>
                     </div>  
                     </div>
@@ -150,7 +218,6 @@
             </template>
         >
         </DialogModal> 
-
       </Card>
     </Container>
   </app-layout>
@@ -163,6 +230,7 @@ import Breadcrumb from "@/Components/Breadcrumb.vue";
 import Container from "@/Components/Container";
 import Card from "@/Components/Card";
 import Table from "@/Components/Table";
+import Pagination from "@/Components/Pagination";
 
 import AppImageView from "@/Components/ImageView";
 import EditBtn from "@/Components/EditButton";
@@ -180,10 +248,12 @@ import { Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
   
-  name: "Danh sách đơn vị gửi mẫu",
+  name: "Tên xét nghiệm",
   props: {
-    testnames:'', 
-     errors: Object,
+    testNames:'', 
+    testGroups:'',
+     filters:{}, 
+    errors: Object,
   },
   components: {
     AppLayout,
@@ -191,6 +261,7 @@ export default defineComponent({
     Container,
     Card,
     Table,
+    Pagination,
     EditBtn,
     DeleteBtn,
     JetButton,
@@ -204,13 +275,14 @@ export default defineComponent({
     AppImageView,
     Link,
     Checkbox 
-
-  
   },
 data(){
   return{
+    groupName:this.filters.groupName,
+    perPage:'',
+
      checkededit:'',
-   pathImage:'/storage/image_Ousent/',
+    pathImage:'/storage/image_Ousent/',
     userEdit:'',
     showModal:'',
     editMode: false,
@@ -259,7 +331,7 @@ data(){
       ];
     },
     addClass() {
-      return "bg-blue-300";
+      return "bg-blue-200 text-indigo-700";
       },
       bgSave(){
         return "bg-blue-900 text-white";
@@ -282,6 +354,40 @@ data(){
     }
   },
   methods:{
+     getPageFill(){
+        this.$inertia.get('testnames?',
+            { 
+              perPage:this.perPage,
+              groupName:this.groupName
+            },
+            {
+              preserveState:true,
+              replace:true            } 
+            )
+     },
+     fileGroup(){
+         this.$inertia.get('testnames?',
+            {  //search:this.search,
+                perPage:this.perPage,
+                groupName:this.groupName,
+               
+            },
+            {
+              preserveState:true,
+              replace:true            }
+           
+            )
+     },
+     refreshFill(){
+        this.$inertia.get('testnames?',
+           
+            {
+              preserveState:true,
+              replace:true            }
+           
+            )
+     },
+  
     closeModal(){
       this.reset();
       this.showModal=false;

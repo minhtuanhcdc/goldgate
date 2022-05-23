@@ -6,7 +6,7 @@
     <Container>
       <Card>
         <div class="grid justiry-items-stretch">
-          <JetButton :href="route('menus.create')" class="mb-1 justify-self-end"
+          <JetButton :href="route('menus.create')" class="mb-1 justify-self-end bg-indigo-600"
             >Add Menu</JetButton
           >
         </div>

@@ -252,7 +252,7 @@
               </jet-responsive-nav-link>
               <!-- Authentication -->
               <form method="POST" @submit.prevent="logout">
-                <jet-responsive-nav-link as="button"> Log Out121212121 </jet-responsive-nav-link>
+                <jet-responsive-nav-link as="button"> Log Out</jet-responsive-nav-link>
               </form>
            
             </div>
@@ -261,7 +261,7 @@
         <!-- /Responsive Navigation Menu -->
       </nav>
       <!-- Page Heading -->
-      <header class="bg-indigo-500 shadow mt-2 text-white" v-if="$slots.header">
+      <header class="bg-blue-700 shadow mt-2 text-white" v-if="$slots.header">
         <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
           <slot name="header"></slot>
         </div>

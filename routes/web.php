@@ -68,7 +68,6 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/permissions','PermissionController');
     Route::resource('/addresses','AddressController');
 
-   
     //Route::get('/users',[UserController::class,'index'])->name('users');
     Route::resource('/setting','SettingController');
     Route::post('/setting-about','SettingController@saveAbout')->name('setting.about');
@@ -80,5 +79,8 @@ Route::middleware(['auth', 'verified'])
 
     Route::resource('/labogroups','LabogroupController');
     Route::resource('/testnames','TestnameController');
+    Route::resource('/testelements','TestelementController');
+    Route::resource('/testunits','TestunitController');
    
+    Route::resource('/custommers','CustomerController');  
 });

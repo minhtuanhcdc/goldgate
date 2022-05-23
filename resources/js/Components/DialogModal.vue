@@ -1,7 +1,7 @@
 <template>
     <modal :show="show" :max-width="maxWidth" :closeable="closeable" @close="close">
         <div class="py-1">
-             <div class="px-6 py-2 text-left" :class="bgHeader">
+             <div class="px-1 py-1 text-left rounded-lg" :class="{bgHeader,maxWidth}">
                 <slot name="title">
                 </slot>
             </div>
