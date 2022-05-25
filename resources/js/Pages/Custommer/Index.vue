@@ -6,8 +6,12 @@
     <Container>
       <Card>
       <div class="grid grid-cols-1 mb-2">
-        <div class="flex flex-1">
+        <div class="flex flex-1 justify-between">
            <Button  class="mb-1 float-right cursor-pointer bg-blue-600"  @click="addCustommer">+ Add</Button>
+           <div>
+           <Button  class="bg-indigo-800 px-2 py-1 float-right cursor-pointer">Import file</Button>
+           <Button  class="bg-blue-400 px-2 py-1 float-right cursor-pointer">Export Excel</Button>
+           </div>
         </div>
         <!-- <div class="grid grid-flow-col justify-items-right">
          
@@ -87,19 +91,25 @@
         </div> -->
       </div>  
       <Table :headers="headers" :addClass="addClass">
-          <tr class="hover:bg-gray-300 " v-for="(ctm,i) in custommers.data" :key="i">
+          <tr class="hover:bg-gray-300 " v-for="(bill,i) in billtests" :key="i">
             <td class="border-r-2 text-center">{{i+1}}</td>
-             <td class="border-r-2">{{ctm.name}}</td>
-             <td class="border-r-2 text-center"></td>
+             <td class="border-r-2">{{bill.custommer.name}}</td>
+             <td class="border-r-2">{{bill.custommer.birtday}}</td>
+             <td class="border-r-2 text-center">{{bill.custommer.address}}</td>
             <td class="border-r-2 text-center"></td>
-            <td class="border-r-2" ></td>
-           
-          
+            <td class="border-r-2" >
+              <span v-for="(tn,i) in bill.testnames" :key="i">
+                {{tn.name}},
+              </span>
+            
+              </td>
+            <td class="border-r-2" >{{bill.doctor.title}} {{bill.doctor.name}}</td>
+            <td class="border-r-2" >{{bill.ousent.name}}</td>
             <td class="text-center border-r-2">
                 <EditBtn            
                   title="View"
                   class="text-green-800"
-                  v-if="ctm.status == 1"
+                  v-if="bill.status == 1"
                   >
                  <svg
                   class="w-6 h-6 text-blue-800"
@@ -139,7 +149,7 @@
                 <EditBtn            
                   title="Edit"
                   class="text-green-800"
-                  @click="editCustommer(ctm)"
+                  @click="editCustommer(bill)"
                   >
                    <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
@@ -156,7 +166,7 @@
                     ></path></svg>
                 </EditBtn>
                 <DeleteBtn 
-                  :url="route('custommers.destroy',ctm.id)"
+                  :url="route('custommers.destroy',bill.id)"
                   class="p-0 cursor-pointer text-red-700"
                   module-name="el"
                 />
@@ -180,6 +190,7 @@
              <template v-slot:content>
                <div class="px-1 pb-0 scrollable" :ref="'aKeyValue'" >
                    <form
+                   @submit="checkForm"
                     class="py-0 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg" 
                     @submit.prevent="saveCustommer(form)">
                     <div class="grid grid-cols-1">
@@ -196,12 +207,13 @@
                                       <jet-input
                                       required
                                       id="name"
+                                      name="name"
                                       type="text"
                                       class="mt-1 block w-full h-10"
                                       v-model="form.name"
                                       autocomplete="name"
                                     />
-                                    <!-- <div class=" text-red-800" v-if="errors.name"> * {{ errors.name }}</div>   -->
+                                     <div class=" text-red-800" v-if="errors.name"> * {{ errors.name }}</div> 
                                   </div>
                                   </div>  
                               </div>
@@ -209,12 +221,13 @@
                                   <div class="grid grid-cols-4">
                                      <div class="col-span-2 text-right pr-1 text-bold text-lg text-blue-800 w-full m-0"> Giới tính <span class="m-0 font-normal text-base font-italic text-gray-400">(gender)</span></div>
                                     <div class="border-solid border-1 border-gray-300 rounded-md h-14 px-1 col-span-2">
-                                      <input :checked="true" type="radio" id="female" value="One" v-model="form.gender">
+                                      <input :checked="true" type="radio" id="female" value="false" v-model="form.gender">
                                       <label for="one" class="ml-2">Nữ</label>
                                       <br>
-                                      <input type="radio" id="man" value="Two" v-model="form.gender">
+                                      <input type="radio" id="man" value="true" v-model="form.gender">
                                       <label for="two" class="ml-2">Nam</label>
                                     </div>
+                                   
                                   </div>
                                 </div>
                           </div>
@@ -226,7 +239,8 @@
                                       </div>
                                   <div class="col-span-3">
                                       <jet-input
-                                      required
+                                    
+                                      validation="bail|required|number|between:1,2,value"
                                       id="birthday"
                                       type="text"
                                       class="mt-1 block w-full h-10"
@@ -283,7 +297,7 @@
                                          
                                             id="Province"
                                             class="block w-full form-input rounded-lg h-10 py-1"
-                                            v-model="form.province">
+                                            v-model="form.province_id">
                                             <option value="1">Hà Nội </option>
                                             <option value="2">Tp.HCM</option> 
                                           </select>
@@ -300,7 +314,7 @@
                                             name="district"
                                             id="district"
                                             class="block w-full form-input rounded-lg h-10 py-1"
-                                            v-model="form.district">
+                                            v-model="form.district_id">
                                             <option value="">--</option>
                                             <option v-for="(dst, i) in getdistricts" :key="i" :value="dst.id">{{dst.name}}</option> 
                                            
@@ -318,7 +332,7 @@
                                             name="ward"
                                             id="ward"
                                             class="block w-full form-input rounded-lg h-10 py-1"
-                                            v-model="form.ward">
+                                            v-model="form.ward_id">
                                             <option value="12">--</option>
                                             <option v-for="(wd, i) in getwards" :key="i" :value="wd.id">{{wd.name}}</option> 
                                           </select>
@@ -343,7 +357,7 @@
                                           name="ou"
                                           id="ou"
                                           class="block w-full form-input rounded-lg ml-1 h-10"
-                                          v-model="form.ou_id">
+                                          v-model="form.ousent_id">
                                            <option value="">--</option>
                                       <option v-for="(ou,i) in ousents" :key="i" :value="ou.id">{{ou.name}}</option>
                                     </select>
@@ -357,10 +371,10 @@
                                     </div>
                                     <div class="w-full">
                                          <select
-                                          name="ou"
-                                          id="ou"
+                                          name="doctor_id"
+                                          id="doctor_id"
                                           class="block form-input rounded-lg w-full h-10 "
-                                          v-model="form.doctor">
+                                          v-model="form.doctor_id">
                                       <option value="">--</option>
                                       <option v-for="(dot, i) in getdoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}}</option>
                                   
@@ -373,16 +387,16 @@
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
-                                        <div class="text-left pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(Ousent)</span></div>
+                                        <div class="text-left pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
                                     </div>
                                     <div class="w-full">
                                        <jet-input
-                                        required
-                                        id="diagnose"
+                                       
+                                        id="diagonose"
                                         type="text"
                                         class="mt-1 block w-full h-10"
-                                        v-model="form.diagnose"
-                                        autocomplete="diagnose"
+                                        v-model="form.diagonose"
+                                        autocomplete="diagonose"
                                       />
                                     </div>
                                   </div>
@@ -394,12 +408,12 @@
                                     </div>
                                     <div class="w-full">
                                          <select
-                                          name="ou"
-                                          id="ou"
+                                          name="testname_id"
+                                          id="testname_id"
                                           class="block form-input rounded-lg w-full h-10 "
-                                          v-model="form.indicate">
-                                      <option >ThinPrep - Pap Smear</option>
-                                      <option >HPV</option>
+                                          v-model="form.testname_id">
+                                      <option value='1'>ThinPrep - Pap Smear</option>
+                                      <option value='2'>HPV</option>
                                   
                                     </select>
                                     </div>
@@ -411,15 +425,15 @@
                                 <div class="flex flex-row">
                                 <jet-label for="sample_id" class="self-center text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã XN ĐV gửi:" />
                                 <jet-input
-                                  required
-                                  id="sample_id"
+                                 
+                                  id="sample_code"
                                   type="text"
                                   class="mt-1 block w-full h-9"
-                                  v-model="form.sample_id"
-                                  autocomplete="sample_id"
+                                  v-model="form.sample_code"
+                                  autocomplete="sample_code"
                                 />
                                 </div>
-                              <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.sample_id }}</div>  
+                              
                             </div>
                           <div class="w-1/2">
                             
@@ -427,7 +441,7 @@
                                 <div class="flex flex-row">
                                 <jet-label for="date_re" class="self-center text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Ngày lấy mẫu:" />
                                 <jet-input
-                                  required
+                                 
                                   id="date_ou"
                                   type="datetime-local"
                                   class="mt-1 block w-3/4"
@@ -435,7 +449,7 @@
                                   autocomplete="date_re"
                                 />
                                 </div>
-                              <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.date_ou }}</div>  
+                              
                             
                           </div>
                           </div>
@@ -449,52 +463,43 @@
                         <div class="ml-2 flex flex-row">
                               <div class="mt-2 w-1/2">
                                 <div class="flex flex-row">
-                                <jet-label for="thinprep_id" class="text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã ThinPrep:" />
+                                <jet-label for="thinprep_code" class="text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã ThinPrep:" />
                                 <jet-input
-                                  required
-                                  id="thinprep_id"
+                                  
+                                  id="thinprep_code"
                                   type="text"
                                   class="mt-1 block w-full"
-                                  v-model="form.thinprep_id"
-                                  autocomplete="thinprep_id"
+                                  v-model="form.thinprep_code"
+                                  autocomplete="thinprep_code"
                                 />
                                 </div>
-                              <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.thinprep_id }}</div>  
+                              
                             </div>
                               <div class="mt-2 w-1/2">
                                 <div class="flex flex-row">
-                                <jet-label for="hpv_id" class="text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã HPV:" />
+                                <jet-label for="hpv_code" class="text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã HPV:" />
                                 <jet-input
-                                  required
-                                  id="hpv_id"
+                                  id="hpv_code"
                                   type="text"
                                   class="mt-1 block w-full"
-                                  v-model="form.hpv_id"
-                                  autocomplete="hpv_id"
+                                  v-model="form.hpv_code"
+                                  autocomplete="hpv_code"
                                 />
                                 </div>
-                              <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.hpv_id }}</div>  
-                            </div>
-                          
-                          
+                            </div>   
                         </div>                    
                         <div class="ml-2 flex flex-row">
-                              
                              <div class=" w-1/2">
                               <div class="mt-2">
                                 <div class="flex flex-row">
                                 <jet-label for="date_re" class="text-center pr-1 text-bold text-lg text-blue-800 w-48" value="Ngày nhận mẫu:" />
                                 <jet-input
-                                  required
                                   id="date_re"
                                   type="datetime-local"
                                   class="mt-1 block w-full"
                                   v-model="form.date_re"
-                                  autocomplete="date_re"
-                                />
+                                  autocomplete="date_re"/>
                                 </div>
-                              <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.date_re }}</div>  
-                            
                           </div>
                           </div>
                         </div>                    
@@ -558,7 +563,7 @@ export default defineComponent({
   props: {
     //testGroups:'',
     //testNames:'', 
-    custommers:'',
+    billtests:'',
     provinces:'',
     districts:'',
     wards:'',
@@ -599,7 +604,8 @@ data(){
     getdistricts:'',
     getwards:'',
     getdoctors:'',
-    
+    form_errors:[],
+    name:'',
     perPage:'',
     checkededit:'',
     pathImage:'/storage/image_Ousent/',
@@ -620,15 +626,16 @@ data(){
     },
 
     form: this.$inertia.form({
-         // "_method": this.edit ? 'PUT' : "",
+         // "_method": this.edit ? 'PUT' : "",bỉ
         name: "",
-        status: "",  
-        value_max: "",  
-        value_min: "",  
-        unit_id: "",  
-        element_group: "",  
-        testname_id: "",  
-        gender:''
+        birthday: "",  
+        ousent_id: "",  
+        phone: "",  
+        gender: '',  
+        address: "", 
+        province_id: "",  
+        district_id:'',
+        ward_id:'',
       },
         {
           resetOnSuccess: false,
@@ -641,14 +648,14 @@ data(){
        //console.log(this.elementSearch);
        this.getelementSearch(this.elementSearch)
     },
-    "form.province":function(value){
+    "form.province_id":function(value){
       // console.log(value);
        this.getDistrictFill(value)
     },
-    "form.district":function(value){
+    "form.district_id":function(value){
        this.getWardFill(value)
     },
-    "form.ou_id":function(value){
+    "form.ousent_id":function(value){
        this.getDoctorFill(value)
     },
     
@@ -666,12 +673,13 @@ data(){
       return [
         { name: "#", class:'w-12 text-center' },
         { name: "Tên khách hàng", class:'border-l-2' },
+        { name: "Năm sinh", class:'border-l-2' },
         { name: "Địa chỉ", class:'border-l-2 text-center' },
         { name: "Điện thoại", class:'border-l-2 text-center px-1' },
         { name: "Chỉ định xét nghiệm", class:'border-l-2' },
         { name: "Bác sỹ chỉ định", class:'border-l-2' },
           { name: "Đơn vị gửi mẫu", class:'border-l-2' },
-        { name: "Trạng thái", class:'border-l-2 text-center' },  
+        { name: "Kết quả", class:'border-l-2 text-center' },  
         { name: "Action", class: "text-right border-l-2" },
       ];
     },
@@ -699,6 +707,16 @@ data(){
     }
   },
   methods:{
+    // checkForm:function(e){
+    //   alert(123);
+    //   if(this.name && (this.name.length >=2)){
+    //    alert(this.name.length);
+    //   }
+    //   this.form_errors =[];
+    //   if(!this.name ){
+    //     this.form_errors.push('Nhập tên');
+    //   }
+    // },
     getDoctorFill(doctor){
       console.log(this.doctors);
      const fillData = this.doctors.filter(function(el){
@@ -750,14 +768,18 @@ data(){
             )
       
       },
-    saveCustommer() {  
-        this.form.post(route("testelements.store"));
-         // this.$inertia.post('/dashboard/testelements',$data)
-          this.closeModal();     
+    saveCustommer(data) { 
+      try {
+          this.$inertia.post('/dashboard/custommers',data)
+          this.closeModal(); 
+      } catch (error) {
+        console.log(error);
+      } 
+      
     },
     
      getPageFill(){
-        this.$inertia.get('testelements?',
+        this.$inertia.get('custommers?',
             { 
               perPage:this.perPage,
               testName:this.testName
@@ -768,7 +790,7 @@ data(){
             )
      },
       getfilePerpage(){
-         this.$inertia.get('testelements?',
+         this.$inertia.get('custommers?',
             {  //search:this.search,
                 perPage:this.perPage,
                  testName:this.testName
@@ -781,7 +803,7 @@ data(){
             )
      },
      refreshFill(){
-        this.$inertia.get('testelements?',
+        this.$inertia.get('custommers?',
            
             {
               preserveState:true,
@@ -819,7 +841,7 @@ data(){
     updateCustommer(data){
        data._method = 'PUT';
 
-        this.$inertia.post('/dashboard/testelements/'+data.id, data)
+        this.$inertia.post('/dashboard/custommers/'+data.id, data)
         this.reset();
         this.closeModal();
     }

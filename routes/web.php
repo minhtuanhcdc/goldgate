@@ -82,5 +82,6 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/testelements','TestelementController');
     Route::resource('/testunits','TestunitController');
    
-    Route::resource('/custommers','CustomerController');  
+    Route::resource('/custommers','CustommerController');  
+    Route::resource('/doctors','DoctorController');  
 });

@@ -17,6 +17,7 @@ class CreateDoctorsTable extends Migration
             $table->id();
             $table->foreignId('ousent_id')->constrained()->setNullOnDelete();
             $table->string('name');
+            $table->string('title');
             $table->integer('phone');
             $table->integer('status');
             $table->timestamps();
