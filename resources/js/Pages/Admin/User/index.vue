@@ -5,12 +5,8 @@
     
     </template>
     <Container>
-      
       <Card>
            <Button v-show="$page.props.can.create"  class="mb-1 float-right cursor-pointer"  @click="addUser">Add User</Button>
-      
-           
-  
         <Table :headers="headers" :addClass="addClass">
          
           <tr v-for="(user, i) in users.data" :key="i">
@@ -74,7 +70,7 @@
              <template v-slot:title >
                <div class="flex justify-between">
                 <h3 v-show="!editMode">Add user</h3>
-                <h3 v-show="editMode">Edit user}</h3>
+                <h3 v-show="editMode">Edit user</h3>
                 <button  @click.prevent="closeModal" class="text-white bg-yellow-500 px-4 py-1 rounded-md hover:bg-yellow-300">Close</button>
                </div>
             </template>
@@ -124,7 +120,6 @@
                             class="w-full block rounded-sm"
                         />
                         <Multiselect
-                      
                             v-model="form.role_id"
                             v-bind="example4"
                             selected
@@ -218,7 +213,7 @@ export default defineComponent({
   
   name: "Users",
   props: {
-    role_id:[1],
+    //role_id:[1],
     edit: Boolean,
     users: {},
     roles: {},

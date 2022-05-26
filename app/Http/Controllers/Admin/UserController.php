@@ -139,7 +139,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,User $user, UploadFile $uploadeFile){  
-      //dd($request->all());
+     //dd($request->all());
        
         try{
             DB::beginTransaction();

@@ -13,7 +13,10 @@ use App\Models\Doctor;
 use App\Models\Custommer;
 use App\Models\Billtest;
 use App\Models\Billname;
+use App\Models\Testname;
 use App\Models\Custommeraddress;
+use App\Http\Requests\SaveCustommerRequest;
+use App\Http\Resources\TestnameResource;
 use DB;
 
 class CustommerController extends Controller
@@ -23,15 +26,31 @@ class CustommerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames'])->get();
+        $perpage = $request->perpageFill?$request->perpageFill:5;
+        if($request->ousentFill){
+            //dd($request->ousentFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
+        //dd($billtests);
+        }
+        else{
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone'])->paginate($perpage);
+
+        }
+        //dd($billtests);
         $provinces = Province::with('districts','wards')->get();
         $districts = District::select('id','name','province_id')->get();
         $wards = Ward::select('id','name','district_id')->get();
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
-       
+        //$nametests = Testname::select('id','name')->get();
+        //$nametests=TestnameResource::collection(Testname::select('id','name')->get()); 
+        $filters=[
+            'ousentFill'=>$request->ousentFill,
+            
+        ];
+
         return Inertia::render('Custommer/Index',[
             'billtests'=>$billtests,
             'provinces'=>$provinces,
@@ -39,6 +58,11 @@ class CustommerController extends Controller
             'wards'=>$wards,
             'ousents'=>$ousents,
             'doctors'=>$doctors,
+            'filters'=>$filters,
+            'nametests'=>TestnameResource::collection(Testname::select('id','name')->get()),
+             
+
+            //  
         ]);
     }
 
@@ -58,8 +82,9 @@ class CustommerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveCustommerRequest $request)
     {
+        //dd($request->all());
         try{
             DB::beginTransaction(); 
             $data= $request->all();             

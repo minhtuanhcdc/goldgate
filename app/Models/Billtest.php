@@ -24,5 +24,21 @@ class Billtest extends Model
          //return $this->belongsTomany(Testname::class,'billnames');
          return $this->belongsTomany(Testname::class,'billnames','billtest_id','testname_id');
     }
+    public function province(){
+         //return $this->belongsTomany(Testname::class,'billnames');
+         return $this->hasOneThrough(Province::class,Custommeraddress::class, 'custommer_id','id');
+    }
+    public function district(){
+         //return $this->belongsTomany(Testname::class,'billnames');
+         return $this->hasOneThrough(District::class,Custommeraddress::class, 'custommer_id','id');
+    }
+    public function ward(){
+         //return $this->belongsTomany(Testname::class,'billnames');
+         return $this->hasOneThrough(Ward::class,Custommeraddress::class, 'custommer_id','id');
+    }
+    public function phone(){
+         //return $this->belongsTomany(Testname::class,'billnames');
+         return $this->belongsTo(Custommeraddress::class, 'custommer_id','id');
+    }
   
 }

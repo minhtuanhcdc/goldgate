@@ -7,101 +7,161 @@
       <Card>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
-           <Button  class="mb-1 float-right cursor-pointer bg-blue-600"  @click="addCustommer">+ Add</Button>
+           <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
            <div>
-           <Button  class="bg-indigo-800 px-2 py-1 float-right cursor-pointer">Import file</Button>
-           <Button  class="bg-blue-400 px-2 py-1 float-right cursor-pointer">Export Excel</Button>
+           <Button  class="bg-yellow-400 px-2 py-1 float-right cursor-pointer">Export PDF <span class="text-xs ml-1">(2)</span></Button>
+           <Button  class="bg-green-400 px-2 py-1 float-right cursor-pointer">Export EXCEL<span class="text-xs ml-1">(1)</span></Button>
            </div>
+        
+        <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200">
+      
+           <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white text-md">Import file</button>
+          <input class="w-42 my-0 rounded-sm text-xs cursor-pointer" type="file" />
+          
         </div>
-        <!-- <div class="grid grid-flow-col justify-items-right">
-         
-          <div class=" text-right ml-10">
-             <div class="flex mb-2 text-right h-8 p-0 ">
-                        <jet-input
-                          required
-                          id="name"
-                          type="text"
-                          class="mt-1 block w-full h-8 mr-2"
-                          autocomplete="name"
-                          v-model="elementSearch"
-                        /> 
-                    <span class="justify-center justify-items-center mt-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                    </span>  
-              </div>
-            </div>
-          <div class=" ml-0 text-right">
-             <div class="grid grid-cols-2 mb-2 text-right h-8 p-0">
-                <jet-label class="text-right text-bold text-lg pr-1" for="testgroup" value="Tên Xét nghiệm" />
-                  <select
-                      name="testgroup"
-                      id="testgroup"
-                      class="block py-0 w-42 form-input h-8 rounded-lg"
-                      v-model="testName"
-                    >
-                      <option value="all">All</option>
-                      <option
-                        v-for="(tn,i) in testNames"
-                        :key="i"
-                        :value="tn.id"
-                      >
-                        {{ tn.name }}
-                      </option>
-                  </select>
-              </div>
-            </div>
-          <div class="mr-32 p-0 pt-0 flex">
-            <Button class="py-1 bg-indigo-600" @click="getPageFill">
-             <span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
-              </svg>
-            </span> 
-            </Button>
-              <button @click="refreshFill" class=" px-2 py-1 text-white font-bold bg-yellow-400 rounded-md text-sm">
-                Refresh
-              </button>
-          </div>
-    
-          <div class="p-0 text-right rounded-sm">
-            <div class="flex flex-row justify-end">
-                    <jet-label class="text-right text-bold text-lg pr-1" for="testgroup" value="perPage:" />
+        </div>
+      </div> 
+        <!---/////==================------->
+        <!---==================------->
+        <hr class="mb-2">
+      <div class="grid grid-cols-7">
+        <div class="col-span-2 ">
+          <div class="flex flex-row">
+              <div class="">
+                    <span>ĐV gửi mẫu:</span>
+                </div>
+              <div class="col-span-2 w-52">
                     <select
-                      name="perPage"
-                      id="perPage"
-                      class="block py-0 w-24 form-input h-8 rounded-lg"
-                      v-model="perPage"
-                      @change="getfilePerpage"
-                    > 
-                      <option value="1">1</option>
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                      <option value="20">20</option>
-                      <option value="30">30</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                       <option value="all">All</option>
+                        name="testgroup"
+                        id="testgroup"
+                        class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                        v-model="ousentFill"
+                      >
+                        <option value="all">All</option>
+                        <option
+                          v-for="(ous,i) in ousents"
+                          :key="i"
+                          :value="ous.id"
+                        >
+                          {{ ous.name }}
+                        </option>
                     </select>
-             
+              </div>
             </div>
+        </div>
+        <div class="col-span-2  mx-2">
+          <div class="flex flex-grow">
+            <div class="">
+                  <span>Bác sỹ CĐ:</span>
+                </div>
+              <div class="col-span-2 w-52">
+                    <select
+                        name="testgroup"
+                        id="testgroup"
+                        class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                        v-model="doctorFill"
+                      >
+                        <option value="all">All</option>
+                        <option
+                          v-for="(dtr,i) in doctors"
+                          :key="i"
+                          :value="dtr.id"
+                        >
+                          {{ dtr.name }}
+                        </option>
+                    </select>
+              </div>
+              </div>
           </div>
-        </div> -->
-      </div>  
+        <div class="col-span-2">
+          <div class="flex flex-row">
+          <div>Ngày nhận mẫu</div>
+          <div class="mx-2">Từ</div>
+          <div class="">Đến</div>
+          </div>
+        </div>
+        <div class="items-center">
+            <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
+                Fill
+            </button>
+            <button @click="refreshFill" class="px-2 mx-2 py-2 justify-auto text-white font-bold bg-yellow-400 rounded-md text-sm h-8">
+                Refresh
+            </button>
+          </div>
+      </div>
+      <hr class="mt-2">
+      <!---==================------->
+      <div class="grid grid-cols-5 mt-2 my-1">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div class=" bg-blue-100">
+              <div class=" text-right">
+                <div class="flex mb-2 text-right h-8 px-2">
+                            <jet-input
+                              required
+                              id="search"
+                              type="text"
+                              class="mt-1 block w-full h-8 mr-2"
+                              autocomplete="search"
+                              v-model="elementSearch"
+                            /> 
+                        <span class="justify-center justify-items-center mt-2 cursor-pointer">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </span>  
+                  </div>
+                </div>
+          </div>
+        <div class="">
+         <div class="p-0 text-right rounded-sm">
+                <div class="flex flex-row justify-end">
+                        <jet-label class="text-right text-bold text-lg pr-1" for="testgroup" value="perPage:" />
+                        <select
+                          name="perPage"
+                          id="perPage"
+                          class="block py-0 w-24 form-input h-8 rounded-lg"
+                          v-model="perpageFill"
+                          @change="getfilePerpage"
+                        > 
+                          <option value="1">1</option>
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="15">15</option>
+                          <option value="20">20</option>
+                          <option value="30">30</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                          <option value="all">All</option>
+                        </select>
+                
+                </div>
+                </div>
+          </div>
+      </div>
+      <!---//////////==================------->
       <Table :headers="headers" :addClass="addClass">
-          <tr class="hover:bg-gray-300 " v-for="(bill,i) in billtests" :key="i">
+          <tr class="hover:bg-gray-300 " v-for="(bill,i) in billtests.data" :key="i">
             <td class="border-r-2 text-center">{{i+1}}</td>
              <td class="border-r-2">{{bill.custommer.name}}</td>
-             <td class="border-r-2">{{bill.custommer.birtday}}</td>
-             <td class="border-r-2 text-center">{{bill.custommer.address}}</td>
-            <td class="border-r-2 text-center"></td>
-            <td class="border-r-2" >
+             <td class="border-r-2">
+               <span v-if="bill.custommer.gender==0">Nữ</span>
+               <span v-else>Nam</span>
+              
+               </td>
+             <td class="border-r-2">{{bill.custommer.birthday}}</td>
+             <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp 
+               <span v-if="bill.ward!==null">{{bill.ward.name}}</span>,&nbsp 
+               <span v-if="bill.district!==null">{{bill.district.name}}</span>,&nbsp 
+               <span v-if="bill.province!==null">{{bill.province.name}}</span>
+              </td>
+            <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.phone.phone}}</td>
+            <td class="border-r-2 text-center" v-else></td>
+            <td class="border-r-2 text-center" >
               <span v-for="(tn,i) in bill.testnames" :key="i">
                 {{tn.name}},
               </span>
-            
               </td>
             <td class="border-r-2" >{{bill.doctor.title}} {{bill.doctor.name}}</td>
             <td class="border-r-2" >{{bill.ousent.name}}</td>
@@ -176,10 +236,10 @@
       </Table> 
          <div class="mt-4">
           <div class="flex">
-             <!-- <Pagination :links="custommers.links"/> -->
+              <Pagination :links="billtests.links"/>
           </div>
           </div>
-          <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
+        <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
              <template v-slot:title >
                <div class="flex justify-between text-bold text-xl">
                 <h3 v-show="!editMode">Add Bệnh Nhân </h3>
@@ -221,10 +281,10 @@
                                   <div class="grid grid-cols-4">
                                      <div class="col-span-2 text-right pr-1 text-bold text-lg text-blue-800 w-full m-0"> Giới tính <span class="m-0 font-normal text-base font-italic text-gray-400">(gender)</span></div>
                                     <div class="border-solid border-1 border-gray-300 rounded-md h-14 px-1 col-span-2">
-                                      <input :checked="true" type="radio" id="female" value="false" v-model="form.gender">
+                                      <input :checked="true" type="radio" id="female" value="0" v-model="form.gender">
                                       <label for="one" class="ml-2">Nữ</label>
                                       <br>
-                                      <input type="radio" id="man" value="true" v-model="form.gender">
+                                      <input type="radio" id="man" value="1" v-model="form.gender">
                                       <label for="two" class="ml-2">Nam</label>
                                     </div>
                                    
@@ -358,7 +418,7 @@
                                           id="ou"
                                           class="block w-full form-input rounded-lg ml-1 h-10"
                                           v-model="form.ousent_id">
-                                           <option value="">--</option>
+                                      <option value="">--</option>
                                       <option v-for="(ou,i) in ousents" :key="i" :value="ou.id">{{ou.name}}</option>
                                     </select>
                                     </div>
@@ -377,17 +437,16 @@
                                           v-model="form.doctor_id">
                                       <option value="">--</option>
                                       <option v-for="(dot, i) in getdoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}}</option>
-                                  
                                     </select>
                                     </div>
-                                  </div>
+                                </div>
                              </div>    
                         </div>
                         <div class="ml-4 grid grid-cols-2">  
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
-                                        <div class="text-left pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
                                     </div>
                                     <div class="w-full">
                                        <jet-input
@@ -400,25 +459,26 @@
                                       />
                                     </div>
                                   </div>
-                             </div>
+                             </div> 
                              <div>
-                                <div class="mt-2 flex flex-row">
-                                    <div class="w-52 pl-3 py-0">
-                                        <div class="py-0 text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Chỉ định XN: <span class="m-0 p-0 font-normal text-base font-italic text-gray-400">(doctor)</span></div>
+                                 <div class="mt-2 flex flex-row">
+                                    <div class="w-48">
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
                                     </div>
                                     <div class="w-full">
-                                         <select
+                                        <select
+                                         
                                           name="testname_id"
                                           id="testname_id"
-                                          class="block form-input rounded-lg w-full h-10 "
+                                          class="block form-input rounded-lg w-full h-10 text-xs "
                                           v-model="form.testname_id">
-                                      <option value='1'>ThinPrep - Pap Smear</option>
+                                      <option value='1'>ThinPrep-Pap Smear</option>
                                       <option value='2'>HPV</option>
                                   
                                     </select>
                                     </div>
                                   </div>
-                             </div>  
+                             </div>    
                         </div>                 
                          <div class="ml-2 flex flex-row">
                               <div class="mt-2 w-1/2">
@@ -453,8 +513,7 @@
                             
                           </div>
                           </div>
-                        </div>  
-                                        
+                        </div>              
                       </div>
                   <!----/Info Indication OU================================================----->        
                 <!----Info Goldgate================================================----->
@@ -525,7 +584,6 @@
                     </div>
                 </form>  
               </div>
-               
             </template>
         </DialogModal>
       </Card>
@@ -554,24 +612,26 @@ import JetLabel from "@/Jetstream/Label";
 import JetInput from "@/Jetstream/Input";
 import AppImage from "@/Components/Image";
 import { Link } from "@inertiajs/inertia-vue3";
- import Checkbox from '@/Jetstream/Checkbox'
+ import Checkbox from '@/Jetstream/Checkbox';
+ 
+ 
 
 
 export default defineComponent({
   
-  name: "Thành phần xét nghiệm",
+  name: "Danh sách bệnh nhân",
   props: {
-    //testGroups:'',
-    //testNames:'', 
+    
     billtests:'',
     provinces:'',
     districts:'',
     wards:'',
     ousents:'',
     doctors:'',
-    //filters:{},
-    //testUnits:'', 
+    nametests:'',
+    filters:{},
     errors: Object,
+    
   },
   components: {
     AppLayout,
@@ -597,6 +657,7 @@ export default defineComponent({
   },
 data(){
   return{
+    ousentFill:this.filters.ousentFill,
     //testGroup:this.filters.testGroup,
     //testName:this.filters.testName,
     //elementSearch:this.filters.elementSearch,
@@ -605,6 +666,7 @@ data(){
     getwards:'',
     getdoctors:'',
     form_errors:[],
+    
     name:'',
     perPage:'',
     checkededit:'',
@@ -615,16 +677,15 @@ data(){
     //titleModal:'Them user',
     maxWidth:"4xl",
     titleHeader:'Edit',
-    example4: {
+     example4: {
         mode: "tags",
         value: "value",
         label: "name",
-        //options: this.roles.data,
+        options: this.nametests.data,
         searchable: true,
         createTag: true,
         
     },
-
     form: this.$inertia.form({
          // "_method": this.edit ? 'PUT' : "",bỉ
         name: "",
@@ -636,6 +697,8 @@ data(){
         province_id: "",  
         district_id:'',
         ward_id:'',
+        testname_id:[''],
+        selected:[]
       },
         {
           resetOnSuccess: false,
@@ -657,8 +720,7 @@ data(){
     },
     "form.ousent_id":function(value){
        this.getDoctorFill(value)
-    },
-    
+    }, 
   },
   computed: {
     breadcrumbs() {
@@ -672,13 +734,14 @@ data(){
     headers() {
       return [
         { name: "#", class:'w-12 text-center' },
-        { name: "Tên khách hàng", class:'border-l-2' },
-        { name: "Năm sinh", class:'border-l-2' },
+        { name: "Tên khách hàng", class:'border-l-2 text-center w-52 px-2 font-serif' },
+        { name: "Giới tính", class:'border-l-2 text-center w-8 px-2 font-serif' },
+        { name: "Năm sinh", class:'border-l-2 text-center px-0' },
         { name: "Địa chỉ", class:'border-l-2 text-center' },
         { name: "Điện thoại", class:'border-l-2 text-center px-1' },
-        { name: "Chỉ định xét nghiệm", class:'border-l-2' },
-        { name: "Bác sỹ chỉ định", class:'border-l-2' },
-          { name: "Đơn vị gửi mẫu", class:'border-l-2' },
+        { name: "Chỉ định xét nghiệm", class:'border-l-2 text-center' },
+        { name: "Bác sỹ chỉ định", class:'border-l-2 text-center' },
+          { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center font-thin' },
         { name: "Kết quả", class:'border-l-2 text-center' },  
         { name: "Action", class: "text-right border-l-2" },
       ];
@@ -766,7 +829,6 @@ data(){
               preserveState:true,
               replace:true            } 
             )
-      
       },
     saveCustommer(data) { 
       try {
@@ -781,8 +843,9 @@ data(){
      getPageFill(){
         this.$inertia.get('custommers?',
             { 
-              perPage:this.perPage,
-              testName:this.testName
+              //alert(ousentFill);
+              //perPage:this.perPage,
+              ousentFill:this.ousentFill,
             },
             {
               preserveState:true,
@@ -792,8 +855,8 @@ data(){
       getfilePerpage(){
          this.$inertia.get('custommers?',
             {  //search:this.search,
-                perPage:this.perPage,
-                 testName:this.testName
+                perpageFill:this.perpageFill,
+               ousentFill:this.ousentFill,
                
             },
             {

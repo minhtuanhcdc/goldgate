@@ -10,10 +10,10 @@ class Testname extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function getGroup()
+    public function group()
     {
         //dd( $this->belongsTo(Labogroup::class,'group_id'));
        
-        return $this->belongsTo(Labogroup::class, 'group_id')->select('id','name');
+        return $this->hasOne(Labogroup::class, 'group_id')->select('id','name');
     }
 }

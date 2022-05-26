@@ -1,9 +1,9 @@
 <template>
       <table >
             <thead>
-                <tr class="text-left" :class="addClass" >
-                    <th class="py-2 z-50" v-for="(header,index) in headers" :key="`header-${index}`" :class="header.class || 'text-left'">
-                     <span class="px-2" v-html="header.name"></span>                   
+                <tr class="" :class="addClass" >
+                    <th class=" z-50" v-for="(header,index) in headers" :key="`header-${index}`" :class="header.class || 'text-left'">
+                     <span class="" v-html="header.name"></span>                   
                      </th>                          
                 </tr>
             </thead>
