@@ -5,6 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Ward;
+use App\Models\Ousent;
+use App\Models\Doctor;
+use App\Models\Custommer;
+use App\Models\Billtest;
+use App\Models\Billname;
+use App\Models\Testname;
+use App\Models\Testelement;
+use App\Models\Custommeraddress;
+use App\Models\Result;
+use App\Http\Requests\SaveCustommerRequest;
+use App\Http\Requests\SaveResultRequest;
+use App\Http\Resources\TestnameResource;
+use DB;
 
 class ResultController extends Controller
 {
@@ -13,9 +29,25 @@ class ResultController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Result/index');
+        $perpage = $request->perpageFill?$request->perpageFill:10;
+        $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
+        $filters=[
+            'ousentFill'=>$request->ousentFill,
+        ];
+
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone'])->paginate($perpage);
+        $ousents = Ousent::select('id','name')->get();
+        $doctors = Doctor::select('id','name','ousent_id')->get();
+
+        return Inertia::render('Result/Index',[
+            'billtests'=>$billtests,
+            'ousents'=>$ousents,
+            'testElements'=>$testElements,
+            'doctors'=>$doctors,
+            'filters'=>$filters,
+        ]);
     }
 
     /**
@@ -36,7 +68,19 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+//dd($request->all());
+        foreach($request->element_id as $ied=>$value){
+            Result::insert([
+                'bill_id'=>$request->bill_id,
+                'thin_code'=>$request->thin_code,
+                'element_id'=>$value,
+                'created_at'=>date('Y-m-d H:i:s'),
+                'updated_at'=>date('Y-m-d H:i:s'),
+            ]);
+        }
+        ;
+        return back()->withInput()->with('success','Add  successfully!');
     }
 
     /**

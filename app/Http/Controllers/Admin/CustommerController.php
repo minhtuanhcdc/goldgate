@@ -14,6 +14,7 @@ use App\Models\Custommer;
 use App\Models\Billtest;
 use App\Models\Billname;
 use App\Models\Testname;
+use App\Models\Testelement;
 use App\Models\Custommeraddress;
 use App\Http\Requests\SaveCustommerRequest;
 use App\Http\Resources\TestnameResource;
@@ -31,38 +32,37 @@ class CustommerController extends Controller
         $perpage = $request->perpageFill?$request->perpageFill:5;
         if($request->ousentFill){
             //dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone','results'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
         //dd($billtests);
         }
         else{
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone'])->paginate($perpage);
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone','results'])->paginate($perpage);
 
         }
+        $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
         //dd($billtests);
         $provinces = Province::with('districts','wards')->get();
         $districts = District::select('id','name','province_id')->get();
         $wards = Ward::select('id','name','district_id')->get();
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
-        //$nametests = Testname::select('id','name')->get();
-        //$nametests=TestnameResource::collection(Testname::select('id','name')->get()); 
+        // $nametests = Testname::select('id','name')->get();
+        // $nametests=TestnameResource::collection(Testname::select('id','name')->get());
         $filters=[
             'ousentFill'=>$request->ousentFill,
-            
+
         ];
 
         return Inertia::render('Custommer/Index',[
             'billtests'=>$billtests,
+            'nametests'=>TestnameResource::collection(Testname::select('id','name')->get()),
+            'testElements'=>$testElements,
             'provinces'=>$provinces,
             'districts'=>$districts,
             'wards'=>$wards,
             'ousents'=>$ousents,
             'doctors'=>$doctors,
             'filters'=>$filters,
-            'nametests'=>TestnameResource::collection(Testname::select('id','name')->get()),
-             
-
-            //  
         ]);
     }
 
@@ -73,7 +73,7 @@ class CustommerController extends Controller
      */
     public function create()
     {
-       
+
     }
 
     /**
@@ -86,8 +86,8 @@ class CustommerController extends Controller
     {
         //dd($request->all());
         try{
-            DB::beginTransaction(); 
-            $data= $request->all();             
+            DB::beginTransaction();
+            $data= $request->all();
             $custommer=Custommer::create($data);
 
             //$data['custommer_id']=$custommers->id;
@@ -120,9 +120,9 @@ class CustommerController extends Controller
                     'district_id'=>$request->district_id,
                     'ward_id'=>$request->ward_id,
                     'created_at' => date('Y-m-d H:i:s'),
-                   
+
                 ]);
-            
+
 
             DB::commit();
             return back()->withInput()->with('success','Add successfully!');

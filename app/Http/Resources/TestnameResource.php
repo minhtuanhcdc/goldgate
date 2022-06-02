@@ -17,7 +17,7 @@ class TestnameResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'getGroup'=>$this->group(),
+            'getGroup'=>$this->getGroup(),
             'status'=>$this->status,
         ];
     }

@@ -2,7 +2,7 @@
   <app-layout title="User list">
     <template #header>
       <breadcrumb :items="breadcrumbs" />
-    
+
     </template>
     <Container>
       <!---
@@ -16,13 +16,13 @@
             <td class="border-r-2 text-center">{{i}}</td>
             <td class="border-r-2">{{gr.name}}</td>
             <td class="text-center border-r-2 w-24">
-                <EditBtn            
+                <EditBtn
                   title="Edit"
                   class="text-green-800"
                  v-if="gr.status == 1"
                   >
                  <svg
-                 
+
                   class="w-6 h-6 text-blue-800"
                   fill="none"
                   stroke="currentColor"
@@ -36,14 +36,14 @@
                   ></path>
                 </svg>
                 </EditBtn>
-               <EditBtn 
-               v-else           
+               <EditBtn
+               v-else
                   title="Edit"
                   class="text-green-800"
-                
+
                   >
               <svg
-               
+
                 class="w-6 h-6 text-gray-200"
                 fill="none"
                 stroke="currentColor"
@@ -61,7 +61,7 @@
             </td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn            
+                <EditBtn
                   title="Edit"
                   class="text-green-800"
                   @click="editLaboGroup(gr)"
@@ -80,7 +80,7 @@
                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                     ></path></svg>
                 </EditBtn>
-                <DeleteBtn 
+                <DeleteBtn
                   :url="route('labogroups.destroy',gr.id)"
                   class="p-0 cursor-pointer text-red-700"
                   module-name="gr"
@@ -98,9 +98,9 @@
              hover:bg-red-400"
              :class="{'bg-blue-500 text-white' : link.active}"
              />
-           </template> 
+           </template>
          </div>
-        </div> 
+        </div>
         <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave">
              <template v-slot:title >
                <div class="flex justify-between">
@@ -112,7 +112,7 @@
              <template v-slot:content>
                <div class="px-4 pb-0">
                    <form
-                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg" 
+                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveLaboGroup(form)">
                     <div class="grid grid-cols-1">
                       <div class="mt-2">
@@ -125,12 +125,12 @@
                           v-model="form.name"
                           autocomplete="name"
                         />
-                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>  
+                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>
                       </div>
 
                       <div class="mt-4">
                           <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2">Hiển thị</span>
-                    </div>  
+                    </div>
                     </div>
                     <div class="mt-4 text-center mb-1" >
                         <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
@@ -146,11 +146,11 @@
                               </button>
                             </span>
                     </div>
-                </form>  
+                </form>
               </div>
             </template>
         >
-        </DialogModal> 
+        </DialogModal>
 
       </Card>
     </Container>
@@ -180,10 +180,10 @@ import { Link } from "@inertiajs/inertia-vue3";
  import Checkbox from '@/Jetstream/Checkbox'
 
 export default defineComponent({
-  
+
   name: "Danh sách đơn vị gửi mẫu",
   props: {
-    labogroups:'', 
+    labogroups:'',
      errors: Object,
   },
   components: {
@@ -204,9 +204,9 @@ export default defineComponent({
     JetInput,
     AppImageView,
     Link,
-    Checkbox 
+    Checkbox
 
-  
+
   },
 data(){
   return{
@@ -225,14 +225,14 @@ data(){
         //options: this.roles.data,
         searchable: true,
         createTag: true,
-        
+
     },
 
     form: this.$inertia.form({
          // "_method": this.edit ? 'PUT' : "",
           name: "",
           status: "",
-         
+
       },
         {
           resetOnSuccess: false,
@@ -240,7 +240,7 @@ data(){
       ),
     }
   },
- 
+
   computed: {
     breadcrumbs() {
       return [
@@ -254,7 +254,7 @@ data(){
       return [
         { name: "#", class:'w-12 text-center' },
         { name: "Nhóm xét nghiệm", class:'border-l-2' },
-        { name: "Trạng thái", class:'border-l-2 text-center' },  
+        { name: "Trạng thái", class:'border-l-2 text-center' },
         { name: "Action", class: "text-right border-l-2" },
       ];
     },
@@ -297,26 +297,27 @@ data(){
                 }
             },
       addLaboGroup(){
-       
+
             this.showModal = true;
             },
     //  openModalEdit(user) {
-      
+
     //          this.userEdit=user;
     //          console.log('roles_ididididid:',this.userEdit.name);
     //           this.showModal = true;
     //             this.editMode=true;
     //         },
-      editLaboGroup(gr) {      
+      editLaboGroup(gr) {
+        alert(gr);
         var checked111=this.form = Object.assign({}, gr);
         this.checkededit= checked111.status
         this.editMode = true;
-      
+
      this.showModal=true;
         },
-      saveLaboGroup(data) {  
+      saveLaboGroup(data) {
           this.$inertia.post('/dashboard/labogroups',data)
-          this.closeModal();     
+          this.closeModal();
     },
     updateLaboGroup(data){
        data._method = 'PUT';
@@ -324,7 +325,7 @@ data(){
         this.reset();
         this.closeModal();
     }
-    
+
   }
 });
 </script>

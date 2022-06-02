@@ -3,7 +3,7 @@
     <Head :title="title" />
     <jet-banner />
     <div class="min-h-screen bg-gray-100">
-      <nav class="bg-white border-b border-gray-100">
+      <nav class="bg-gray-200 border-b border-gray-100 ">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16">
@@ -30,9 +30,9 @@
                             "
                             class=""
                           >
-                              <span class="text-base text-gray-800 font-bold hover:text-white hover:text-lg"> {{ parentMenu.menuName }}</span>
+                              <span class="text-base text-gray-800 hover:text-white text-center"> {{ parentMenu.menuName }}</span>
                           </jet-nav-link>
-                   
+
                     </div>
                     <ul class="sub_item bg-blue-700 hover:bg-blue-700 pl-0">
                        <li
@@ -46,18 +46,18 @@
                               route(
                                 `${chileMenu.Url !== null ? chileMenu.Url : 'dashboard'}`
                               )
-                            "  
+                            "
                             class="items"
                           >
                             <span class="pl-3"> {{ chileMenu.menuName }}</span>
                           </jet-nav-link>
                         </div>
-                      </li> 
+                      </li>
                     </ul>
                   </li>
-                </ul> 
+                </ul>
               </div>
-   
+
 <!-- menu Dropdown -->
             </div>
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -254,14 +254,14 @@
               <form method="POST" @submit.prevent="logout">
                 <jet-responsive-nav-link as="button"> Log Out</jet-responsive-nav-link>
               </form>
-           
+
             </div>
           </div>
         </div>
         <!-- /Responsive Navigation Menu -->
       </nav>
       <!-- Page Heading -->
-      <header class="bg-blue-700 shadow mt-2 text-white" v-if="$slots.header">
+      <header class="bg-blue-700 shadow mt-2 text-white " v-if="$slots.header">
         <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
           <slot name="header"></slot>
         </div>
@@ -330,4 +330,5 @@ export default defineComponent({
   },
 });
 </script>
+
 

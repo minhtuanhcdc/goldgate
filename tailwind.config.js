@@ -14,6 +14,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                'sans-Timenew': "Times New Roman",
             },
             backgroundImage: {
                 'logo_background': "url('/images/Logo/logoGG.png')",

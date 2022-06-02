@@ -21,8 +21,12 @@ class Billtest extends Model
         return $this->hasOne(Ousent::class,'id','ousent_id')->select('id','name');
     }
     public function testnames(){
-         //return $this->belongsTomany(Testname::class,'billnames');
+     //dd($this->belongsTomany(Testname::class,'billnames','billtest_id','testname_id'));
          return $this->belongsTomany(Testname::class,'billnames','billtest_id','testname_id');
+    }
+    public function results(){
+         //dd($this->hasMany(Result::class,'bill_id','id'));
+         return $this->belongsTomany(Testelement::class,'results','bill_id','element_id');
     }
     public function province(){
          //return $this->belongsTomany(Testname::class,'billnames');
@@ -40,5 +44,5 @@ class Billtest extends Model
          //return $this->belongsTomany(Testname::class,'billnames');
          return $this->belongsTo(Custommeraddress::class, 'custommer_id','id');
     }
-  
+
 }

@@ -12,15 +12,15 @@
            <Button  class="bg-yellow-400 px-2 py-1 float-right cursor-pointer">Export PDF <span class="text-xs ml-1">(2)</span></Button>
            <Button  class="bg-green-400 px-2 py-1 float-right cursor-pointer">Export EXCEL<span class="text-xs ml-1">(1)</span></Button>
            </div>
-        
+
         <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200">
-      
+
            <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white text-md">Import file</button>
           <input class="w-42 my-0 rounded-sm text-xs cursor-pointer" type="file" />
-          
+
         </div>
         </div>
-      </div> 
+      </div>
         <!---/////==================------->
         <!---==================------->
         <hr class="mb-2">
@@ -92,7 +92,9 @@
       <hr class="mt-2">
       <!---==================------->
       <div class="grid grid-cols-5 mt-2 my-1">
-        <div></div>
+        <div>
+
+        </div>
         <div></div>
         <div></div>
         <div class=" bg-blue-100">
@@ -105,12 +107,12 @@
                               class="mt-1 block w-full h-8 mr-2"
                               autocomplete="search"
                               v-model="elementSearch"
-                            /> 
+                            />
                         <span class="justify-center justify-items-center mt-2 cursor-pointer">
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
-                        </span>  
+                        </span>
                   </div>
                 </div>
           </div>
@@ -124,7 +126,7 @@
                           class="block py-0 w-24 form-input h-8 rounded-lg"
                           v-model="perpageFill"
                           @change="getfilePerpage"
-                        > 
+                        >
                           <option value="1">1</option>
                           <option value="5">5</option>
                           <option value="10">10</option>
@@ -135,7 +137,7 @@
                           <option value="100">100</option>
                           <option value="all">All</option>
                         </select>
-                
+
                 </div>
                 </div>
           </div>
@@ -148,12 +150,12 @@
              <td class="border-r-2">
                <span v-if="bill.custommer.gender==0">Nữ</span>
                <span v-else>Nam</span>
-              
+
                </td>
              <td class="border-r-2">{{bill.custommer.birthday}}</td>
-             <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp 
-               <span v-if="bill.ward!==null">{{bill.ward.name}}</span>,&nbsp 
-               <span v-if="bill.district!==null">{{bill.district.name}}</span>,&nbsp 
+             <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp
+               <span v-if="bill.ward!==null">{{bill.ward.name}}</span>,&nbsp
+               <span v-if="bill.district!==null">{{bill.district.name}}</span>,&nbsp
                <span v-if="bill.province!==null">{{bill.province.name}}</span>
               </td>
             <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.phone.phone}}</td>
@@ -166,7 +168,7 @@
             <td class="border-r-2" >{{bill.doctor.title}} {{bill.doctor.name}}</td>
             <td class="border-r-2" >{{bill.ousent.name}}</td>
             <td class="text-center border-r-2">
-                <EditBtn            
+                <EditBtn
                   title="View"
                   class="text-green-800"
                   v-if="bill.status == 1"
@@ -185,8 +187,8 @@
                   ></path>
                 </svg>
                 </EditBtn>
-               <EditBtn 
-               v-else           
+               <EditBtn
+               v-else
                   title="View"
                   class="text-green-800">
               <svg
@@ -206,7 +208,15 @@
             </td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn            
+                <EditBtn
+                  title="Print"
+                  class="text-gray-600"
+                    @click="printResult(bill)">
+                 <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                  </svg>
+                </EditBtn>
+                <EditBtn
                   title="Edit"
                   class="text-green-800"
                   @click="editCustommer(bill)"
@@ -225,7 +235,7 @@
                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                     ></path></svg>
                 </EditBtn>
-                <DeleteBtn 
+                <DeleteBtn
                   :url="route('custommers.destroy',bill.id)"
                   class="p-0 cursor-pointer text-red-700"
                   module-name="el"
@@ -233,7 +243,7 @@
               </div>
             </td>
           </tr>
-      </Table> 
+      </Table>
          <div class="mt-4">
           <div class="flex">
               <Pagination :links="billtests.links"/>
@@ -251,7 +261,7 @@
                <div class="px-1 pb-0 scrollable" :ref="'aKeyValue'" >
                    <form
                    @submit="checkForm"
-                    class="py-0 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg" 
+                    class="py-0 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveCustommer(form)">
                     <div class="grid grid-cols-1">
                 <!----Info Custommer================================================----->
@@ -261,7 +271,7 @@
                                   <div class="grid grid-cols-4">
                                       <div class="col-span-1 pr-2 h-8">
                                         <!-- <jet-label for="name" class="text-right pr-1 text-bold text-lg text-blue-800 w-full" value="Tên bệnh nhân (name):" /> -->
-                                       <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 h-6">Tên bệnh nhân <span class=" h-8 m-0 font-normal text-base font-italic text-gray-400">(name)</span></div>
+                                       <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 h-6 leading-3">Tên bệnh nhân <span class=" h-8 m-0 font-normal text-base font-italic text-gray-400">(name)</span></div>
                                       </div>
                                   <div class="col-span-3">
                                       <jet-input
@@ -269,25 +279,25 @@
                                       id="name"
                                       name="name"
                                       type="text"
-                                      class="mt-1 block w-full h-10"
+                                      class="mt-1 block w-full h-8"
                                       v-model="form.name"
                                       autocomplete="name"
                                     />
-                                     <div class=" text-red-800" v-if="errors.name"> * {{ errors.name }}</div> 
+                                     <div class=" text-red-800" v-if="errors.name"> * {{ errors.name }}</div>
                                   </div>
-                                  </div>  
+                                  </div>
                               </div>
                                 <div class="">
                                   <div class="grid grid-cols-4">
-                                     <div class="col-span-2 text-right pr-1 text-bold text-lg text-blue-800 w-full m-0"> Giới tính <span class="m-0 font-normal text-base font-italic text-gray-400">(gender)</span></div>
-                                    <div class="border-solid border-1 border-gray-300 rounded-md h-14 px-1 col-span-2">
+                                     <div class="col-span-2 text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3"> Giới tính <span class="m-0 font-normal text-base font-italic text-gray-400">(gender)</span></div>
+                                    <div class=" border-gray-300 rounded-md h-8 px-1 col-span-2 leading-4">
                                       <input :checked="true" type="radio" id="female" value="0" v-model="form.gender">
                                       <label for="one" class="ml-2">Nữ</label>
                                       <br>
                                       <input type="radio" id="man" value="1" v-model="form.gender">
                                       <label for="two" class="ml-2">Nam</label>
                                     </div>
-                                   
+
                                   </div>
                                 </div>
                           </div>
@@ -295,128 +305,128 @@
                               <div  class="col-span-2 mr-2">
                                   <div class="grid grid-cols-4">
                                       <div class="">
-                                          <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Năm sinh <span class="m-0 font-normal text-base font-italic text-gray-400">(Birthday )</span></div>
+                                          <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Năm sinh <span class="m-0 font-normal text-base font-italic text-gray-400">(Birthday )</span></div>
                                       </div>
                                   <div class="col-span-3">
                                       <jet-input
-                                    
+
                                       validation="bail|required|number|between:1,2,value"
                                       id="birthday"
                                       type="text"
-                                      class="mt-1 block w-full h-10"
+                                      class="mt-1 block w-full h-8"
                                       v-model="form.birthday"
                                       autocomplete="birthday"
                                     />
                                   </div>
-                                  </div>  
+                                  </div>
                               </div>
                               <div  class="col-span-2 mr-2">
                                   <div class="grid grid-cols-4">
                                       <div class="">
-                                          <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Điện thoại <span class="m-0 font-normal text-base font-italic text-gray-400">(Phone )</span></div>
+                                          <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Điện thoại <span class="m-0 font-normal text-base font-italic text-gray-400">(Phone )</span></div>
                                       </div>
                                   <div class="col-span-3">
                                       <jet-input
                                       required
                                       id="birthday"
                                       type="text"
-                                      class="mt-1 block w-full h-10"
+                                      class="mt-1 block w-full h-8"
                                       v-model="form.phone"
                                       autocomplete="birthday"
                                     />
                                   </div>
-                                  </div>  
-                              </div>  
+                                  </div>
+                              </div>
                           </div>
                           <!---Address ====================================---->
-                      <div class="mt-2 mr-4 grid grid-cols-1"> 
+                      <div class="mt-2 mr-4 grid grid-cols-1">
                             <div class="grid grid-cols-5">
                                       <div class="">
-                                          <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Địa chỉ <span class="m-0 font-normal text-base font-italic text-gray-400">(Address)</span></div>
+                                          <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Địa chỉ <span class="m-0 font-normal text-base font-italic text-gray-400">(Address)</span></div>
                                       </div>
                                   <div class="col-span-4">
                                       <jet-input
                                       required
                                       id="address"
                                       type="text"
-                                      class="mt-1 block w-full h-10"
+                                      class="mt-1 block w-full h-8"
                                       v-model="form.address"
                                       autocomplete="address"
                                     />
                                   </div>
-                            </div>  
+                            </div>
                       </div>
-                      <div class="mt-2 ml-4 grid grid-cols-3">   
+                      <div class="mt-2 ml-4 grid grid-cols-3">
                              <div class="">
                                <div class="grid grid-cols-5 mr-2">
                                     <div class="col-span-2">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Tỉnh/thành <span class="m-0 font-normal text-base font-italic text-gray-400">(Province)</span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Tỉnh/thành <span class="m-0 font-normal text-base font-italic text-gray-400">(Province)</span></div>
                                     </div>
                                     <div class="col-span-3">
                                           <select
-                                         
+
                                             id="Province"
-                                            class="block w-full form-input rounded-lg h-10 py-1"
+                                            class="block w-full form-input rounded-lg h-8 py-1"
                                             v-model="form.province_id">
                                             <option value="1">Hà Nội </option>
-                                            <option value="2">Tp.HCM</option> 
+                                            <option value="2">Tp.HCM</option>
                                           </select>
                                     </div>
-                                </div>  
+                                </div>
                              </div>
                              <div class="">
                                <div class="grid grid-cols-5 mr-2">
                                     <div class="col-span-2">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Quận/Huyện <span class="m-0 font-normal text-base font-italic text-gray-400">(District)</span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Quận/Huyện <span class="m-0 font-normal text-base font-italic text-gray-400">(District)</span></div>
                                     </div>
                                     <div class="col-span-3">
                                           <select
                                             name="district"
                                             id="district"
-                                            class="block w-full form-input rounded-lg h-10 py-1"
+                                            class="block w-full form-input rounded-lg h-8 py-1"
                                             v-model="form.district_id">
                                             <option value="">--</option>
-                                            <option v-for="(dst, i) in getdistricts" :key="i" :value="dst.id">{{dst.name}}</option> 
-                                           
+                                            <option v-for="(dst, i) in getdistricts" :key="i" :value="dst.id">{{dst.name}}</option>
+
                                           </select>
                                     </div>
-                                </div>  
+                                </div>
                              </div>
                              <div class="">
                                <div class="grid grid-cols-5 mr-2">
                                     <div class="col-span-2">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Phường/Xã <span class="m-0 font-normal text-base font-italic text-gray-400">(Ward)</span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Phường/Xã <span class="m-0 font-normal text-base font-italic text-gray-400">(Ward)</span></div>
                                     </div>
                                     <div class="col-span-3">
                                           <select
                                             name="ward"
                                             id="ward"
-                                            class="block w-full form-input rounded-lg h-10 py-1"
+                                            class="block w-full form-input rounded-lg h-8 py-1"
                                             v-model="form.ward_id">
                                             <option value="12">--</option>
-                                            <option v-for="(wd, i) in getwards" :key="i" :value="wd.id">{{wd.name}}</option> 
+                                            <option v-for="(wd, i) in getwards" :key="i" :value="wd.id">{{wd.name}}</option>
                                           </select>
                                     </div>
-                                </div>  
+                                </div>
                              </div>
-                             
+
                       </div>
                            <!---/Address ====================================---->
                     </div>
                   <!----/Info Custommer======================== grid========================----->
                 <!----Info Indication OU================================================----->
                       <div class="mt-1 bg-gray-200 p-2 border-solid border-2 border-blue-500 rounded-md"><span class="text-gray-400 underline">Thông tin ĐV gửi:</span>
-                        <div class="ml-4 grid grid-cols-2">  
+                        <div class="ml-4 grid grid-cols-2">
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
-                                        <div class="text-left pr-1 text-bold text-lg text-blue-800 w-full m-0">Đơn vị gửi mẫu: <span class="m-0 font-normal text-base font-italic text-gray-400">(Ousent)</span></div>
+                                        <div class="text-left pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Đơn vị gửi mẫu: <span class="m-0 font-normal text-base font-italic text-gray-400">(Ousent)</span></div>
                                     </div>
                                     <div class="w-full">
                                          <select
                                           name="ou"
                                           id="ou"
-                                          class="block w-full form-input rounded-lg ml-1 h-10"
+                                          class="block py-1 w-full form-input rounded-lg ml-1 h-8"
                                           v-model="form.ousent_id">
                                       <option value="">--</option>
                                       <option v-for="(ou,i) in ousents" :key="i" :value="ou.id">{{ou.name}}</option>
@@ -427,81 +437,117 @@
                              <div>
                                 <div class="mt-2 flex flex-row">
                                     <div class="w-52 pl-3 py-0">
-                                        <div class="py-0 text-center pr-1 text-bold text-lg text-blue-800 w-full m-0">Bác sỹ chỉ định: <span class="m-0 p-0 font-normal text-base font-italic text-gray-400">(doctor)</span></div>
+                                        <div class="py-0 text-center pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Bác sỹ chỉ định: <span class="m-0 p-0 font-normal text-base font-italic text-gray-400">(doctor)</span></div>
                                     </div>
                                     <div class="w-full">
                                          <select
                                           name="doctor_id"
                                           id="doctor_id"
-                                          class="block form-input rounded-lg w-full h-10 "
+                                          class="block form-input rounded-lg w-full h-8 py-1"
                                           v-model="form.doctor_id">
                                       <option value="">--</option>
                                       <option v-for="(dot, i) in getdoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}}</option>
                                     </select>
                                     </div>
                                 </div>
-                             </div>    
+                             </div>
                         </div>
-                        <div class="ml-4 grid grid-cols-2">  
+                        <div class="ml-4 grid grid-cols-2">
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
                                     </div>
                                     <div class="w-full">
                                        <jet-input
-                                       
+
                                         id="diagonose"
                                         type="text"
-                                        class="mt-1 block w-full h-10"
+                                        class="mt-1 block w-full h-8"
                                         v-model="form.diagonose"
                                         autocomplete="diagonose"
                                       />
                                     </div>
                                   </div>
-                             </div> 
+                             </div>
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0">Chẩn đoán: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Chỉ định XN: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
                                     </div>
                                     <div class="w-full">
                                         <select
-                                         
+
                                           name="testname_id"
                                           id="testname_id"
-                                          class="block form-input rounded-lg w-full h-10 text-xs "
+                                          class="block form-input rounded-lg w-full h-8 text-xs "
                                           v-model="form.testname_id">
                                       <option value='1'>ThinPrep-Pap Smear</option>
                                       <option value='2'>HPV</option>
-                                  
+
                                     </select>
                                     </div>
                                   </div>
-                             </div>    
-                        </div>                 
+                             </div>
+                        </div>
+                        <div class="ml-4 grid grid-cols-2">
+                             <div>
+                                 <div class="mt-2 flex flex-row">
+                                    <div class="w-48">
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Para: <span class="m-0 font-normal text-base font-italic text-gray-400"></span></div>
+                                    </div>
+                                    <div class="w-full">
+                                       <jet-input
+
+                                        id="para"
+                                        type="text"
+                                        class="mt-1 block w-full h-8"
+                                        v-model="form.para"
+                                        autocomplete="para"
+                                      />
+                                    </div>
+                                  </div>
+                             </div>
+                             <div>
+                                 <div class="mt-2 flex flex-row">
+                                    <div class="w-48">
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">King: <span class="m-0 font-normal text-base font-italic text-gray-400"></span></div>
+                                    </div>
+                                    <div class="w-full">
+                                       <jet-input
+
+                                        id="king"
+                                        type="text"
+                                        class="mt-1 block w-full h-8"
+                                        v-model="form.king"
+                                        autocomplete="king"
+                                      />
+                                    </div>
+                                  </div>
+                             </div>
+                        </div>
                          <div class="ml-2 flex flex-row">
                               <div class="mt-2 w-1/2">
                                 <div class="flex flex-row">
-                                <jet-label for="sample_id" class="self-center text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã XN ĐV gửi:" />
+                                <jet-label for="sample_id" class="self-center text-right pr-1 text-bold text-lg text-blue-800 w-48 leading-3" value="Mã XN ĐV gửi:" />
                                 <jet-input
-                                 
+
                                   id="sample_code"
                                   type="text"
-                                  class="mt-1 block w-full h-9"
+                                  class="mt-1 block w-full h-8"
                                   v-model="form.sample_code"
                                   autocomplete="sample_code"
                                 />
                                 </div>
-                              
+
                             </div>
                           <div class="w-1/2">
-                            
+
                               <div class="mt-2">
                                 <div class="flex flex-row">
                                 <jet-label for="date_re" class="self-center text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Ngày lấy mẫu:" />
                                 <jet-input
-                                 
+
                                   id="date_ou"
                                   type="datetime-local"
                                   class="mt-1 block w-3/4"
@@ -509,22 +555,20 @@
                                   autocomplete="date_re"
                                 />
                                 </div>
-                              
-                            
                           </div>
                           </div>
-                        </div>              
+                        </div>
                       </div>
-                  <!----/Info Indication OU================================================----->        
+                  <!----/Info Indication OU================================================----->
                 <!----Info Goldgate================================================----->
                       <div class="mt-1 bg-gray-200 p-2 border-solid border-2 border-blue-500 rounded-md"><span class="text-gray-400 underline">Thông tin XN GoldGate:</span>
-                     
+
                         <div class="ml-2 flex flex-row">
                               <div class="mt-2 w-1/2">
                                 <div class="flex flex-row">
                                 <jet-label for="thinprep_code" class="text-right pr-1 text-bold text-lg text-blue-800 w-48" value="Mã ThinPrep:" />
                                 <jet-input
-                                  
+
                                   id="thinprep_code"
                                   type="text"
                                   class="mt-1 block w-full"
@@ -532,7 +576,7 @@
                                   autocomplete="thinprep_code"
                                 />
                                 </div>
-                              
+
                             </div>
                               <div class="mt-2 w-1/2">
                                 <div class="flex flex-row">
@@ -545,8 +589,8 @@
                                   autocomplete="hpv_code"
                                 />
                                 </div>
-                            </div>   
-                        </div>                    
+                            </div>
+                        </div>
                         <div class="ml-2 flex flex-row">
                              <div class=" w-1/2">
                               <div class="mt-2">
@@ -561,9 +605,9 @@
                                 </div>
                           </div>
                           </div>
-                        </div>                    
+                        </div>
                       </div>
-                  <!----Info Indication================================================----->        
+                  <!----Info Indication================================================----->
                     <!-- <div class="mt-4">
                         <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2 text-bold text-lg text-blue-800">Trạng thái</span>
                     </div>   -->
@@ -582,7 +626,209 @@
                               </button>
                             </span>
                     </div>
-                </form>  
+                </form>
+              </div>
+            </template>
+        </DialogModal>
+        <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
+             <template v-slot:content>
+                <div class="text-right w-full flex-row justify-items-between">
+                    <button class="rounded-md mb-1 ml-2  bg-gray-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
+                       @click="printDiv('printMe')" >Print test</button>
+                    <button  @click.prevent="closeModalPrint" class="text-white text-md bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
+                </div>
+                <!-- <div>{{selectedArray['name']}}</div> -->
+              <div class="py-4 px-40 " ref="printMe" id="printMe">
+                <div class="grid grid-cols-8 mx-0 py-0">
+                    <div class="col-span-2 py-0">
+                        <img
+                          class="w-36"
+                          :src="pathImageLeft"
+                          :alt="LogoThin"
+                        />
+                    </div>
+                    <div class="col-span-4 text-center mt-4">
+                        <div class="pt-0 py-0 place-items-center flex flex-col">
+                              <span class="text-center font-bold text-2xl font-sans-Timenew ">PHIẾU XÉT NGHIỆM TẾ BÀO</span>
+                              <div>
+                                <span class="text-center font-bold text-2xl font-sans-Timenew ml-0 pl-0">PAP'S SMEAR - ThinPrep</span>
+                                <span class="align-top ml-0 p-0 text-md font-bold">&reg;</span>
+                              </div>
+                              <span class="text-center font-bold text-md font-sans-Timenew ">REQUEST FOR COLLECTION OF SPECIMEN</span>
+                          </div>
+                    </div>
+                    <div class="col-span-2 text-left text-italy text-sm font-bold font-sans-Timenew  mt-8 w-full">
+                          <span class="p-0 m-0 w-full text-xs">Số(Number):{{getbilltests['thinprep_code']}}/2022</span>
+                    </div>
+                </div>
+            <!--==============--->
+            <div class="grid grid-cols-4 leading-6 text-md">
+                <div class="col-span-2 font-sans-Timenew italic">Họ và tên (Name): <span class=" font-bold">{{ printCustommers['name']}}</span></div>
+                <div class="  font-sans-Timenew italic">Tuổi (Age):<span class="pl-2 font-bold">{{ printCustommers['birthday']}}</span></div>
+                <div class="  font-sans-Timenew italic">Para: <span class="pl-2 font-bold">{{getbilltests['para']}} </span></div>
+            </div>
+            <div class="grid grid-cols-4 text-md">
+                <div class="col-span-3 font-sans-Timenew leading-6 italic">Đia chỉ(Address):<span class="pl-2 font-bold">{{printCustommers['address']}}</span></div>
+                <div class=" font-sans-Timenew leading-6 italic">Số điện thoại:<span class="pl-2 font-bold">???</span></div>
+            </div>
+
+            <div class="font-sans-Timenew leading-6 italic text-md">Đơn vị gửi(Custommer):<span class="pl-2 font-bold"> {{ printOutsent['name']}}</span></div>
+            <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic">
+                <div class="font-bold">IUD (Intra-Uterine Devices) <i class="fa fa-square-o mt-2"></i></div>
+                <div class="font-bold text-center">Nội tiết (Hormone) <i class="fa fa-square-o mt-2"></i></div>
+                <div class="font-bold text-center">Xạ (Radiation) <i class="fa fa-square-o mt-2"></i></div>
+                <div class="font-bold text-center">Có thai (Pregnancy) <i class="fa fa-square-o mt-2"></i></div>
+            </div>
+
+            <div class="grid grid-cols-2 italic text-md">
+                <div class="font-sans-Timenew leading-6">Kinh chót(Last Menstrual Period):<span class="font-bold pl-2">{{getbilltests['kinhchot']}}</span></div>
+                <div class="text-center font-sans-Timenew leading-6">Ngày gửi (Date sent):<span class="font-bold">??</span></div>
+            </div>
+              <div class="grid grid-cols-2 italic text-md">
+                <div class="font-sans-Timenew leading-6">Chẩn đoán lâm sàng(Clinical diagnose):<span class="font-bold pl-2">{{getbilltests['diagnose']}}</span></div>
+                <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2"> {{printDoctor['name']}}</span></div>
+            </div>
+            <!--/==============--->
+              <!--==============--->
+              <div class="text-center font-bold text-xl font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
+
+              <div class="grid grid-cols-5 font-sans-Timenew leading-6">
+                <div class="font-bold italic col-span-2">Đánh giá lam (Specimen evalueation)</div>
+                  <div class="col-span-3 grid grid-cols-2" >
+                    <div class="" v-for="eg1 in testElements" :key="eg1.id">
+                      <span class="font-bold" v-if="eg1.element_group ==1">{{eg1.name}}
+                          <span v-if="selectedArray['id'] == eg1.id">
+                            <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
+                          </span>
+                          <span v-if="selectedArray['id'] !== eg1.id">
+                             <i class="text-xs h-2 w-3 rounded-sm text-white border-black border-1 ">&#xf096;</i>
+                          </span>
+
+                      </span>
+                    </div>
+            </div>
+              </div>
+               <div class="grid grid-cols-1">
+            <div class="" v-for="eg2 in testElements" :key="eg2.id">
+                <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
+                   <span v-if="selectedArray['id'] == eg2.id">
+                      <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
+                    </span>
+                    <span v-if="selectedArray['id'] !== eg2.id">
+                      <i class="text-xs h-1 w-3 rounded-sm text-white border-black border-1 ">&#xf096;</i>
+                    </span>
+                </span>
+            </div>
+          </div>
+               <div class="flex flex-cols-5">
+            <div class="" v-for="eg3 in testElements" :key="eg3.id">
+              <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
+                      <span v-if="selectedArray['id'] == eg3.id">
+                      <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
+                    </span>
+                    <span v-if="selectedArray['id'] !== eg3.id">
+                      <i class="text-xs h-1 w-3 rounded-sm text-white border-black border-1 ">&#xf096;</i>
+                    </span>
+              </span>
+          </div>
+          </div>
+             <div class="grid grid-cols-1">
+            <div class="" v-for="eg4 in testElements" :key="eg4.id">
+              <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
+                     <span  v-for="tt in getbilltests['results']" :key="tt.id">
+                      <span v-if="tt.id == eg4.id">
+                        <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
+                      </span>
+                    </span>
+              </span>
+          </div>
+          </div>
+
+              <!--/==============--->
+              <!--==============--->
+              <div class="col-span-2">
+                    <span class=" font-sans-Timenew font-bold text-sm  text-blue-700">TẾ BÀO GAI (Squamuos cell)</span>
+                    <div class="grid grid-cols-2 leading-5 italic">
+                      <div class="flex flex-col">
+                         <div v-for="(eg5, i) in testElements" :key="i">
+                     <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
+                      <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg5.id" v-model="form.element_id"/>
+                      </span>
+                  </div>
+                      </div>
+                      <div class="flex flex-col">
+                        <div class="" v-for="(eg6, i) in testElements" :key="i">
+                     <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
+                      <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
+                      </span>
+                  </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+              <div class="grid grid-cols-1 mt-2">
+                  <div>
+                    <span class=" font-sans-Timenew font-bold text-sm uppercase text-blue-700">Tế bào Tuyến</span>
+                    <div class="flex flex-row leading-5">
+                       <div v-for="eg6 in testElements" :key="eg6.id">
+                         <div v-if="eg6.element_group == 7">
+                          <span class="text-left font-bold text-xs ml-4 mr-6  font-sans-Timenew" >{{eg6.name}}
+                             <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
+                            </span>
+                          </div>
+                  </div>
+                    </div>
+                  </div>
+              </div>
+              <!------KET LUẬN------------------->
+              <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic mt-2">
+                <div class="font-bold m-0 p-0">Đề nghị (Suggestions):</div>
+                <div class="font-bold col-span-3">
+                  <div class="flex">
+                   <div  v-for="el8 in testElements" :key="el8.id">
+                      <span class="font-bold text-xs w-full" v-if="el8.element_group ==8 && el8.element_group !==null ">{{el8.name}}
+                        <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="el8.id" v-model="form.element_id"/>
+                      </span>
+                    </div>
+                    </div>
+                </div>
+
+              </div>
+              <!------/KET LUẬN------------------->
+
+              <div class="grid grid-cols-2 mt-2 text-center">
+                  <div  class="text-center">
+                    <img
+                        class="w-80 max-h-48 "
+                        :src="pathThinLeft"
+                        :alt="LogoThin"/>
+                      </div>
+                  <div class="text-center">
+                    <img
+                        class="w-80 max-h-48 "
+                        :src="pathThinRight"
+                        :alt="LogoThin"/>
+                    </div>
+
+              </div>
+              <div class="grid grid-cols-3">
+                <div class="col-span-2">
+                  <div class="grid grid-cols-1">
+                    <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
+                    <span class="font-bold text-red-700 font-sans-Timenew text-xs uppercase">- Không tổn thương trong biểu mô hay ung thư</span>
+                    <span class="font-bold text-md font-sans-Timenew">- Tế bào cổ tử cung biến đổi do viêm</span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 text-center">
+                  <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:{{currentDate()}}</span>
+                  <span class="mb-16 font-bold font-sans-Timenew text-md">BS/KTV đọc kết quả:</span>
+                  <span class="font-bold font-sans-Timenew text-md">{{printDoctor['name']}}</span>
+                  <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
+                  <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>
+                </div>
+                </div>
+
               </div>
             </template>
         </DialogModal>
@@ -613,25 +859,24 @@ import JetInput from "@/Jetstream/Input";
 import AppImage from "@/Components/Image";
 import { Link } from "@inertiajs/inertia-vue3";
  import Checkbox from '@/Jetstream/Checkbox';
- 
- 
 
 
 export default defineComponent({
-  
+
   name: "Danh sách bệnh nhân",
   props: {
-    
     billtests:'',
+    nametests:'',
+    testElements:'',
     provinces:'',
     districts:'',
     wards:'',
     ousents:'',
     doctors:'',
-    nametests:'',
+
     filters:{},
     errors: Object,
-    
+
   },
   components: {
     AppLayout,
@@ -652,30 +897,43 @@ export default defineComponent({
     JetInput,
     AppImageView,
     Link,
-    Checkbox
- 
+    Checkbox,
+
+
   },
 data(){
   return{
+
+    getbilltests:'',
+     printCustommers:'',
+    //printName:'',
+    //printAge:'',
+    printAddress:'',
+    printOutsent:'',
+    printDoctor:'',
+    selectedArray:'',
+
+
+output: null,
     ousentFill:this.filters.ousentFill,
-    //testGroup:this.filters.testGroup,
-    //testName:this.filters.testName,
-    //elementSearch:this.filters.elementSearch,
-   // districts:'',
+    pathImageLeft:'/images/Logo/Thinprep.jpg',
+    pathThinLeft:'/images/Thinprep/hLeft.jpg',
+    pathThinRight:'/images/Thinprep/hRight.jpg',
     getdistricts:'',
     getwards:'',
     getdoctors:'',
     form_errors:[],
-    
+
     name:'',
     perPage:'',
     checkededit:'',
     pathImage:'/storage/image_Ousent/',
     userEdit:'',
     showModal:'',
+    showModlPrint:false,
     editMode: false,
     //titleModal:'Them user',
-    maxWidth:"4xl",
+    maxWidth:"7xl",
     titleHeader:'Edit',
      example4: {
         mode: "tags",
@@ -684,17 +942,16 @@ data(){
         options: this.nametests.data,
         searchable: true,
         createTag: true,
-        
     },
     form: this.$inertia.form({
          // "_method": this.edit ? 'PUT' : "",bỉ
         name: "",
-        birthday: "",  
-        ousent_id: "",  
-        phone: "",  
-        gender: '',  
-        address: "", 
-        province_id: "",  
+        birthday: "",
+        ousent_id: "",
+        phone: "",
+        gender: '',
+        address: "",
+        province_id: "",
         district_id:'',
         ward_id:'',
         testname_id:[''],
@@ -720,7 +977,7 @@ data(){
     },
     "form.ousent_id":function(value){
        this.getDoctorFill(value)
-    }, 
+    },
   },
   computed: {
     breadcrumbs() {
@@ -741,8 +998,8 @@ data(){
         { name: "Điện thoại", class:'border-l-2 text-center px-1' },
         { name: "Chỉ định xét nghiệm", class:'border-l-2 text-center' },
         { name: "Bác sỹ chỉ định", class:'border-l-2 text-center' },
-          { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center font-thin' },
-        { name: "Kết quả", class:'border-l-2 text-center' },  
+        { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center font-thin' },
+        { name: "Kết quả", class:'border-l-2 text-center' },
         { name: "Action", class: "text-right border-l-2" },
       ];
     },
@@ -770,22 +1027,52 @@ data(){
     }
   },
   methods:{
-    // checkForm:function(e){
-    //   alert(123);
-    //   if(this.name && (this.name.length >=2)){
-    //    alert(this.name.length);
-    //   }
-    //   this.form_errors =[];
-    //   if(!this.name ){
-    //     this.form_errors.push('Nhập tên');
-    //   }
-    // },
+currentDate() {
+      const current = new Date();
+      const date = ' '+`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+      return date;
+    },
+  //    printData(printMe){
+  //    window.print(printMe);
+  //   },
+  //   async printData () {
+
+  //     await this.$htmlToPaper('printMe');
+  //  },
+
+     printDiv(divName){
+          var printContents = document.getElementById(divName).innerHTML;
+          var originalContents = document.body.innerHTML;
+          document.body.innerHTML = printContents;
+          window.print();
+                    //window.location.reload()
+          document.body.innerHTML = originalContents;
+           closeModalPrint();
+
+		},
+    closeModalPrint(){
+         this.showModlPrint = false;
+    },
+    printResult(bill){
+        this.getbilltests= bill;
+        this.printCustommers = bill.custommer;
+        this.printOutsent= bill.ousent;
+        this.printDoctor = bill.doctor;
+        let printSelected= bill.results;
+        this.selectedArray = printSelected[0];
+
+       /// this.addresses =
+        //this.printAddress=' '+ bill.custommer.address+' '+bill.ward.name+', '+bill.district.name+', ' + bill.province.name;
+        this.printAddress=' '+ bill.custommer.address;
+        this.showModlPrint = true;
+
+    },
     getDoctorFill(doctor){
-      console.log(this.doctors);
+      //console.log(this.doctors);
      const fillData = this.doctors.filter(function(el){
        return el.ousent_id == doctor;
      });
-     console.log(fillData);
+     //console.log(fillData);
      this.getdoctors = fillData;
       },
     getDistrictFill(province){
@@ -820,36 +1107,36 @@ data(){
 },
     getelementSearch(data){
        this.$inertia.get('testelements?',
-            { 
+            {
               perPage:this.perPage,
               testName:this.testName,
               elementSearch:data
             },
             {
               preserveState:true,
-              replace:true            } 
+              replace:true            }
             )
       },
-    saveCustommer(data) { 
+    saveCustommer(data) {
       try {
           this.$inertia.post('/dashboard/custommers',data)
-          this.closeModal(); 
+          this.closeModal();
       } catch (error) {
         console.log(error);
-      } 
-      
+      }
+
     },
-    
+
      getPageFill(){
         this.$inertia.get('custommers?',
-            { 
+            {
               //alert(ousentFill);
               //perPage:this.perPage,
               ousentFill:this.ousentFill,
             },
             {
               preserveState:true,
-              replace:true            } 
+              replace:true            }
             )
      },
       getfilePerpage(){
@@ -857,24 +1144,24 @@ data(){
             {  //search:this.search,
                 perpageFill:this.perpageFill,
                ousentFill:this.ousentFill,
-               
+
             },
             {
               preserveState:true,
               replace:true            }
-           
+
             )
      },
      refreshFill(){
         this.$inertia.get('custommers?',
-           
+
             {
               preserveState:true,
               replace:true            }
-           
+
             )
      },
-  
+
     closeModal(){
       this.reset();
       this.showModal=false;
@@ -890,17 +1177,17 @@ data(){
                 }
             },
     addCustommer(){
-       
+
             this.showModal = true;
             },
-    editCustommer(ctm) {      
+    editCustommer(ctm) {
         var checked111=this.form = Object.assign({}, el);
         this.checkededit= checked111.status
         this.editMode = true;
-      
+
      this.showModal=true;
         },
-      
+
     updateCustommer(data){
        data._method = 'PUT';
 
@@ -908,13 +1195,31 @@ data(){
         this.reset();
         this.closeModal();
     }
-    
+
   }
 });
 </script>
+
 <style>
 .modal-body {
     overflow-y: auto;
 }
 </style>
  <style src="@vueform/multiselect/themes/default.css"></style>
+
+
+
+<style media="print">
+ @media print{
+   #printMe{
+     display: block;
+     padding-left:0px;
+   }
+
+
+   @page{
+     margin-left:60px;
+     margin-right:60px;
+   }
+ }
+</style>

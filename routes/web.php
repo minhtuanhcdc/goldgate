@@ -47,7 +47,7 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/inputinfo','InputInfoController');
     Route::get('/inputresult',[InputResultController::class,'index'])->name('inputresult');
     Route::get('/infolabo',[InfoLaboController::class,'index'])->name('infolabo');
-    Route::get('/result',[ResultController::class,'index'])->name('result');
+    //Route::get('/results',[ResultController::class,'index'])->name('results');
 
     Route::get('/student',[StudentController::class,'index'])->name('student');
     Route::get('/search',[StudentController::class,'search'])->name('search');
@@ -64,7 +64,7 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/users','UserController');
     Route::put('/useredit','UserController@updateEdit');
     Route::resource('/roles','RoleController');
-   
+
     Route::resource('/permissions','PermissionController');
     Route::resource('/addresses','AddressController');
 
@@ -72,7 +72,7 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/setting','SettingController');
     Route::post('/setting-about','SettingController@saveAbout')->name('setting.about');
     Route::post('/setting-contact','SettingController@saveContact')->name('setting.contact');
-   
+
     Route::resource('/categories','CategoriesController');
     Route::resource('/articles','ArticleController');
     Route::resource('/ousents','OusentController');
@@ -81,7 +81,15 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/testnames','TestnameController');
     Route::resource('/testelements','TestelementController');
     Route::resource('/testunits','TestunitController');
-   
-    Route::resource('/custommers','CustommerController');  
-    Route::resource('/doctors','DoctorController');  
+
+    Route::resource('/custommers','CustommerController');
+    Route::resource('/results','ResultController');
+    Route::resource('/doctors','DoctorController');
+    Route::get('/formsaigon','FormController@formsaigon')->name('formsaigon');
+    Route::get('/formtudu','FormController@formtudu')->name('formtudu');
+    Route::get('/formvigor','FormController@formvigor')->name('formvigor');
+
+    Route::get('/print','PrintController@printOne')->name('print');
+
+
 });

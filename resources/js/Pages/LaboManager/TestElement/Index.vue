@@ -10,7 +10,7 @@
            <Button  class="mb-1 float-right cursor-pointer bg-blue-600"  @click="addTestElement">+ Add</Button>
         </div>
         <div class="grid grid-flow-col justify-items-right">
-         
+
           <div class=" text-right ml-10">
              <div class="flex mb-2 text-right h-8 p-0 ">
                         <jet-input
@@ -20,12 +20,12 @@
                           class="mt-1 block w-full h-8 mr-2"
                           autocomplete="name"
                           v-model="elementSearch"
-                        /> 
+                        />
                     <span class="justify-center justify-items-center mt-2">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
-                    </span>  
+                    </span>
               </div>
             </div>
           <div class=" ml-0 text-right">
@@ -54,13 +54,13 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
               </svg>
-            </span> 
+            </span>
             </Button>
               <button @click="refreshFill" class=" px-2 py-1 text-white font-bold bg-yellow-400 rounded-md text-sm">
                 Refresh
               </button>
           </div>
-    
+
           <div class="p-0 text-right rounded-sm">
             <div class="flex flex-row justify-end">
                     <jet-label class="text-right text-bold text-lg pr-1" for="testgroup" value="perPage:" />
@@ -70,7 +70,7 @@
                       class="block py-0 w-24 form-input h-8 rounded-lg"
                       v-model="perPage"
                       @change="getfilePerpage"
-                    > 
+                    >
                       <option value="1">1</option>
                       <option value="5">5</option>
                       <option value="10">10</option>
@@ -81,11 +81,11 @@
                       <option value="100">100</option>
                        <option value="all">All</option>
                     </select>
-             
+
             </div>
           </div>
         </div>
-      </div>  
+      </div>
       <Table :headers="headers" :addClass="addClass">
           <tr class="hover:bg-gray-300 " v-for="(el,i) in testElements.data" :key="i">
             <td class="border-r-2 text-center">{{i+1}}</td>
@@ -93,10 +93,10 @@
              <td class="border-r-2 text-center">{{el.element_group}}</td>
             <td class="border-r-2 text-center">{{el.testname.name}}</td>
             <td class="border-r-2" ></td>
-           
-          
+
+
             <td class="text-center border-r-2">
-                <EditBtn            
+                <EditBtn
                   title="View"
                   class="text-green-800"
                   v-if="el.status == 1"
@@ -115,8 +115,8 @@
                   ></path>
                 </svg>
                 </EditBtn>
-               <EditBtn 
-               v-else           
+               <EditBtn
+               v-else
                   title="View"
                   class="text-green-800">
               <svg
@@ -136,7 +136,7 @@
             </td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn            
+                <EditBtn
                   title="Edit"
                   class="text-green-800"
                   @click="editTestElement(el)"
@@ -155,7 +155,7 @@
                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                     ></path></svg>
                 </EditBtn>
-                <DeleteBtn 
+                <DeleteBtn
                   :url="route('testelements.destroy',el.id)"
                   class="p-0 cursor-pointer text-red-700"
                   module-name="el"
@@ -163,7 +163,7 @@
               </div>
             </td>
           </tr>
-      </Table> 
+      </Table>
          <div class="mt-4">
           <div class="flex">
              <Pagination :links="testElements.links"/>
@@ -180,7 +180,7 @@
              <template v-slot:content>
                <div class="px-4 pb-0">
                    <form
-                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg" 
+                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveTestElement(form)">
                     <div class="grid grid-cols-1">
                       <div class="mt-2">
@@ -193,7 +193,7 @@
                           v-model="form.name"
                           autocomplete="name"
                         />
-                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>  
+                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>
                       </div>
                        <div class="mt-4 p-1 grid grid-rows-1 grid-flow-col border-solid border-1 border-gray-400 rounded-lg">
                     <div class=" grow h-14 text-bold text-lg text-blue-800 pt-1">Khoản tham chiếu: </div>
@@ -208,7 +208,7 @@
                           v-model="form.value_max"
                           autocomplete="name"
                         />
-                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.max }}</div>  
+                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.max }}</div>
                       </div>
                     </div>
                     <div class=" ml-2 w-40">
@@ -222,7 +222,7 @@
                           v-model="form.value_min"
                           autocomplete="name"
                         />
-                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.min }}</div>  
+                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.min }}</div>
                       </div>
                     </div>
                   </div>
@@ -244,7 +244,7 @@
                       </option>
                     </select>
                   </div>
-                  
+
                   <div class="mt-4">
                     <jet-label for="elementgroup" class="text-bold text-lg text-blue-800 " value="Phân nhóm" />
 
@@ -283,11 +283,11 @@
                       </option>
                     </select>
                   </div>
-                 
-              
+
+
                     <div class="mt-4">
                           <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2 text-bold text-lg text-blue-800">Hiển thị</span>
-                    </div>  
+                    </div>
                     </div>
                     <div class="mt-4 text-center mb-1" >
                         <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
@@ -303,7 +303,7 @@
                               </button>
                             </span>
                     </div>
-                </form>  
+                </form>
               </div>
             </template>
         >
@@ -337,14 +337,14 @@ import { Link } from "@inertiajs/inertia-vue3";
  import Checkbox from '@/Jetstream/Checkbox'
 
 export default defineComponent({
-  
+
   name: "Thành phần xét nghiệm",
   props: {
     testGroups:'',
-    testNames:'', 
+    testNames:'',
     testElements:'',
     filters:{},
-    testUnits:'', 
+    testUnits:'',
     errors: Object,
   },
   components: {
@@ -366,7 +366,7 @@ export default defineComponent({
     JetInput,
     AppImageView,
     Link,
-    Checkbox 
+    Checkbox
   },
 data(){
   return{
@@ -389,18 +389,18 @@ data(){
         //options: this.roles.data,
         searchable: true,
         createTag: true,
-        
+
     },
 
     form: this.$inertia.form({
          // "_method": this.edit ? 'PUT' : "",
         name: "",
-        status: "",  
-        value_max: "",  
-        value_min: "",  
-        unit_id: "",  
-        element_group: "",  
-        testname_id: "",  
+        status: "",
+        value_max: "",
+        value_min: "",
+        unit_id: "",
+        element_group: "",
+        testname_id: "",
       },
         {
           resetOnSuccess: false,
@@ -430,7 +430,7 @@ data(){
         { name: "Element group", class:'border-l-2 text-center' },
         { name: "Tên xét nghiệm", class:'border-l-2 text-center px-1' },
         { name: "Nhóm xét nghiệm", class:'border-l-2' },
-        { name: "Trạng thái", class:'border-l-2 text-center' },  
+        { name: "Trạng thái", class:'border-l-2 text-center' },
         { name: "Action", class: "text-right border-l-2" },
       ];
     },
@@ -460,32 +460,32 @@ data(){
   methods:{
     getelementSearch(data){
        this.$inertia.get('testelements?',
-            { 
+            {
               perPage:this.perPage,
               testName:this.testName,
               elementSearch:data
             },
             {
               preserveState:true,
-              replace:true            } 
+              replace:true            }
             )
-      
+
       },
-    saveTestElement() {  
-        this.form.post(route("testelements.store"));
-         // this.$inertia.post('/dashboard/testelements',$data)
-          this.closeModal();     
+    saveTestElement(data) {
+        //this.form.post(route("testelements.store"));
+         this.$inertia.post('/dashboard/testelements',data)
+          this.closeModal();
     },
-    
+
      getPageFill(){
         this.$inertia.get('testelements?',
-            { 
+            {
               perPage:this.perPage,
               testName:this.testName
             },
             {
               preserveState:true,
-              replace:true            } 
+              replace:true            }
             )
      },
       getfilePerpage(){
@@ -493,24 +493,24 @@ data(){
             {  //search:this.search,
                 perPage:this.perPage,
                  testName:this.testName
-               
+
             },
             {
               preserveState:true,
               replace:true            }
-           
+
             )
      },
      refreshFill(){
         this.$inertia.get('testelements?',
-           
+
             {
               preserveState:true,
               replace:true            }
-           
+
             )
      },
-  
+
     closeModal(){
       this.reset();
       this.showModal=false;
@@ -526,17 +526,17 @@ data(){
                 }
             },
     addTestElement(){
-       
+
             this.showModal = true;
             },
-      editTestElement(el) {      
+      editTestElement(el) {
         var checked111=this.form = Object.assign({}, el);
         this.checkededit= checked111.status
         this.editMode = true;
-      
+
      this.showModal=true;
         },
-      
+
     updateTestElement(data){
        data._method = 'PUT';
 
@@ -544,7 +544,7 @@ data(){
         this.reset();
         this.closeModal();
     }
-    
+
   }
 });
 </script>

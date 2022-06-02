@@ -26,9 +26,9 @@ class UserController extends Controller
         $this->user=$user;
         $this->role=$role;
         //$this->user = User::find(1) ?? new Setting();
-      
+
     }
-    
+
      /* Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -38,17 +38,17 @@ class UserController extends Controller
         //$users = $this->user->get();
         //dd($users);
         //$user=User::with(['roles'])->get();
-        //dd($users);        
+        //dd($users);
        return Inertia::render('Admin/User/index',[
         'can' => [
             'create' => Auth::user()->checkPermissionAccess(config('permissions.access.create-user')),
             'edit' => Auth::user()->checkPermissionAccess(config('permissions.access.edit-user')),
             'delete' => Auth::user()->checkPermissionAccess(config('permissions.access.delete-user')),
             'view' => Auth::user()->checkPermissionAccess(config('permissions.access.list-user')),
-            
+
         ],
             'users'=>UserResource::collection(User::with(['permissionroles'])->orderBy('id','asc')->paginate(4)),
-           'roles'=>RoleResource::collection(Role::select('id','name')->get()),    
+           'roles'=>RoleResource::collection(Role::select('id','name')->get()),
        ]);
     }
     /**
@@ -57,7 +57,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {       
+    {
         return Inertia::render('Admin/User/Create',[
             'edit'=>false,
             'roles'=>RoleResource::collection(Role::select('id','name')->get()),
@@ -76,7 +76,7 @@ class UserController extends Controller
         //dd($request->all());
         try{
             DB::beginTransaction();
-            $data=$request->all();     
+            $data=$request->all();
             $data['password']= Hash::make('246357@');
             $data['profile_photo_path']=$uploadeFile->setFile($request->file('profile_photo_path'))
             ->setUploadPath((new User())->uploadFolder())
@@ -113,7 +113,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        
+
         $roleData=array();
         $roles = $this->role->all();
         $user1=$this->user->find($user->id);
@@ -121,14 +121,14 @@ class UserController extends Controller
             foreach($roleOfUser as $roleselected){
                 $roleData[]=$roleselected->id;
           }
-       
+
         return Inertia::render('Admin/User/Create',[
             'edit'=>true,
             'user'=>new UserResource($user),
             'roles'=>RoleResource::collection(Role::select('id','name')->get()),
             'roleOfUser'=>$roleData
         ]);
-        
+
     }
 
     /**
@@ -138,12 +138,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,User $user, UploadFile $uploadeFile){  
+    public function update(Request $request,User $user, UploadFile $uploadeFile){
      //dd($request->all());
-       
+
         try{
             DB::beginTransaction();
-            $data=$request->all();     
+            $data=$request->all();
             if ($request->file('image')) {
                 $user->deleteImage();
             $data['profile_photo_path']=$uploadeFile->setFile($request->file('image'))
@@ -151,9 +151,9 @@ class UserController extends Controller
             ->execute();
             }
            $userrole=$user->update($data);
-           
+
            $user->roles()->sync($request->role_id);
-           
+
             DB::commit();
             return redirect()->route('users.index')->with('success','Add User successfully!');
             }catch(Exception $excepton){
@@ -163,7 +163,7 @@ class UserController extends Controller
 
        return redirect()->route('users.index')->with('success','Add User successfully!');
         }
-   
+
 
     /**
      * Remove the specified resource from storage.

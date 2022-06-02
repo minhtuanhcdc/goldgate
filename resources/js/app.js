@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
+import { htmlToPaper } from 'vue-html-to-paper'
 
 
 //Vue.use( CKEditor );
@@ -21,7 +22,9 @@ import "datatables.net-buttons/js/buttons.flash";
 import "datatables.net-buttons/js/buttons.html5";
 import "datatables.net-buttons/js/buttons.print";
 
-//const appName = window.document.getElementsByTagName('title')[0] ? innerText || 'Laravel';
+
+
+
 
 createInertiaApp({
     title: (title) => `${title}`,
@@ -30,6 +33,8 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(CKEditor)
+
+
 
         .mixin({ methods: { route } })
             .mount(el);

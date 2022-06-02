@@ -25,13 +25,13 @@ class TestnameController extends Controller
         $perPage = $request->perPage?$request->perPage:3;
         if ($request->groupName) {
             $testNames = Testname::where('group_id',$request->groupName)->with('getGroup')->paginate( $perPage)->withQueryString();
-           
+
         }
          else {
-            $testNames = Testname::with('getGroup')->paginate( $perPage)->withQueryString();   
-        }   
-        $filters = [ 
-            'groupName' => $request->groupName,    
+            $testNames = Testname::with('getGroup')->paginate( $perPage)->withQueryString();
+        }
+        $filters = [
+            'groupName' => $request->groupName,
         ] ;
         return Inertia::render('LaboManager/TestName/Index',[
         'testNames'=>$testNames,
@@ -59,8 +59,8 @@ class TestnameController extends Controller
     public function store(Request $request)
     {
         try{
-            DB::beginTransaction(); 
-            $data= $request->all();             
+            DB::beginTransaction();
+            $data= $request->all();
             Testname::create($data);
             DB::commit();
             return back()->withInput()->with('success','Add successfully!');
@@ -102,7 +102,7 @@ class TestnameController extends Controller
      */
     public function update(Request $request, Testname $testname)
     {
-     
+
         try{
             DB::beginTransaction();
 
@@ -115,7 +115,7 @@ class TestnameController extends Controller
                 DB::rollBack();
                 Log::error('Message:'.$excepton->getMessage().'---Line:'.$excepton->getLine());
             }
-       return back()->withInput()->with('success','Update successfully!');    
+       return back()->withInput()->with('success','Update successfully!');
     }
 
     /**
@@ -126,7 +126,7 @@ class TestnameController extends Controller
      */
     public function destroy(Testname $testname)
     {
-        
+
         $testname->delete();
         return back()->withInput()->with('success', "Delete successfully!");
     }

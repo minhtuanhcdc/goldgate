@@ -17,6 +17,10 @@ git push -u origin main
 ///===========Update=======
  github->máy: git pull
 
- máy ->github: git add . 
+ máy ->github: git add .
                 git commit -m "sua fil indexNew tu may"
                 git push
+
+
+==========ERROR dist/cjs.j/Clone..==========
+npm install true-case-path

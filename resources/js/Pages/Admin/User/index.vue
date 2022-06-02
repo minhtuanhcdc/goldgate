@@ -2,19 +2,19 @@
   <app-layout title="User list">
     <template #header>
       <breadcrumb :items="breadcrumbs" />
-    
+
     </template>
     <Container>
       <Card>
            <Button v-show="$page.props.can.create"  class="mb-1 float-right cursor-pointer"  @click="addUser">Add User</Button>
         <Table :headers="headers" :addClass="addClass">
-         
+
           <tr v-for="(user, i) in users.data" :key="i">
             <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>
                 <AppImageView
-                  class="mt-2"  
+                  class="mt-2"
                   :image-url="`${user.profile_photo_path}`"
                   label="Image"
                 />
@@ -24,16 +24,16 @@
             <td>{{ user.phone }}</td>
             <td>
                <span v-for="(role,i) in user.permissionroles" :key="i" class="ml-2 bg-blue-500 px-1 rounded-lg text-white">
-                  {{role.name}}  
+                  {{role.name}}
               </span>
-            
+
             </td>
             <td>
               <div class="flex items-center justify-end space-x-3">
                    <!-- <EditBtn :href="route('users.edit', { user: user.id })" title="Edit">Edit </EditBtn> -->
                 <EditBtn
                 v-show="$page.props.can.edit"
-                  @click="editUser(user)"         
+                  @click="editUser(user)"
                   title="Edit"
                   class="text-green-800"
                   >
@@ -64,9 +64,9 @@
         </Table>
         <div class="mt-4">
          <CompSimplePage :prevUrl="users.links.prev" :nextUrl="users.links.next" />
-        </div> 
+        </div>
         <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave">
-         
+
              <template v-slot:title >
                <div class="flex justify-between">
                 <h3 v-show="!editMode">Add user</h3>
@@ -77,7 +77,7 @@
              <template v-slot:content>
                <div class="px-4 pb-0">
                    <form
-                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg" 
+                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveUser(form)">
                    <div>
                      <span v-show="!editMode">+</span>
@@ -95,7 +95,7 @@
                           v-model="form.name"
                           autocomplete="title"
                         />
-                            <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div> 
+                            <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>
                       </div>
 
                       <div class="ml-4 mt-4">
@@ -107,11 +107,11 @@
                               v-model="form.username"
                               autocomplete="username"
                             />
-                            <div class="ml-4 text-red-800" v-if="errors.username"> * {{ errors.username }}</div> 
-                            
+                            <div class="ml-4 text-red-800" v-if="errors.username"> * {{ errors.username }}</div>
+
                       </div>
                     </div>
-                       
+
                     <div class="mt-4 grid grid-cols-1">
                       <div class="mt-1 w-full rounded-sm">
                         <jet-label
@@ -124,10 +124,10 @@
                             v-bind="example4"
                             selected
                         ></Multiselect>
-                       
+
                       </div>
                     </div>
-          
+
                     <div class="mt-4 grid grid-cols-2">
                       <div class="mt-2">
                         <jet-label for="email" value="Email" />
@@ -148,7 +148,7 @@
                           v-model="form.phone"
                           autocomplete="phone"
                         />
-                      
+
                       </div>
                     </div>
                     <div class="mt-4">
@@ -158,7 +158,7 @@
                         :image-url="imageUrl"
                         label="Image"
                       />
-                    </div> 
+                    </div>
            <!--Action-->
                     <div class="mt-4 text-center mb-1" >
                         <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
@@ -174,7 +174,7 @@
                               </button>
                             </span>
                     </div>
-                </form>  
+                </form>
               </div>
             </template>
         >
@@ -192,7 +192,7 @@ import Breadcrumb from "@/Components/Breadcrumb.vue";
 import Container from "@/Components/Container";
 import Card from "@/Components/Card";
 import Table from "@/Components/Table";
-//import Table from "@/Components/TableData";
+
 import CompSimplePage from "@/Components/SimplePage";
 import AppImageView from "@/Components/ImageView";
 import EditBtn from "@/Components/EditButton";
@@ -210,7 +210,7 @@ import AppImage from "@/Components/Image";
 
 
 export default defineComponent({
-  
+
   name: "Users",
   props: {
     //role_id:[1],
@@ -219,8 +219,8 @@ export default defineComponent({
     roles: {},
     roleOfUser: '',
      errors: Object,
-    
-  
+
+
   },
   components: {
     AppLayout,
@@ -240,11 +240,11 @@ export default defineComponent({
     JetLabel,
     JetInput,
     AppImageView
-  
+
   },
 data(){
   return{
-   
+
     userEdit:'',
     showModal:'',
     editMode: false,
@@ -258,7 +258,7 @@ data(){
         options: this.roles.data,
         searchable: true,
         createTag: true,
-        
+
     },
 
     form: this.$inertia.form({
@@ -278,7 +278,7 @@ data(){
       ),
     }
   },
- 
+
   computed: {
     breadcrumbs() {
       return [
@@ -337,42 +337,38 @@ data(){
                 }
             },
       addUser(){
-       
+
             this.showModal = true;
             },
     //  openModalEdit(user) {
-      
+
     //          this.userEdit=user;
     //          console.log('roles_ididididid:',this.userEdit.name);
     //           this.showModal = true;
     //             this.editMode=true;
     //         },
-      editUser(user) {      
+      editUser(user) {
         this.form = Object.assign({}, user);
         this.editMode = true;
-      
+
      this.showModal=true;
         },
       saveUser(data) {
-       
         //alert('Save');
         //  let obj = {
         //            //roles:this.selected,
         //            //user_id:user_id,
         //          }
                 this.$inertia.post('/dashboard/users',data)
-               
                 this.closeModal();
-               
     },
     updateUser(data){
       console.log('hehehe',data.phon);
        data._method = 'PUT';
-        this.$inertia.post('/dashboard/users/'+data.id, data)
+        this.$inertia.post('/dashboard/users/'+data.id, data);
         this.reset();
         this.closeModal();
     }
-    
   }
 });
 </script>
