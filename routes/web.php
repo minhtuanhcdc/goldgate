@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\ClassesController;
 use App\Http\Controllers\Admin\Postcontroller;
+use App\Http\Controllers\Admin\UpdateCustommerController;
+use App\Http\Controllers\Admin\ImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +92,11 @@ Route::middleware(['auth', 'verified'])
     Route::get('/formvigor','FormController@formvigor')->name('formvigor');
 
     Route::get('/print','PrintController@printOne')->name('print');
+
+
+    Route::post('/updatecustommer',[UpdateCustommerController::class,'ousent'])->name('updatecustommer');
+   // Route::post('/importprovince',[ImportController::class,'importProvince'])->name('importprovince');
+    Route::post('/importdistrict',[ImportController::class,'importDistrict'])->name('importdistrict');
 
 
 });

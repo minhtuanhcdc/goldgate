@@ -9,14 +9,52 @@
         <div class="flex flex-1 justify-between">
            <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
            <div>
-           <Button  class="bg-yellow-400 px-2 py-1 float-right cursor-pointer">Export PDF <span class="text-xs ml-1">(2)</span></Button>
-           <Button  class="bg-green-400 px-2 py-1 float-right cursor-pointer">Export EXCEL<span class="text-xs ml-1">(1)</span></Button>
+           <button  class="bg-yellow-400 px-2 py-0 rounded-md float-right text-md cursor-pointer mr-1">Export PDF <span class="text-xs ml-1">(2)</span></button>
+           <button  class="bg-green-400 px-2 py-0 rounded-md float-right cursor-pointer ml-2">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
            </div>
 
         <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200">
+          <!-- <form  @submit.prevent="importFile(formUpload)" enctype="multipart/form-data">
+           <button type="submit"  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white text-md">Import file</button>
+            <input class="w-42 my-0 rounded-sm text-xs cursor-pointer" type="file"
+              name="uploadFile"
+              @input="form.uploadFile = $event.Target.files[0]"
+              />
+          </form> -->
 
-           <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white text-md">Import file</button>
-          <input class="w-42 my-0 rounded-sm text-xs cursor-pointer" type="file" />
+           <form @submit.prevent="submitFile">
+             <div class="flex flex-row">
+                            <div>
+
+                                <input type="file"
+                                    class="w-full px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                    @change="previewImage"
+                                    ref="photo"
+                                />
+                                <!-- <img v-if="url" :src="url"
+                                    class="w-full mt-4 h-80" />
+                                <div
+                                    v-if="errors.image"
+                                    class="font-bold text-red-600"
+                                >
+                                    {{ errors.image }}
+                                </div> -->
+                            </div>
+                            <div class="flex items-center mt-0">
+                                <button
+                                    class="
+                                        px-2
+                                        py-1
+                                        text-white
+                                        bg-gray-900
+                                        rounded
+                                    "
+                                >
+                                    Upload
+                                </button>
+                            </div>
+             </div>
+                        </form>
 
         </div>
         </div>
@@ -93,7 +131,6 @@
       <!---==================------->
       <div class="grid grid-cols-5 mt-2 my-1">
         <div>
-
         </div>
         <div></div>
         <div></div>
@@ -153,12 +190,10 @@
 
                </td>
              <td class="border-r-2">{{bill.custommer.birthday}}</td>
-             <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp
-               <span v-if="bill.ward!==null">{{bill.ward.name}}</span>,&nbsp
-               <span v-if="bill.district!==null">{{bill.district.name}}</span>,&nbsp
-               <span v-if="bill.province!==null">{{bill.province.name}}</span>
+             <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp  {{bill.custommer.district.name}},&nbsp
+              {{bill.custommer.province.title}}. {{bill.custommer.province.name}}
               </td>
-            <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.phone.phone}}</td>
+            <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.custommer.phone}}</td>
             <td class="border-r-2 text-center" v-else></td>
             <td class="border-r-2 text-center" >
               <span v-for="(tn,i) in bill.testnames" :key="i">
@@ -218,22 +253,11 @@
                 </EditBtn>
                 <EditBtn
                   title="Edit"
-                  class="text-green-800"
+                  class="text-blue-800"
                   @click="editCustommer(bill)"
                   >
-                   <svg
-                    class="w-6 h-6 text-blue-800 cursor-pointer"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    ></path></svg>
+
+                  <PencilIcon class="w-6 h-6"/>
                 </EditBtn>
                 <DeleteBtn
                   :url="route('custommers.destroy',bill.id)"
@@ -260,12 +284,15 @@
              <template v-slot:content>
                <div class="px-1 pb-0 scrollable" :ref="'aKeyValue'" >
                    <form
-                   @submit="checkForm"
                     class="py-0 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveCustommer(form)">
                     <div class="grid grid-cols-1">
                 <!----Info Custommer================================================----->
-                    <div class="bg-gray-100 p-2 border-solid border-2 border-blue-500 rounded-md"><span class="text-gray-400 underline">Info Custommer</span>
+                    <div class="bg-gray-100 p-2 border-solid border-2 border-blue-500 rounded-md">
+                      <div class="w-full flex flex-row place-content-between">
+                        <span class="text-gray-400 underline">Info Custommer</span>
+                        <span  class="text-white  bg-blue-600 px-2 py-0 rounded-md cursor-pointer" @click="updateCustommer(form)">Update</span>
+                      </div>
                       <div class="ml-4 grid grid-cols-4">
                               <div  class=" col-span-3 mr-2 h-8">
                                   <div class="grid grid-cols-4">
@@ -274,16 +301,12 @@
                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 h-6 leading-3">Tên bệnh nhân <span class=" h-8 m-0 font-normal text-base font-italic text-gray-400">(name)</span></div>
                                       </div>
                                   <div class="col-span-3">
-                                      <jet-input
-                                      required
+                                    <jet-input
                                       id="name"
-                                      name="name"
                                       type="text"
                                       class="mt-1 block w-full h-8"
                                       v-model="form.name"
-                                      autocomplete="name"
-                                    />
-                                     <div class=" text-red-800" v-if="errors.name"> * {{ errors.name }}</div>
+                                      autocomplete="name"/>
                                   </div>
                                   </div>
                               </div>
@@ -364,12 +387,10 @@
                                     </div>
                                     <div class="col-span-3">
                                           <select
-
                                             id="Province"
                                             class="block w-full form-input rounded-lg h-8 py-1"
                                             v-model="form.province_id">
-                                            <option value="1">Hà Nội </option>
-                                            <option value="2">Tp.HCM</option>
+                                            <option v-for="(pce, i) in provinces" :key="i" :value="pce.code">{{pce.name}}</option>
                                           </select>
                                     </div>
                                 </div>
@@ -386,8 +407,7 @@
                                             class="block w-full form-input rounded-lg h-8 py-1"
                                             v-model="form.district_id">
                                             <option value="">--</option>
-                                            <option v-for="(dst, i) in getdistricts" :key="i" :value="dst.id">{{dst.name}}</option>
-
+                                            <option v-for="(dst, i) in getdistricts" :key="i" :value="dst.code">{{dst.name}}</option>
                                           </select>
                                     </div>
                                 </div>
@@ -415,7 +435,12 @@
                     </div>
                   <!----/Info Custommer======================== grid========================----->
                 <!----Info Indication OU================================================----->
-                      <div class="mt-1 bg-gray-200 p-2 border-solid border-2 border-blue-500 rounded-md"><span class="text-gray-400 underline">Thông tin ĐV gửi:</span>
+                      <div class="mt-1 bg-gray-200 p-2 border-solid border-2 border-blue-500 rounded-md">
+                         <div class="w-full flex flex-row place-content-between">
+                          <span class="text-gray-400 underline">Thông tin ĐV gửi:</span>
+                          <span  class="text-white  bg-blue-600 px-2 py-0 rounded-md cursor-pointer" @click="updateOusent(form)">Update</span>
+                          </div>
+
                         <div class="ml-4 grid grid-cols-2">
                              <div>
                                  <div class="mt-2 flex flex-row">
@@ -464,7 +489,7 @@
                                         id="diagonose"
                                         type="text"
                                         class="mt-1 block w-full h-8"
-                                        v-model="form.diagonose"
+                                        v-model="form.diagnose"
                                         autocomplete="diagonose"
                                       />
                                     </div>
@@ -519,7 +544,7 @@
                                         id="king"
                                         type="text"
                                         class="mt-1 block w-full h-8"
-                                        v-model="form.king"
+                                        v-model="form.kinhchot"
                                         autocomplete="king"
                                       />
                                     </div>
@@ -558,11 +583,9 @@
                           </div>
                           </div>
                         </div>
-                      </div>
+
                   <!----/Info Indication OU================================================----->
                 <!----Info Goldgate================================================----->
-                      <div class="mt-1 bg-gray-200 p-2 border-solid border-2 border-blue-500 rounded-md"><span class="text-gray-400 underline">Thông tin XN GoldGate:</span>
-
                         <div class="ml-2 flex flex-row">
                               <div class="mt-2 w-1/2">
                                 <div class="flex flex-row">
@@ -621,7 +644,7 @@
                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                               <button wire:click.prevent="store()" type="button"
                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                                v-show="editMode" @click.prevent="updateCustommer(form)">
+                                v-show="editMode" @click.prevent="updateTotal(form)">
                                 Update
                               </button>
                             </span>
@@ -633,203 +656,33 @@
         <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
              <template v-slot:content>
                 <div class="text-right w-full flex-row justify-items-between">
-                    <button class="rounded-md mb-1 ml-2  bg-gray-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
+                    <button class="rounded-md mb-1 mr-1  bg-gray-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
                        @click="printDiv('printMe')" >Print test</button>
                     <button  @click.prevent="closeModalPrint" class="text-white text-md bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
                 <!-- <div>{{selectedArray['name']}}</div> -->
-              <div class="py-4 px-40 " ref="printMe" id="printMe">
-                <div class="grid grid-cols-8 mx-0 py-0">
-                    <div class="col-span-2 py-0">
-                        <img
-                          class="w-36"
-                          :src="pathImageLeft"
-                          :alt="LogoThin"
-                        />
-                    </div>
-                    <div class="col-span-4 text-center mt-4">
-                        <div class="pt-0 py-0 place-items-center flex flex-col">
-                              <span class="text-center font-bold text-2xl font-sans-Timenew ">PHIẾU XÉT NGHIỆM TẾ BÀO</span>
-                              <div>
-                                <span class="text-center font-bold text-2xl font-sans-Timenew ml-0 pl-0">PAP'S SMEAR - ThinPrep</span>
-                                <span class="align-top ml-0 p-0 text-md font-bold">&reg;</span>
-                              </div>
-                              <span class="text-center font-bold text-md font-sans-Timenew ">REQUEST FOR COLLECTION OF SPECIMEN</span>
-                          </div>
-                    </div>
-                    <div class="col-span-2 text-left text-italy text-sm font-bold font-sans-Timenew  mt-8 w-full">
-                          <span class="p-0 m-0 w-full text-xs">Số(Number):{{getbilltests['thinprep_code']}}/2022</span>
-                    </div>
+                <div v-if="printOutsent.id == 1">
+                       <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                        :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                         :pathImageLeft="pathImageLeft"
+                        :pathThinLeft='pathThinLeft'
+                        :pathThinRight='pathThinRight'/>
                 </div>
-            <!--==============--->
-            <div class="grid grid-cols-4 leading-6 text-md">
-                <div class="col-span-2 font-sans-Timenew italic">Họ và tên (Name): <span class=" font-bold">{{ printCustommers['name']}}</span></div>
-                <div class="  font-sans-Timenew italic">Tuổi (Age):<span class="pl-2 font-bold">{{ printCustommers['birthday']}}</span></div>
-                <div class="  font-sans-Timenew italic">Para: <span class="pl-2 font-bold">{{getbilltests['para']}} </span></div>
-            </div>
-            <div class="grid grid-cols-4 text-md">
-                <div class="col-span-3 font-sans-Timenew leading-6 italic">Đia chỉ(Address):<span class="pl-2 font-bold">{{printCustommers['address']}}</span></div>
-                <div class=" font-sans-Timenew leading-6 italic">Số điện thoại:<span class="pl-2 font-bold">???</span></div>
-            </div>
-
-            <div class="font-sans-Timenew leading-6 italic text-md">Đơn vị gửi(Custommer):<span class="pl-2 font-bold"> {{ printOutsent['name']}}</span></div>
-            <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic">
-                <div class="font-bold">IUD (Intra-Uterine Devices) <i class="fa fa-square-o mt-2"></i></div>
-                <div class="font-bold text-center">Nội tiết (Hormone) <i class="fa fa-square-o mt-2"></i></div>
-                <div class="font-bold text-center">Xạ (Radiation) <i class="fa fa-square-o mt-2"></i></div>
-                <div class="font-bold text-center">Có thai (Pregnancy) <i class="fa fa-square-o mt-2"></i></div>
-            </div>
-
-            <div class="grid grid-cols-2 italic text-md">
-                <div class="font-sans-Timenew leading-6">Kinh chót(Last Menstrual Period):<span class="font-bold pl-2">{{getbilltests['kinhchot']}}</span></div>
-                <div class="text-center font-sans-Timenew leading-6">Ngày gửi (Date sent):<span class="font-bold">??</span></div>
-            </div>
-              <div class="grid grid-cols-2 italic text-md">
-                <div class="font-sans-Timenew leading-6">Chẩn đoán lâm sàng(Clinical diagnose):<span class="font-bold pl-2">{{getbilltests['diagnose']}}</span></div>
-                <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2"> {{printDoctor['name']}}</span></div>
-            </div>
-            <!--/==============--->
-              <!--==============--->
-              <div class="text-center font-bold text-xl font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
-
-              <div class="grid grid-cols-5 font-sans-Timenew leading-6">
-                <div class="font-bold italic col-span-2">Đánh giá lam (Specimen evalueation)</div>
-                  <div class="col-span-3 grid grid-cols-2" >
-                    <div class="" v-for="eg1 in testElements" :key="eg1.id">
-                      <span class="font-bold" v-if="eg1.element_group ==1">{{eg1.name}}
-                          <span v-if="selectedArray['id'] == eg1.id">
-                            <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                          </span>
-                          <span v-if="selectedArray['id'] !== eg1.id">
-                             <i class="text-xs h-2 w-3 rounded-sm text-white border-black border-1 ">&#xf096;</i>
-                          </span>
-
-                      </span>
-                    </div>
-            </div>
-              </div>
-               <div class="grid grid-cols-1">
-            <div class="" v-for="eg2 in testElements" :key="eg2.id">
-                <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
-                   <span v-if="selectedArray['id'] == eg2.id">
-                      <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                    </span>
-                    <span v-if="selectedArray['id'] !== eg2.id">
-                      <i class="text-xs h-1 w-3 rounded-sm text-white border-black border-1 ">&#xf096;</i>
-                    </span>
-                </span>
-            </div>
-          </div>
-               <div class="flex flex-cols-5">
-            <div class="" v-for="eg3 in testElements" :key="eg3.id">
-              <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                      <span v-if="selectedArray['id'] == eg3.id">
-                      <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                    </span>
-                    <span v-if="selectedArray['id'] !== eg3.id">
-                      <i class="text-xs h-1 w-3 rounded-sm text-white border-black border-1 ">&#xf096;</i>
-                    </span>
-              </span>
-          </div>
-          </div>
-             <div class="grid grid-cols-1">
-            <div class="" v-for="eg4 in testElements" :key="eg4.id">
-              <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
-                     <span  v-for="tt in getbilltests['results']" :key="tt.id">
-                      <span v-if="tt.id == eg4.id">
-                        <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                      </span>
-                    </span>
-              </span>
-          </div>
-          </div>
-
-              <!--/==============--->
-              <!--==============--->
-              <div class="col-span-2">
-                    <span class=" font-sans-Timenew font-bold text-sm  text-blue-700">TẾ BÀO GAI (Squamuos cell)</span>
-                    <div class="grid grid-cols-2 leading-5 italic">
-                      <div class="flex flex-col">
-                         <div v-for="(eg5, i) in testElements" :key="i">
-                     <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
-                      <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg5.id" v-model="form.element_id"/>
-                      </span>
-                  </div>
-                      </div>
-                      <div class="flex flex-col">
-                        <div class="" v-for="(eg6, i) in testElements" :key="i">
-                     <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
-                      <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
-                      </span>
-                  </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-              <div class="grid grid-cols-1 mt-2">
-                  <div>
-                    <span class=" font-sans-Timenew font-bold text-sm uppercase text-blue-700">Tế bào Tuyến</span>
-                    <div class="flex flex-row leading-5">
-                       <div v-for="eg6 in testElements" :key="eg6.id">
-                         <div v-if="eg6.element_group == 7">
-                          <span class="text-left font-bold text-xs ml-4 mr-6  font-sans-Timenew" >{{eg6.name}}
-                             <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
-                            </span>
-                          </div>
-                  </div>
-                    </div>
-                  </div>
-              </div>
-              <!------KET LUẬN------------------->
-              <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic mt-2">
-                <div class="font-bold m-0 p-0">Đề nghị (Suggestions):</div>
-                <div class="font-bold col-span-3">
-                  <div class="flex">
-                   <div  v-for="el8 in testElements" :key="el8.id">
-                      <span class="font-bold text-xs w-full" v-if="el8.element_group ==8 && el8.element_group !==null ">{{el8.name}}
-                        <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="el8.id" v-model="form.element_id"/>
-                      </span>
-                    </div>
-                    </div>
+                <div v-if="printOutsent.id == 6">
+                        <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                        :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                         :pathImageLeft="pathImageLeft"
+                        :pathThinLeft='pathThinLeft'
+                        :pathThinRight='pathThinRight'/>
+                </div>
+                <div v-if="printOutsent.id == 9">
+                         <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                        :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                         :pathImageLeft="pathImageLeft"
+                        :pathThinLeft='pathThinLeft'
+                        :pathThinRight='pathThinRight'/>
                 </div>
 
-              </div>
-              <!------/KET LUẬN------------------->
-
-              <div class="grid grid-cols-2 mt-2 text-center">
-                  <div  class="text-center">
-                    <img
-                        class="w-80 max-h-48 "
-                        :src="pathThinLeft"
-                        :alt="LogoThin"/>
-                      </div>
-                  <div class="text-center">
-                    <img
-                        class="w-80 max-h-48 "
-                        :src="pathThinRight"
-                        :alt="LogoThin"/>
-                    </div>
-
-              </div>
-              <div class="grid grid-cols-3">
-                <div class="col-span-2">
-                  <div class="grid grid-cols-1">
-                    <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
-                    <span class="font-bold text-red-700 font-sans-Timenew text-xs uppercase">- Không tổn thương trong biểu mô hay ung thư</span>
-                    <span class="font-bold text-md font-sans-Timenew">- Tế bào cổ tử cung biến đổi do viêm</span>
-                  </div>
-                </div>
-                <div class="grid grid-cols-1 text-center">
-                  <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:{{currentDate()}}</span>
-                  <span class="mb-16 font-bold font-sans-Timenew text-md">BS/KTV đọc kết quả:</span>
-                  <span class="font-bold font-sans-Timenew text-md">{{printDoctor['name']}}</span>
-                  <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
-                  <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>
-                </div>
-                </div>
-
-              </div>
             </template>
         </DialogModal>
       </Card>
@@ -858,8 +711,16 @@ import JetLabel from "@/Jetstream/Label";
 import JetInput from "@/Jetstream/Input";
 import AppImage from "@/Components/Image";
 import { Link } from "@inertiajs/inertia-vue3";
- import Checkbox from '@/Jetstream/Checkbox';
+import Checkbox from '@/Jetstream/Checkbox';
 
+import PrintviewTudu from '@/Pages/Prinview/FormTudu'
+import PrintviewSaigon from '@/Pages/Prinview/FormSaigon'
+import PrintviewVigor from '@/Pages/Prinview/FormVigor'
+
+import { BeakerIcon } from '@heroicons/vue/solid'
+import { PencilIcon } from '@heroicons/vue/solid'
+import { CheckIcon } from '@heroicons/vue/solid'
+import { useForm } from '@inertiajs/inertia-vue3'
 
 export default defineComponent({
 
@@ -873,6 +734,7 @@ export default defineComponent({
     wards:'',
     ousents:'',
     doctors:'',
+    custommer:"",
 
     filters:{},
     errors: Object,
@@ -898,12 +760,19 @@ export default defineComponent({
     AppImageView,
     Link,
     Checkbox,
+    PrintviewTudu,
+    PrintviewSaigon,
+    PrintviewVigor,
+     PencilIcon,
+    CheckIcon,
+    BeakerIcon
 
 
   },
 data(){
   return{
 
+ url: null,
     getbilltests:'',
      printCustommers:'',
     //printName:'',
@@ -913,18 +782,18 @@ data(){
     printDoctor:'',
     selectedArray:'',
 
-
-output: null,
+  output: null,
     ousentFill:this.filters.ousentFill,
     pathImageLeft:'/images/Logo/Thinprep.jpg',
     pathThinLeft:'/images/Thinprep/hLeft.jpg',
     pathThinRight:'/images/Thinprep/hRight.jpg',
+
     getdistricts:'',
     getwards:'',
     getdoctors:'',
     form_errors:[],
 
-    name:'',
+    name:'123',
     perPage:'',
     checkededit:'',
     pathImage:'/storage/image_Ousent/',
@@ -933,7 +802,7 @@ output: null,
     showModlPrint:false,
     editMode: false,
     //titleModal:'Them user',
-    maxWidth:"7xl",
+    maxWidth:"4xl",
     titleHeader:'Edit',
      example4: {
         mode: "tags",
@@ -943,11 +812,16 @@ output: null,
         searchable: true,
         createTag: true,
     },
+    formUpload: this.$inertia.form({
+      name: null,
+      avatar: null,
+    }),
     form: this.$inertia.form({
          // "_method": this.edit ? 'PUT' : "",bỉ
         name: "",
-        birthday: "",
+        birthday: "123",
         ousent_id: "",
+        kinhchot: "",
         phone: "",
         gender: '',
         address: "",
@@ -955,7 +829,9 @@ output: null,
         district_id:'',
         ward_id:'',
         testname_id:[''],
-        selected:[]
+        selected:[],
+        diagnose:'',
+
       },
         {
           resetOnSuccess: false,
@@ -963,6 +839,14 @@ output: null,
       ),
     }
   },
+setup() {
+        const form = useForm({
+            file: null,
+        });
+
+        return { form };
+    },
+
   watch:{
      elementSearch:function(){
        //console.log(this.elementSearch);
@@ -1017,9 +901,9 @@ output: null,
     if (this.edit) {
 
        //this.checkededit=this.labogroups.data.status==1? true:false;
-      //this.form.role_id=[1];
+      //this.form.testname_id=[1];
       // //this.form.role_id = this.roleOfUser !== "" ? this.roleOfUser : "";
-      // this.form.name =' this.user.data.name';
+      //this.form.name =123;
       // this.form.username =this.user.data.username;
       // this.form.email = this.user.data.email;
       // this.form.phone = this.user.data.phone;
@@ -1027,18 +911,38 @@ output: null,
     }
   },
   methods:{
+    submitFile() {
+            if (this.$refs.photo) {
+                this.form.file = this.$refs.photo.files[0];
+            }
+            this.form.post('/dashboard/importdistrict/');
+        },
+        previewImage(e) {
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file);
+        },
+
+//  importFile(data) {
+//        this.$inertia.post('/dashboard/importdistrict/',data)
+//     },
+     updateCustommer(bill){
+        bill._method = 'PUT';
+        this.$inertia.post('/dashboard/custommers/'+bill.id, bill);
+        this.reset();
+        this.closeModal();
+    },
+    updateOusent(bill){
+
+         this.$inertia.post('/dashboard/updatecustommer/',bill);
+          this.closeModal();
+
+    },
+
 currentDate() {
       const current = new Date();
       const date = ' '+`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
       return date;
     },
-  //    printData(printMe){
-  //    window.print(printMe);
-  //   },
-  //   async printData () {
-
-  //     await this.$htmlToPaper('printMe');
-  //  },
 
      printDiv(divName){
           var printContents = document.getElementById(divName).innerHTML;
@@ -1058,8 +962,11 @@ currentDate() {
         this.printCustommers = bill.custommer;
         this.printOutsent= bill.ousent;
         this.printDoctor = bill.doctor;
-        let printSelected= bill.results;
-        this.selectedArray = printSelected[0];
+        if(bill.results){
+            let printSelected= bill.results;
+             this.selectedArray = printSelected[0];
+        }
+
 
        /// this.addresses =
         //this.printAddress=' '+ bill.custommer.address+' '+bill.ward.name+', '+bill.district.name+', ' + bill.province.name;
@@ -1076,6 +983,7 @@ currentDate() {
      this.getdoctors = fillData;
       },
     getDistrictFill(province){
+      alert(province)
      const fillData = this.districts.filter(function(el){
        return el.province_id == province;
      });
@@ -1161,7 +1069,6 @@ currentDate() {
 
             )
      },
-
     closeModal(){
       this.reset();
       this.showModal=false;
@@ -1172,29 +1079,53 @@ currentDate() {
     },
      reset() {
             this.form = {
-                name: null,
-                status: null,
+            name: null,
+            birthday: null,
+            ousent_id: null,
+            kinhchot: null,
+            phone: "",
+            gender: '',
+            address: "",
+            province_id: null,
+            district_id:null,
+            ward_id:null,
+            testname_id:[''],
+            selected:[],
+            diagnose:'',
                 }
             },
     addCustommer(){
-
             this.showModal = true;
             },
-    editCustommer(ctm) {
-        var checked111=this.form = Object.assign({}, el);
-        this.checkededit= checked111.status
-        this.editMode = true;
+    editCustommer(bill) {
 
-     this.showModal=true;
+        var bilForm=this.form = Object.assign({}, bill);
+        this.checkededit= bilForm.status
+        this.form.name=bilForm.custommer.name;
+        this.form.gender=bilForm.custommer.gender;
+        this.form.birthday=bilForm.custommer.birthday;
+        this.form.address=bilForm.custommer.address;
+        const tesnameBill=bilForm.testnames;
+        this.form.testname_id = tesnameBill[0].id;
+
+         const provinceBill=bilForm.province;
+         if(provinceBill){
+            this.form.province_id = provinceBill.id;
+         }
+         const districtBill=bilForm.district;
+         if(districtBill){
+            this.form.district_id = districtBill.id;
+         }
+         const wardBill=bilForm.ward;
+         if(wardBill){
+            this.form.ward_id = wardBill.id;
+         }
+
+        this.editMode = true;
+        this.showModal=true;
         },
 
-    updateCustommer(data){
-       data._method = 'PUT';
 
-        this.$inertia.post('/dashboard/custommers/'+data.id, data)
-        this.reset();
-        this.closeModal();
-    }
 
   }
 });

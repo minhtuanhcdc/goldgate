@@ -10,4 +10,5 @@ class Custommeraddress extends Model
     use HasFactory;
     protected $table = "custommeraddresses";
     protected $guarded = ['id'];
+    //protected $primaryKey = 'custommer_id';
 }

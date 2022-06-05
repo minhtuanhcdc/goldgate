@@ -17,4 +17,15 @@ class Custommer extends Model
     public function billtest(){
        return $this->hasOne(Billtest::class);
     }
+
+    public function province()
+    {
+      return $this->hasOne(Province::class,'code','province_id');
+    }
+    public function district()
+    {
+      return $this->hasOne(District::class,'code','district_id');
+    }
+
+
 }

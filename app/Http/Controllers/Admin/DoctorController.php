@@ -18,7 +18,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-    
+
         $ousents=Ousent::get();
         $doctors=Doctor::with('ousent')->get();
         return Inertia::render('Ousent/IndexDoctor',
@@ -48,8 +48,8 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         try{
-            DB::beginTransaction(); 
-            $data= $request->all();             
+            DB::beginTransaction();
+            $data= $request->all();
             Doctor::create($data);
             DB::commit();
             return back()->withInput()->with('success','Add successfully!');

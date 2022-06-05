@@ -95,7 +95,7 @@
                       <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
                     </svg>
                 </EditBtn>
-                <EditBtn v-else class="" @click="addResult(bill)" disabled>
+                <EditBtn v-else class="" @click="addResult(bill)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-800" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z" />
                       <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
@@ -108,15 +108,15 @@
         </Table>
         <div class="mt-4">
         </div>
-            <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
-             <template v-slot:title >
+         <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
+            <template v-slot:title >
                <div class="flex justify-between text-blue-900 font-bold border-b-1 border-blue-200">
                 <h3 v-show="!editMode" >Nhập kết quả ThinPrep </h3>
                 <h3 v-show="editMode">Cập nhật kết quả ThinPrep</h3>
                 <button  @click.prevent="closeModal" class="text-white bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
                </div>
             </template>
-             <template v-slot:content>
+            <template v-slot:content>
                <div class="px-4 pb-0">
                  <div class="grid grid-cols-4 leading-6">
                     <div class="col-span-2  font-sans-Timenew italic underline underline_offset-1">Họ và tên (Name): <span class="font-bold">  {{name}}</span></div>
@@ -128,7 +128,7 @@
                     class="py-1 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveResult(form)">
                     <div>
-                       <!--==============--->
+
                   <div class="text-center font-bold text-md font-sans-Timenew mt-1 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
                   <div class="grid grid-cols-5 font-sans-Timenew leading-6">
                   <div class="font-bold italic col-span-2">Đánh giá lam (Specimen evalueation)</div>
@@ -151,11 +151,10 @@
                 <div class="flex flex-cols-5">
                   <div class="" v-for="eg3 in testElements" :key="eg3.id">
                     <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg3.id" v-model="form.element_id"/>
+                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg3.id" v-model="form.element_id"/>
                     </span>
                 </div>
                 </div>
-
                 <div class="grid grid-cols-1">
                   <div class="" v-for="eg4 in testElements" :key="eg4.id">
                     <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
@@ -163,8 +162,7 @@
                     </span>
                 </div>
                 </div>
-         <!--/==============--->
-         <!--==============--->
+
               <div class="col-span-2">
                   <span class=" font-sans-Timenew font-bold text-sm  text-blue-700">+ TẾ BÀO GAI (Squamuos cell)</span>
                     <div class="grid grid-cols-2 leading-5 italic">
@@ -203,7 +201,6 @@
                   </div>
                 </div>
             </div>
-         <!------KET LUẬN------------------->
 
            <div class="grid grid-cols-5 font-sans-Timenew leading-6 mt-3">
             <div class="font-bold italic">Đề nghị (Suggestions)</div>
@@ -217,8 +214,6 @@
             </div>
             </div>
           </div>
-
-         <!------/KET LUẬN------------------->
 
          <div class="grid grid-cols-2 mt-2 text-center">
             <div  class="text-center">
@@ -248,8 +243,7 @@
 
            </div>
       </div>
-
-                    <div class="mt-4 text-center mb-1" >
+            <div class="mt-4 text-center mb-1" >
                         <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                              <button v-show="!editMode"  type="submit" class="bg-blue-900 text-white inline-flex justify-center w-20 rounded-md border border-gray-300 px-4 py-2  leading-6 font-medium  shadow-sm hover:bg-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                                 Save
@@ -262,12 +256,11 @@
                                 Update
                               </button>
                             </span>
-                    </div>
+                 </div>
                 </form>
               </div>
             </template>
-        >
-          </DialogModal>
+        </DialogModal>
 
       </Card>
     </Container>
@@ -416,46 +409,47 @@ data(){
     }
   },
   methods:{
+          openModal(){
+                this.showModal=true;
+              },
+          reset() {
+                    this.form = {
+                          element_id: null,
 
+                    }
+                  },
+          closeModal(){
+                        //this.reset();
+                        this.showModal=false;
+                        this.editMode=false;
+                      },
+          saveResult(data) {
+            const data2 = {
+              'thin_code': this.thinprep_code,
+              'bill_id': this.test_id,
+              };
+                const data3 = {...data, ...data2 }
+                    //this.$inertia.post('/dashboard/results',[{'form1':data, 'form2':thin_code}])
+                    this.$inertia.post('/dashboard/results',data3)
+                    this.closeModal();
+                },
+          editUser(user) {
+              this.form = Object.assign({}, user);
+              this.editMode = true;
 
-    editUser(user) {
-        this.form = Object.assign({}, user);
-        this.editMode = true;
-
-     this.showModal=true;
-        },
-  addResult(bill){
-        const getBill = Object.assign({}, bill)
-        console.log('Heheheheheheheheheheh:',getBill);
-        this.name = getBill.custommer.name;
-        this.thinprep_code = getBill.thinprep_code;
-        this.test_id = getBill.id;
-        this.showModal=true;
-  },
-  saveResult(data) {
-    const data2 = {
-      'thin_code': this.thinprep_code,
-      'bill_id': this.test_id,
-      };
-     const data3 = {...data, ...data2 }
-        //this.$inertia.post('/dashboard/results',[{'form1':data, 'form2':thin_code}])
-        this.$inertia.post('/dashboard/results',data3)
-        this.closeModal();
-    },
-     closeModal(){
-      //this.reset();
-      this.showModal=false;
-      this.editMode=false;
-    },
-    openModal(){
-      this.showModal=true;
-    },
-     reset() {
-                this.form = {
-                    element_id: null,
-
-                }
+          this.showModal=true;
+              },
+          addResult(bill){
+              const getBill = Object.assign({}, bill)
+              console.log('Heheheheheheheheheheh:',getBill);
+              this.name = getBill.custommer.name;
+              this.thinprep_code = getBill.thinprep_code;
+              this.test_id = getBill.id;
+              this.showModal=true;
             },
+
+
+
   }
 });
 </script>

@@ -32,18 +32,18 @@ class CustommerController extends Controller
         $perpage = $request->perpageFill?$request->perpageFill:5;
         if($request->ousentFill){
             //dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone','results'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','phone','results'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
         //dd($billtests);
         }
         else{
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone','results'])->paginate($perpage);
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','phone','results'])->paginate($perpage);
 
         }
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
         //dd($billtests);
         $provinces = Province::with('districts','wards')->get();
-        $districts = District::select('id','name','province_id')->get();
-        $wards = Ward::select('id','name','district_id')->get();
+        $districts = District::get();
+        $wards = Ward::get();
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
         // $nametests = Testname::select('id','name')->get();
@@ -63,6 +63,7 @@ class CustommerController extends Controller
             'ousents'=>$ousents,
             'doctors'=>$doctors,
             'filters'=>$filters,
+            'custommer'=>Custommer::with('province')->get(),
         ]);
     }
 
@@ -98,14 +99,13 @@ class CustommerController extends Controller
                 'custommer_id'=>$custommer->id,
                 'ousent_id'=>$request->ousent_id,
                 'doctor_id'=>$request->doctor_id,
-                'diagonose'=>$request->diagonose,
+                'diagnose'=>$request->diagnose,
                 'hpv_code'=>$request->hpv_code,
                 'thinprep_code'=>$request->thinprep_code,
                 'sample_code'=>$request->sample_code,
                 'status'=>1,
                 'created_at' => date('Y-m-d H:i:s'),
                 ]);
-
                 //dd($bill);
                 Billname::insert([
                     'billtest_id'=>$Id_bill,
@@ -114,14 +114,14 @@ class CustommerController extends Controller
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
                 //custommer_id`, `province_id`, `district_id`, `ward_id
-                Custommeraddress::insert([
-                    'custommer_id'=>$custommer->id,
-                    'province_id'=>$request->province_id,
-                    'district_id'=>$request->district_id,
-                    'ward_id'=>$request->ward_id,
-                    'created_at' => date('Y-m-d H:i:s'),
+                // Custommeraddress::insert([
+                //     'custommer_id'=>$custommer->id,
+                //     'province_id'=>$request->province_id,
+                //     'district_id'=>$request->district_id,
+                //     'ward_id'=>$request->ward_id,
+                //     'created_at' => date('Y-m-d H:i:s'),
 
-                ]);
+                // ]);
 
 
             DB::commit();
@@ -162,10 +162,44 @@ class CustommerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Custommer $custommer)
     {
-        //
+       //dd($request->all());
+      // id`, `name`, `birthday`, `address`, `gender`, `ousent_id`, `status`, `created_at`, `updated_at
+       try{
+        DB::beginTransaction();
+        $data=$request->all();
+
+       $custommerId=Custommer::where('id',$request->custommer_id)->update([
+        'name'=>$request->name,
+        'birthday'=>$request->birthday,
+        'address'=>$request->address,
+        'address'=>$request->address,
+        'updated_at'=>date('Y-m-d H:i:s'),
+       ]);
+// "testname_id" => 1" province_id" => "2"" district_id" => 2" ward_id" => 2
+    //   Custommeraddress::where('custommer_id', '=',$request->custommer_id)->update([
+    //     'custommer_id'=>$request->custommer_id,
+    //     'province_id'=>$request->province_id,
+    //     'district_id'=>$request->district_id,
+    //     'phone'=>$request->phone,
+    //     'ward_id'=>$request->ward_id,
+    //     'updated_at' => date('Y-m-d H:i:s'),
+    // ]);
+
+
+
+        DB::commit();
+
+        }catch(Exception $excepton){
+            DB::rollBack();
+            Log::error('Message:'.$excepton->getMessage().'---Line:'.$excepton->getLine());
+        }
+
+        return back()->withInput()->with('success','Add  successfully!');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -7,7 +7,7 @@
       <Card>
         <form @submit.prevent="savePermission">
           <!--Name--->+
-        
+
           <!--Id Parent--->
           <div class="mt-4">
             <jet-label for="parent_id" value="Parent menu" />
@@ -27,8 +27,8 @@
                 {{ permission.name }}
               </option>
             </select>
-           
-          </div> 
+
+          </div>
           <!--Url--->
 
           <!--Status--->
@@ -43,7 +43,7 @@
                     />
                     <span class="ml-2">{{chilemenu.name}}</span>
           </div>
-            
+
           </div>
             <div class="">
             <jet-label for="display_name" value="Display name" />
@@ -102,7 +102,7 @@ export default {
     permissions: Object,
     chilemenus: "",
     Permission:"",
-    
+
   },
   components: {
     AppLayout,
@@ -130,7 +130,7 @@ export default {
           display_name: "",
           menuchile_id:[],
           display_nameChile:[],
-     
+
         },
         {
           resetOnSuccess: false,
@@ -162,9 +162,9 @@ export default {
   },
   mounted() {
     if (this.edit) {
-      this.form.menu_id = this.Permission.data.menu_id;
+     this.form.menu_id = this.Permission.data.menu_id;
       this.form.id_parent = this.Permission.data.id_parent;
-      this.form.menuchile_id = this.Permission.data.menuchile_id;
+     this.form.menuchile_id = this.Permission.data.menuchile_id;
       // this.form.icon = this.permissiondit.data.icon;
       // this.form.status = this.permissiondit.data.status;
       // this.checkededit = this.permissiondit.data.status == 1 ? true : false;

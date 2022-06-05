@@ -12,7 +12,7 @@ class Billtest extends Model
     protected $table = "billtests";
 
     public function custommer(){
-        return $this->hasOne(Custommer::class,'id','custommer_id');
+        return $this->hasOne(Custommer::class,'id','custommer_id')->with(['province','district']);
     }
     public function doctor(){
         return $this->hasOne(Doctor::class,'id','doctor_id')->select('id','name','title');
@@ -28,13 +28,13 @@ class Billtest extends Model
          //dd($this->hasMany(Result::class,'bill_id','id'));
          return $this->belongsTomany(Testelement::class,'results','bill_id','element_id');
     }
-    public function province(){
-         //return $this->belongsTomany(Testname::class,'billnames');
-         return $this->hasOneThrough(Province::class,Custommeraddress::class, 'custommer_id','id');
-    }
+    // public function province(){
+    //      //return $this->belongsTomany(Testname::class,'billnames');
+    //      return $this->hasOneThrough(Custommeraddress::class,Province::class,'custommer_id','code');
+    // }
     public function district(){
-         //return $this->belongsTomany(Testname::class,'billnames');
-         return $this->hasOneThrough(District::class,Custommeraddress::class, 'custommer_id','id');
+        // dd($this->hasOneThrough(District::class,Custommeraddress::class, 'custommer_id','id'));
+         return $this->hasOneThrough(District::class,Custommeraddress::class, 'district_id','code');
     }
     public function ward(){
          //return $this->belongsTomany(Testname::class,'billnames');
@@ -44,5 +44,11 @@ class Billtest extends Model
          //return $this->belongsTomany(Testname::class,'billnames');
          return $this->belongsTo(Custommeraddress::class, 'custommer_id','id');
     }
+    public function cutommerupdate(){
+          return $this->hasOne(Custommer::class);
+    }
+
+
+
 
 }

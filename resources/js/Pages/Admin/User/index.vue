@@ -207,8 +207,6 @@ import JetInput from "@/Jetstream/Input";
 import AppImage from "@/Components/Image";
 
 
-
-
 export default defineComponent({
 
   name: "Users",
@@ -219,7 +217,6 @@ export default defineComponent({
     roles: {},
     roleOfUser: '',
      errors: Object,
-
 
   },
   components: {
@@ -263,7 +260,7 @@ data(){
 
     form: this.$inertia.form({
          // "_method": this.edit ? 'PUT' : "",
-          name: "",
+          name: "123",
           username: "",
           status: "",
           email: "",

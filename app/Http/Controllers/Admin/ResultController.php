@@ -37,7 +37,7 @@ class ResultController extends Controller
             'ousentFill'=>$request->ousentFill,
         ];
 
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','province','district','ward','phone'])->paginate($perpage);
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames'])->paginate($perpage);
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
 
