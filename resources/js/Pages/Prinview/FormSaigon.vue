@@ -39,7 +39,7 @@
       <div class=" font-sans-Timenew leading-6">Đia chỉ <span class="font-bold"> {{printCustommers['address']}}</span></div>
       <div class=" font-sans-Timenew leading-6">Chẩn đoán lâm sàng: <span class="font-bold"> {{getbilltests['diagnose']}}</span></div>
       <div class="grid grid-cols-3 font-sans-Timenew leading-6">
-          <div class=" col-span-2">Bác sỹ lấy mẫu: <span class="font-bold"> {{printDoctor['name']}}</span></div>
+          <div class=" col-span-2">Bác sỹ lấy mẫu: <span class="font-bold" v-if="printDoctor"> {{printDoctor['name']}}</span></div>
           <div class="">Ngày lấy mẫu:</div>
       </div>
        <!--/==============--->
@@ -123,16 +123,27 @@
 
          <div class="grid grid-cols-2">
             <div  class="text-center">
-              <img
-                  class="w-80 max-h-40"
-                  :src="pathThinLeft"
-                  :alt="LogoThin"/>
+              {{imageThinLeft}}
+               <img v-if="imageThinLeft"
+                    class="w-80 max-h-52 "
+                    :src="pathThinLeft+imageThinLeft"
+                    :alt="imageThinLeft"/>
+
+                <img v-else
+                    class="w-80 max-h-52 "
+                    :src="pathThinLeft"
+                    alt="imageThinLeft"/>
                 </div>
             <div class="text-center">
-              <img
-                  class="w-80 max-h-40 "
-                  :src="pathThinRight"
-                  :alt="LogoThin"/>
+               <img v-if="imageThinLeft"
+                    class="w-80 max-h-52 "
+                    :src="pathThinRight+imageThinLeft"
+                    :alt="imageThinLeft"/>
+
+                <img v-else
+                    class="w-80 max-h-52 "
+                    :src="pathThinRight"
+                    alt="imageThinLeft"/>
               </div>
 
          </div>
@@ -182,6 +193,7 @@ export default {
         pathImageLeft:"",
         pathThinLeft:'',
         pathThinRight:'',
+        imageThinLeft:'',
 
     },
     components:{

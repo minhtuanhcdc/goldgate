@@ -28,14 +28,14 @@
             <td class="border-r-2">{{img.thinprep_code}}</td>
             <td class="border-r-2">
                 <img
-                  class="h-20 w-24 rounded-full"
+                  class="h-20 w-24"
                  :src="pathThinLeft+`${img.thinLeft}`"
                   alt=""
                 />
             </td>
             <td class="border-r-2">
                 <img
-                  class="h-20 w-24 rounded-full"
+                  class="h-20 w-24"
                   :src="pathThinRight+`${img.thinRight}`"
                   alt=""
                 />

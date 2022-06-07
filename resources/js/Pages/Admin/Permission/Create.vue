@@ -160,6 +160,14 @@ export default {
         ? this.form.put(route("permissions.update", { id: this.Permission.data.id }))
         : this.form.post(route("permissions.store"));
     },
+     scrollToView(element){
+    var offset = element.offset().top;
+    if(!element.is(":visible")) {
+        element.css({"visibility":"hidden"}).show();
+        var offset = element.offset().top;
+        element.css({"visibility":"", "display":""});
+    }
+     }
   },
   mounted() {
     if (this.edit) {

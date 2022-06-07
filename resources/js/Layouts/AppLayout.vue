@@ -5,7 +5,7 @@
     <div class="min-h-screen bg-gray-100">
       <nav class="bg-gray-200 border-b border-gray-100 ">
         <!-- Primary Navigation Menu -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="w-full mx-auto px-4 sm:px-18 lg:px-24">
           <div class="flex justify-between h-16">
             <div class="flex">
               <!-- Logo -->
@@ -262,7 +262,7 @@
       </nav>
       <!-- Page Heading -->
       <header class="bg-blue-700 shadow mt-2 text-white " v-if="$slots.header">
-        <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+        <div class="w-full mx-auto py-2 px-4 sm:px-6 lg:px-8">
           <slot name="header"></slot>
         </div>
       </header>

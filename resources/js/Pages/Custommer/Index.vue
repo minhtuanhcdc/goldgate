@@ -189,7 +189,7 @@
 
                </td>
              <td class="border-r-2">{{bill.custommer.birthday}}</td>
-             <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp  {{bill.custommer.district.name}},&nbsp
+              <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp  {{bill.custommer.district.name}},&nbsp
               {{bill.custommer.province.title}}. {{bill.custommer.province.name}}
               </td>
             <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.custommer.phone}}</td>
@@ -199,8 +199,8 @@
                 {{tn.name}},
               </span>
               </td>
-            <td class="border-r-2" >{{bill.doctor.title}} {{bill.doctor.name}}</td>
-            <td class="border-r-2" >{{bill.ousent.name}}</td>
+             <td class="border-r-2" ><span v-if="bill.doctor">{{bill.doctor.title}} {{bill.doctor.name}}</span></td>
+            <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
             <td class="text-center border-r-2">
                 <EditBtn
                   title="View"
@@ -663,27 +663,28 @@
                 <div v-if="printOutsent.id == 1">
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
-                         :pathImageLeft="pathImageLeft"
+                        :pathImageLeft="pathImageLeft"
                         :pathThinLeft='pathThinLeft'
-                        :pathThinRight='pathThinRight'
+                        :pathThinRight='pathThinLeft'
                         :selectedArray='selectedArray'
                         :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 6">
                         <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
-                        :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
-                         :pathImageLeft="pathImageLeft"
-                        :pathThinLeft='pathThinLeft'
-                        :pathThinRight='pathThinRight'/>
+                          :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                          :pathImageLeft="pathImageLeft"
+                          :pathThinLeft='pathThinLeft'
+                          :pathThinRight='pathThinLeft'
+                          :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 9">
                          <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
-                        :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
-                         :pathImageLeft="pathImageLeft"
-                        :pathThinLeft='pathThinLeft'
-                        :pathThinRight='pathThinRight'/>
-                </div>
+                          :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
 
+                          :pathThinLeft='pathThinLeft'
+
+                          />
+                </div>
             </template>
         </DialogModal>
       </Card>
@@ -904,7 +905,6 @@ setup() {
     },
   mounted() {
     if (this.edit) {
-
        //this.checkededit=this.labogroups.data.status==1? true:false;
       //this.form.testname_id=[1];
       // //this.form.role_id = this.roleOfUser !== "" ? this.roleOfUser : "";
@@ -920,40 +920,34 @@ setup() {
             if (this.$refs.photo) {
                 this.form.file = this.$refs.photo.files[0];
             }
-            this.form.post('/dashboard/importdistrict/');
+            this.form.post('/dashboard/importcustommers/');
         },
         previewImage(e) {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
         },
 
-//  importFile(data) {
-//        this.$inertia.post('/dashboard/importdistrict/',data)
-//     },
+  // importFile(data) {
+  //       this.$inertia.post('/dashboard/importcustommers/',data)
+  //     },
      updateCustommer(bill){
         bill._method = 'PUT';
         this.$inertia.post('/dashboard/custommers/'+bill.id, bill);
         this.reset();
         this.closeModal();
     },
-    updateOusent(bill){
-
-         this.$inertia.post('/dashboard/updatecustommer/',bill);
+      updateOusent(bill){
+          this.$inertia.post('/dashboard/updatecustommer/',bill);
           this.closeModal();
-
-    },
-
-currentDate() {
-      const current = new Date();
-      const date = ' '+`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-      return date;
-    },
-
-  printDiv(divName){
-
+        },
+    currentDate() {
+          const current = new Date();
+          const date = ' '+`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+          return date;
+        },
+    printDiv(divName){
           window.print();
-
-		},
+      },
     closeModalPrint(){
          this.showModlPrint = false;
     },
@@ -962,8 +956,13 @@ currentDate() {
         this.printCustommers = bill.custommer;
         this.printOutsent= bill.ousent;
         this.printDoctor = bill.doctor;
-        this.imgeLeft = bill.image_left.thinLeft;
 
+        if(bill.image_left){
+           this.imgeLeft = bill.image_left.thinLeft;
+        }
+        else{
+          this.imageLeft='';
+        }
         const elementChecked1 = bill.results;
          let result = elementChecked1.map(({ element_id }) => element_id)
         this.selectedArray = result;

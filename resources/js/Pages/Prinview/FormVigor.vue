@@ -34,7 +34,7 @@
                 <div class=" font-sans-Timenew leading-6 italic">Số điện thoại:<span class="pl-2 font-bold">???</span></div>
             </div>
 
-            <div class="font-sans-Timenew leading-6 italic text-md">Đơn vị gửi(Custommer):<span class="pl-2 font-bold">{{printOutsent['name']}} </span></div>
+            <div class="font-sans-Timenew leading-6 italic text-md">Đơn vị gửi(Custommer):<span class="pl-2 font-bold" v-if="printOutsent">{{printOutsent['name']}} </span></div>
             <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic">
                 <div class="font-bold">IUD (Intra-Uterine Devices) <i class="fa fa-square-o mt-2"></i></div>
                 <div class="font-bold text-center">Nội tiết (Hormone) <i class="fa fa-square-o mt-2"></i></div>
@@ -48,7 +48,7 @@
             </div>
               <div class="grid grid-cols-2 italic text-md">
                 <div class="font-sans-Timenew leading-6">Chẩn đoán lâm sàng(Clinical diagnose):<span class="font-bold pl-2">{{getbilltests['diagnose']}}</span></div>
-                <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2"> {{printDoctor['name']}}</span></div>
+                <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2" v-if="printDoctor"> {{printDoctor['name']}}</span></div>
             </div>
         <div>
               <div class="text-center font-bold text-xl font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
@@ -137,20 +137,26 @@
               </div>
               <div class="grid grid-cols-2 mt-2 text-center">
                   <div  class="text-center">
-                    <img
-                        class="w-80 max-h-48 "
+                    <!-- <img v-if="imageThinLeft"
+                        class="w-80 max-h-52 "
+                        :src="pathThinLeft+imageThinLeft"
+                        :alt="imageThinLeft"/>
+                    <img v-else
+                        class="w-80 max-h-52 "
                         :src="pathThinLeft"
-                        :alt="LogoThin"/>
+                        alt="imageThinLeft"/> -->
                       </div>
                   <div class="text-center">
-                    <img
-                        class="w-80 max-h-48 "
+                    <!-- <img v-if="imageThinLeft"
+                        class="w-80 max-h-52 "
+                        :src="pathThinRight+imageThinLeft"
+                        :alt="imageThinLeft"/>
+                    <img v-else
+                        class="w-80 max-h-52 "
                         :src="pathThinRight"
-                        :alt="LogoThin"/>
+                        alt="imageThinLeft"/> -->
                     </div>
-
-              </div> -->
-
+              </div>
               <div class="grid grid-cols-3">
                 <div class="col-span-2">
                   <div class="grid grid-cols-1">
@@ -195,6 +201,7 @@ export default {
         pathImageLeft:"",
         pathThinLeft:'',
         pathThinRight:'',
+        imageThinLeft:'',
 
     },
     components:{

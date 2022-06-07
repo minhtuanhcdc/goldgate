@@ -223,6 +223,14 @@ export default {
     //   });
     //   this.form.menuselected=arr;
     // },
+        scrollToView(element){
+    var offset = element.offset().top;
+    if(!element.is(":visible")) {
+        element.css({"visibility":"hidden"}).show();
+        var offset = element.offset().top;
+        element.css({"visibility":"", "display":""});
+    }
+     }
   },
   mounted() {
     if (this.edit) {

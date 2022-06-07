@@ -128,20 +128,28 @@
                                   </div>
                                   </div>
                               </div>
-
                             </div>
                             <div class="grid grid-cols-2 mt-2 text-center">
                                 <div  class="text-center">
-                                  <img
+                                  <img v-if="imageThinLeft"
                                       class="w-80 max-h-52 "
                                       :src="pathThinLeft+imageThinLeft"
                                       :alt="imageThinLeft"/>
-                                    </div>
-                                <div class="text-center">
-                                  <img
+
+                                  <img v-else
                                       class="w-80 max-h-52 "
-                                      :src="pathThinRight"
+                                      :src="pathThinLeft"
+                                      alt="imageThinLeft"/>
+                                  </div>
+                                <div class="text-center">
+                                  <img v-if="imageThinLeft"
+                                      class="w-80 max-h-52 "
+                                      :src="pathThinRight+imageThinLeft"
                                       :alt="LogoThin"/>
+                                  <img v-else
+                                      class="w-80 max-h-52 "
+                                      src="pathThin"
+                                      alt="LogoThin"/>
                                   </div>
                             </div>
                             <div class="grid grid-cols-3">
@@ -159,7 +167,7 @@
                                 <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
                                 <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>
                               </div>
-                              </div>
+                            </div>
                         </div>
                   </div>
 </template>

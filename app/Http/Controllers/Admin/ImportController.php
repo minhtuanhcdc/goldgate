@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Imports\ProvinceImport;
 use App\Imports\DistrictImport;
+use App\Imports\CustommerImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
@@ -19,6 +20,14 @@ class ImportController extends Controller
 
     //     return back()->withInput()->with('success','Add  successfully!');
     // }
+    public function importcustommers(Request $request)
+    {
+       //dd($request->file);
+
+        Excel::import(new CustommerImport, $request->file);
+
+        return back()->withInput()->with('success','Add  successfully!');
+    }
     public function importDistrict(Request $request)
     {
        //dd($request->file);
