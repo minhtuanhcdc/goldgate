@@ -32,11 +32,11 @@ class CustommerController extends Controller
         $perpage = $request->perpageFill?$request->perpageFill:5;
         if($request->ousentFill){
             //dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','phone','results'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
         //dd($billtests);
         }
         else{
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','phone','results'])->paginate($perpage);
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->paginate($perpage);
 
         }
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();

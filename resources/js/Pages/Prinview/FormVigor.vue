@@ -1,6 +1,6 @@
 <template>
 <!-- <div>{{getbilltests}}</div> -->
-    <div class="py-5 px-20 " id="printMe">
+    <div class="" id="printMe">
           <div>
             <div class="col-span-2 py-0">
                   <img
@@ -58,59 +58,30 @@
                   <div class="col-span-3 grid grid-cols-2" >
 
                      <div class="" v-for="eg1 in testElements" :key="eg1.id">
-                      <span class="font-bold flex " v-if="eg1.element_group ==1">{{eg1.name}}
-                        <span class="bg-yellow-200" v-if="selectedArray">
-                          <span v-if="selectedArray['id'] == eg1.id">
-                             <CheckIcon class="border-1 border-blue-500 align-middle  h-5 w-5 text-blue-500"/>
-                          </span>
-                        </span>
-                        <span class="">
-                            <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                        </span>
+                      <span class="font-bold flex" v-if="eg1.element_group ==1">{{eg1.name}}
+                        <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg1.id" v-model="selectedArray"/>
                       </span>
                     </div>
             </div>
               </div>
-
                <div class="grid grid-cols-1">
                     <div class="" v-for="eg2 in testElements" :key="eg2.id">
                         <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
-                         <span v-if="selectedArray">
-                          <span v-if="selectedArray['id'] == eg2.id">
-                            <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                          </span>
-                        </span>
-                        <span v-else>
-                            <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                        </span>
+                         <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg2.id" v-model="selectedArray"/>
                         </span>
                     </div>
                 </div>
             <div class="flex flex-cols-5">
                 <div class="" v-for="eg3 in testElements" :key="eg3.id">
                     <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                            <span v-if="selectedArray">
-                          <span v-if="selectedArray['id'] == eg3.id">
-                            <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                          </span>
-                        </span>
-                        <span v-else>
-                            <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                        </span>
+                            <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg3.id" v-model="selectedArray"/>
                     </span>
                 </div>
             </div>
              <div class="grid grid-cols-1">
                 <div class="" v-for="eg4 in testElements" :key="eg4.id">
                     <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
-                      <span v-if="selectedArray">
-                          <span v-if="selectedArray['id'] == eg4.id">
-                            <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                          </span>
-                        </span>
-                      <span v-else>
-                            <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                        </span>
+                   <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg4.id" v-model="selectedArray"/>
                     </span>
                 </div>
             </div>
@@ -121,28 +92,14 @@
                       <div class="flex flex-col">
                          <div v-for="(eg5, i) in testElements" :key="i">
                             <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
-                              <span v-if="selectedArray">
-                                  <span v-if="selectedArray['id'] == eg5.id">
-                                    <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                                  </span>
-                                </span>
-                                <span v-else>
-                                  <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                                </span>
+                              <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg5.id" v-model="selectedArray"/>
                           </span>
                   </div>
                       </div>
                       <div class="flex flex-col">
                         <div class="" v-for="(eg6, i) in testElements" :key="i">
                           <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
-                                <span v-if="selectedArray">
-                                    <span v-if="selectedArray['id'] == eg6.id">
-                                      <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                                    </span>
-                                  </span>
-                                  <span v-else>
-                                     <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                                  </span>
+                                 <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg6.id" v-model="selectedArray"/>
                             </span>
                         </div>
                       </div>
@@ -157,14 +114,7 @@
                        <div v-for="eg7 in testElements" :key="eg7.id">
                          <div v-if="eg7.element_group == 7">
                           <span class="text-left font-bold text-xs ml-4 mr-6  font-sans-Timenew" >{{eg7.name}}
-                              <span v-if="selectedArray">
-                                <span v-if="selectedArray['id'] == eg7.id">
-                                  <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                                </span>
-                              </span>
-                              <span v-else>
-                                 <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                              </span>
+                               <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg7.id" v-model="selectedArray"/>
                             </span>
                           </div>
                   </div>
@@ -178,14 +128,7 @@
                   <div class="flex">
                    <div  v-for="eg8 in testElements" :key="eg8.id">
                       <span class="font-bold text-xs w-full mr-3" v-if="eg8.element_group ==8 && eg8.element_group !==null ">{{eg8.name}}
-                            <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg8.id">
-                                <i class="py-1 mr-1 fa fa-check-square text-blue-800 "></i>
-                              </span>
-                            </span>
-                            <span v-else>
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
+                             <input type="checkbox" class="ml-1 my-2 form-checkbox text-blue-800 h-3 w-3" :value="eg8.id" v-model="selectedArray"/>
                       </span>
                     </div>
                     </div>

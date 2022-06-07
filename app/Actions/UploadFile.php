@@ -15,7 +15,7 @@ class UploadFile
      * Set the value of file
      *
      * @return  self
-     */ 
+     */
     public function setFile(?UploadedFile $file)
     {
         $this->file = $file;
@@ -27,7 +27,7 @@ class UploadFile
      * Set the value of uploadPath
      *
      * @return  self
-     */ 
+     */
     public function setUploadPath(string $uploadPath)
     {
         $this->uploadPath = $uploadPath;
@@ -42,11 +42,19 @@ class UploadFile
         }
         $curentTime= Carbon::now()->format('YmdHs');
         $imageName = (string) Str::of($curentTime)
-        
             ->beforeLast('.')
             ->slug()
             ->append('.')
             ->append($this->file->getClientOriginalExtension());
+        $this->file->storeAs($this->uploadPath, $imageName);
+        return $imageName;
+    }
+    public function executeOrigin(): ?string
+    {
+        if (!$this->file) {
+            return null;
+        }
+        $imageName = (string) $this->file->getClientOriginalName();
         $this->file->storeAs($this->uploadPath, $imageName);
         return $imageName;
     }

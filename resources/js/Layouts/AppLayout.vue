@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="noPrint">
     <Head :title="title" />
     <jet-banner />
     <div class="min-h-screen bg-gray-100">

@@ -33,11 +33,15 @@ class ResultController extends Controller
     {
         $perpage = $request->perpageFill?$request->perpageFill:10;
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
+        //$testElements = Testelement::where('testname_id',1)->with('valueresult')->get();
+        //$userId = 44;
+// Event::with(["owner", "participants" => function($q) use($userId ){
+//     $q->where('participants.IdUser', '=', 1);
         $filters=[
             'ousentFill'=>$request->ousentFill,
         ];
 
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames'])->paginate($perpage);
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->paginate($perpage);
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
 
@@ -70,16 +74,34 @@ class ResultController extends Controller
     {
 
 //dd($request->all());
-        foreach($request->element_id as $ied=>$value){
-            Result::insert([
-                'bill_id'=>$request->bill_id,
-                'thin_code'=>$request->thin_code,
-                'element_id'=>$value,
-                'created_at'=>date('Y-m-d H:i:s'),
-                'updated_at'=>date('Y-m-d H:i:s'),
-            ]);
-        }
-        ;
+        // foreach($request->element_id as $ied=>$value){
+        //     Result::insert([
+        //         'bill_id'=>$request->bill_id,
+        //         'thin_code'=>$request->thin_code,
+        //         'element_id'=>$value,
+        //         'result'=>$ied,
+        //         'created_at'=>date('Y-m-d H:i:s'),
+        //         'updated_at'=>date('Y-m-d H:i:s'),
+        //     ]);
+        //};
+
+                foreach ($request->element_id as $eid=>$value) {
+                    Result::insert([
+                        'bill_id'=>$request->bill_id,
+                        'thin_code'=>$request->thin_code,
+                        'element_id'=>$value,
+                        'result'=>$request->ketluan_conclution,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                        'updated_at'=>date('Y-m-d H:i:s'),
+                        ]);
+            };
+            Billtest::where('id',$request->bill_id)->update(
+                [
+                    'result_status'=>1
+                ]
+                );
+
+
         return back()->withInput()->with('success','Add  successfully!');
     }
 

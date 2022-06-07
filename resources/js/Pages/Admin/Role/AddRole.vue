@@ -4,11 +4,23 @@
       <Breadcrumb :items="breadcrumbs" />
     </template>
     <Container>
-      <Card>
+      <Card class="p-0">
         <form @submit.prevent="saveRole">
+           <div class="text-right mt-1">
+            <jet-action-message :on="form.recentlySuccessful" class="mr-3">
+              <span v-if="edit">Updated.</span>
+              <span v-else>Saved.</span>
+            </jet-action-message>
+            <jet-button
+              :class="{ 'opacity-25': form.processing }"
+              :disabled="form.processing"
+            >
+              <span v-if="edit">Update</span>
+              <span v-else>Save </span>
+            </jet-button>
+          </div>
           <!--Name--->+ Cap quyen cho - {{$page.props.user.id}}
           <div class="grid grid-cols-2">
-             
             <div class="">
               <jet-label for="name" value="Tên quyền" />
               <jet-input
@@ -18,7 +30,7 @@
                 v-model="form.name"
                 autocomplete="name"
               />
-              <jet-input-error :message="form.errors.name" class="mt-2" />
+              <jet-input-error :message="form.errors.name" class="mt-1" />
             </div>
             <!--Username--->
             <div class="ml-4">
@@ -30,17 +42,17 @@
                 v-model="form.display_name"
                 autocomplete="display_name"
               />
-              <jet-input-error :message="form.errors.display_name" class="mt-2" />
+              <jet-input-error :message="form.errors.display_name" class="mt-1" />
             </div>
           </div>
 
           <!--Status--->
-           <div class="mt-4 container">
+           <div class="mt-1 container">
             <h2 class="font-bold">Permission Menu</h2>
             <div>
-            <Checkbox 
+            <Checkbox
               v-model="selected"
-                  @click="checkAll()" class="mr-2" 
+                  @click="checkAll()" class="mr-2"
                 />Check All
             </div>
             <div
@@ -50,8 +62,8 @@
                  v-show="permission.parent_id == 0"
             >
                <div
-                class="card-header bg-blue-300 py-2 px-4"
-               
+                class="card-header bg-blue-300 py-1 px-4"
+
               >
 
                 <Checkbox
@@ -75,30 +87,18 @@
                       v-model:checkedChile="form.menuselected"
                       :value="chilePermission.id"
                     />
-                      <span class="ml-1" v-if="chilePermission.menuchiles">{{ chilePermission.menuchiles.name }}</span>  
+                      <span class="ml-1" v-if="chilePermission.menuchiles">{{ chilePermission.menuchiles.name }}</span>
                   </div>
                 </div>
-              </div> 
+              </div>
             </div>
-              <div class="mt-4">
-                  <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2 font-bold">Active</span>     
-              </div>            
-          </div> 
+              <div class="mt-1">
+                  <Checkbox :checked="checkededit" v-model="form.status"/><span class="ml-2 font-bold">Active</span>
+              </div>
+          </div>
 
           <!--Action--->
-          <div class="text-right mt-2">
-            <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-              <span v-if="edit">Updated.</span>
-              <span v-else>Saved.</span>
-            </jet-action-message>
-            <jet-button
-              :class="{ 'opacity-25': form.processing }"
-              :disabled="form.processing"
-            >
-              <span v-if="edit">Update</span>
-              <span v-else>Save </span>
-            </jet-button>
-          </div>
+
         </form>
       </Card>
     </Container>
@@ -151,7 +151,7 @@ export default {
     ClassicEditor,
     Checkbox,
     Banner
-   
+
   },
   data() {
     return {
@@ -194,34 +194,34 @@ export default {
         : this.form.post(route("roles.store"));
     },
     checkAll() {
-   this.selected = !this.selected;  
+   this.selected = !this.selected;
       var arrAll=[];
       if(!this.selected){
          var $test= this.permissions.data;
-        $test.forEach((value, index) => {      
-            arrAll.push(value.id);                            
+        $test.forEach((value, index) => {
+            arrAll.push(value.id);
       });
-        this.form.menuselected=arrAll;     
-        this.form.menuParentchecked=arrAll;     
+        this.form.menuselected=arrAll;
+        this.form.menuParentchecked=arrAll;
       }else{
           var $test= this.permissions.data;
-          $test.forEach((value, index) => {      
-              arrAll.push('');                            
+          $test.forEach((value, index) => {
+              arrAll.push('');
         });
-            this.form.menuselected=arrAll;     
-        this.form.menuParentchecked=arrAll;    
+            this.form.menuselected=arrAll;
+        this.form.menuParentchecked=arrAll;
       }
-     
+
     },
-    // checkParent($id){ 
-    //   var arr=[]; 
+    // checkParent($id){
+    //   var arr=[];
     //   var $test= this.permissions.data;
-    //     $test.forEach((value, index) => {  
-    //         if(value.parent_id==$id) {   
-    //           arr.push(value.id); 
-    //     }  
-    //   });  
-    //   this.form.menuselected=arr;      
+    //     $test.forEach((value, index) => {
+    //         if(value.parent_id==$id) {
+    //           arr.push(value.id);
+    //     }
+    //   });
+    //   this.form.menuselected=arr;
     // },
   },
   mounted() {

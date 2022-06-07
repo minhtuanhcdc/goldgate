@@ -102,6 +102,7 @@ export default {
     permissions: Object,
     chilemenus: "",
     Permission:"",
+    test:''
 
   },
   components: {
@@ -162,9 +163,9 @@ export default {
   },
   mounted() {
     if (this.edit) {
-     this.form.menu_id = this.Permission.data.menu_id;
-      this.form.id_parent = this.Permission.data.id_parent;
-     this.form.menuchile_id = this.Permission.data.menuchile_id;
+    // this.form.menu_id = this.Permission.data.menu_id;
+    //  this.form.id_parent = this.Permission.data.id_parent;
+    // this.form.menuchile_id = this.Permission.data.menuchile_id;
       // this.form.icon = this.permissiondit.data.icon;
       // this.form.status = this.permissiondit.data.status;
       // this.checkededit = this.permissiondit.data.status == 1 ? true : false;

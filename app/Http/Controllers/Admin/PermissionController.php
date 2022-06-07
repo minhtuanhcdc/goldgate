@@ -15,7 +15,7 @@ use DB;
 
 class PermissionController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -23,11 +23,11 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        
+
         return Inertia::render('Admin/Permission/Index',
         [
             'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->get())
-           
+
         ]);
     }
 
@@ -61,11 +61,11 @@ class PermissionController extends Controller
             'display_name'=>$request->display_name,
             'parent_id'=>0
         ]);
-      
+
         foreach($request->menuchile_id as $value){
             Permission::create([
                 'menu_id'=>$value,
-                'display_name'=>$value,  
+                'display_name'=>$value,
                 'parent_id'=>$permision->id,
                 'key_code'=>$request->menu_id.'_'.$value
             ]);
@@ -95,8 +95,9 @@ class PermissionController extends Controller
             'edit'=>true,
             'permissions'=>MenuResource::collection(Menu::where('url','!=','')->select(['id','name'])->get()),
             'chilemenus'=>ChilemenuResource::collection(Menuchile::get()),
-            'Permission'=>new PermissionResource($permission)
-           
+            'Permission'=>new PermissionResource($permission),
+            'test'=>11111111111111111111
+
         ]);
     }
     /**
@@ -117,7 +118,7 @@ class PermissionController extends Controller
         foreach($request->menuchile_id as $value){
             Permission::create([
                 'menu_id'=>$value,
-                'display_name'=>$value,  
+                'display_name'=>$value,
                 'parent_id'=>$permission->id,
                 'key_code'=>$request->menu_id.'_'.$value
             ]);

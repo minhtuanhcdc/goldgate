@@ -1,6 +1,6 @@
 <template>
 <!-- <div>{{getbilltests}}</div> -->
-        <div class="py-4 px-40 " id="printMe">
+      <div id="printMe">
         <div class="flex justify-between mx-0 py-0">
             <div class=" py-0">
                 <img
@@ -48,21 +48,15 @@
         <div class="text-left font-bold text-sm  font-sans-Timenew mt-2 text-blue-800">LOAI BỆNH PHẨM <span class="pl-5 text-red-600 mr-0 pr-0">Tế bào học nhúng dịch ThinPrep</span>
          <span class="text-red-600 align-top ml-0 p-0">&reg;</span>
          </div>
+
          <div class="grid grid-cols-5">
            <div class=" col-span-2  text-left font-bold text-sm  font-sans-Timenew mt-0 text-blue-800">TÍNH CHẤT BỆNH PHẨM </div>
 
            <div class="col-span-3 flex flex-row" >
                     <div class="" v-for="eg11 in testElements" :key="eg11.id">
                       <span class="font-bold pr-4" v-if="eg11.element_group ==11">
-                          <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg11.id">
-                                <CheckIcon class="font-bold inline-block align-middle rounded-sm border-1 border-black text-lg  h-4 w-4 text-black"/>
-                              </span>
-                            </span>
-                            <span  >
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
-                              <span class=" text-middle ml-1  font-sans-Timenew">{{eg11.name}}</span>
+                           <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg11.id" v-model="selectedArray"/>
+                          <span class=" text-middle ml-1  font-sans-Timenew">{{eg11.name}}</span>
                       </span>
                     </div>
             </div>
@@ -70,19 +64,12 @@
          <!--/==============--->
          <!--==============--->
          <div class="font-bold text-blue-800 font-sans-Timenew text-sm mt-0">KẾT QUẢ</div>
+
          <div class="grid grid-cols-3">
            <div class="" v-for="eg12 in testElements" :key="eg12.id">
                       <span class="flex flex-row font-bold pr-4" v-if="eg12.element_group ==12">
-                          <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg12.id">
-                                <CheckIcon class="font-bold inline-block align-middle rounded-sm border-1 border-black text-lg  h-4 w-4 text-black"/>
-                              </span>
-                            </span>
-                            <span>
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
-                            <span v-if="eg12.id == 32" class=" text-middle ml-1 text-blue-800 font-sans-Timenew self-end">{{eg12.name}}</span>
-                            <span v-else class="uppercase text-sm text-middle ml-1 text-blue-800 font-sans-Timenew">{{eg12.name}}</span>
+                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3 my-1" :value="eg12.id" v-model="selectedArray"/>
+                          <span class=" text-middle ml-1  font-sans-Timenew">{{eg12.name}}</span>
                       </span>
               </div>
          </div>
@@ -92,15 +79,8 @@
               <span class="underline underline-offset-1 font-sans-Timenew font-bold text-sm uppercase text-blue-700">Tế bào do vi sinh</span>
               <div class="text-xs " v-for="eg13 in testElements" :key="eg13.id">
                       <span class="flex flex-row font-bold pl-2" v-if="eg13.element_group ==13">
-                          <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg13.id">
-                                <CheckIcon class="font-bold inline-block align-middle rounded-sm border-1 border-black text-lg  h-4 w-4 text-black"/>
-                              </span>
-                            </span>
-                            <span >
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
-                            <span class="text-middle ml-1 italic py-1  font-sans-Timenew leading-3">{{eg13.name}}</span>
+                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg13.id" v-model="selectedArray"/>
+                          <span class="text-middle ml-1 italic py-1  font-sans-Timenew leading-3">{{eg13.name}}</span>
                       </span>
               </div>
             </div>
@@ -108,14 +88,7 @@
               <span class="underline underline-offset-1 font-sans-Timenew font-bold text-sm uppercase text-blue-700">Tế bào Gai</span>
                <div class="text-xs" v-for="eg14 in testElements" :key="eg14.id">
                       <span class="flex flex-row font-bold pl-2" v-if="eg14.element_group ==14">
-                          <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg14.id">
-                                <CheckIcon class="font-bold inline-block align-middle rounded-sm border-1 border-black text-lg  h-4 w-4 text-black"/>
-                              </span>
-                            </span>
-                            <span >
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
+                           <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg14.id" v-model="selectedArray"/>
                             <span class="text-middle py-1 ml-1 font-sans-Timenew leading-3">{{eg14.name}}</span>
                       </span>
               </div>
@@ -129,14 +102,7 @@
               <div class="flex flex-col">
                <div class="" v-for="eg15 in testElements" :key="eg15.id">
                       <span class="flex flex-rơ font-bold pl-2 align-items-middle" v-if="eg15.element_group ==15">
-                          <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg15.id">
-                                <CheckIcon class="font-bold inline-block align-middle rounded-sm border-1 border-black text-lg  h-4 w-4 text-black"/>
-                              </span>
-                            </span>
-                            <span >
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
+                           <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg15.id" v-model="selectedArray"/>
                             <span class="align-middle text-xs font-sans-Timenew ml-1 py-1 leading-3">{{eg15.name}}</span>
                       </span>
                 </div>
@@ -147,14 +113,7 @@
               <div class="flex flex-col leading-5">
                 <div class="" v-for="eg16 in testElements" :key="eg16.id">
                       <span class="flex flex-row font-bold pl-2" v-if="eg16.element_group ==16">
-                          <span v-if="selectedArray">
-                              <span v-if="selectedArray['id'] == eg16.id">
-                                <CheckIcon class="font-bold inline-block align-middle rounded-sm border-1 border-black text-lg  h-4 w-4 text-black"/>
-                              </span>
-                            </span>
-                            <span >
-                               <CheckIcon class="inline-block align-middle rounded-sm border-1 border-black  h-3 w-3 text-white"/>
-                            </span>
+                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg16.id" v-model="selectedArray"/>
                             <span class="text-middle text-xs font-sans-Timenew ml-1 leading-2">{{eg16.name}}</span>
                       </span>
                 </div>
@@ -189,7 +148,7 @@
            </div>
            <div class="grid grid-cols-1 text-center">
              <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:</span>
-             <span class="mb-16 font-bold font-sans-Timenew text-md">BÁC SĨ ĐỌC KẾT QUẢ</span>
+             <span class=" font-bold font-sans-Timenew text-md" style="margin-bottom:40px">BÁC SĨ ĐỌC KẾT QUẢ</span>
              <span class="font-bold font-sans-Timenew text-md">"tên Bác sỹ"</span>
              <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
              <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>

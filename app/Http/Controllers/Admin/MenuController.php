@@ -27,7 +27,7 @@ class MenuController extends Controller
             'edit'=>false,
             'menus'=>MenuResource::collection(Menu::paginate(10)),
             'hehe'=>$menu
-           
+
         ]);
     }
 
@@ -43,9 +43,7 @@ class MenuController extends Controller
             'menus'=>MenuResource::collection(Menu::select(['id','name'])->get()),
             'menu'=>new MenuResource(new Menu())
         ]);
-      
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -81,14 +79,12 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        
         return Inertia::render('Admin/Menu/Create',[
             'edit'=> true,
             'menuedit'=>new MenuResource($menu),
             'menus'=>MenuResource::collection(Menu::select(['id','name'])->get()),
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *

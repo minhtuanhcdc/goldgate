@@ -96,7 +96,7 @@ import DeleteBtn from "@/Components/DeleteBtn";
 import JetButton from "@/Jetstream/Button";
 
 export default defineComponent({
-  name: "Roles",
+  name: "Roles Vai tro",
   props: {
     roles: {},
   },
@@ -123,7 +123,7 @@ export default defineComponent({
     headers() {
       return [
         { name: "#" },
-        { name: "Name" },
+        { name: "Name 123123" },
         { name: "Display Name" },
         { name: "Status" },
         { name: "Action", class: "text-right" },

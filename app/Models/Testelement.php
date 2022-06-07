@@ -17,10 +17,19 @@ class Testelement extends Model
         return $this->belongsTo(Testname::class, 'testname_id')->select('id','name');
     }
     public function testgroup(){
-       
+
         //return $this->getNameTest->getGroup;
         return $this->hasOneThrough(Labogroup::class,Testname::class,'testnames.group_id','testnames.id')->select('labogroups.id as group_id','labogroups.name as group_name');
-        
+
     }
-    
+
+    public function valueresult($id_bill)
+    {
+        $rs = Result::where(['bill_id'=>$id_bill,'element_id'=>$this->id])->first();
+        if($rs)
+            return $rs->resulttest;
+        else
+            return '';
+    }
+
 }

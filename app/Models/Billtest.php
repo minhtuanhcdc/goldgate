@@ -26,7 +26,7 @@ class Billtest extends Model
     }
     public function results(){
          //dd($this->hasMany(Result::class,'bill_id','id'));
-         return $this->belongsTomany(Testelement::class,'results','bill_id','element_id');
+         return $this->belongsTomany(Testelement::class,'results','bill_id','element_id')->select('element_id','result');
     }
     // public function province(){
     //      //return $this->belongsTomany(Testname::class,'billnames');
@@ -44,9 +44,14 @@ class Billtest extends Model
          //return $this->belongsTomany(Testname::class,'billnames');
          return $this->belongsTo(Custommeraddress::class, 'custommer_id','id');
     }
+    public function imageLeft(){
+         //return $this->belongsTomany(Testname::class,'billnames');
+         return $this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code');
+    }
     public function cutommerupdate(){
           return $this->hasOne(Custommer::class);
     }
+
 
 
 

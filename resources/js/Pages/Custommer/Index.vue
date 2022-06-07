@@ -25,7 +25,6 @@
            <form @submit.prevent="submitFile">
              <div class="flex flex-row">
                             <div>
-
                                 <input type="file"
                                     class="w-full px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
                                     @change="previewImage"
@@ -54,7 +53,7 @@
                                 </button>
                             </div>
              </div>
-                        </form>
+              </form>
 
         </div>
         </div>
@@ -206,7 +205,7 @@
                 <EditBtn
                   title="View"
                   class="text-green-800"
-                  v-if="bill.status == 1"
+                  v-if="bill.result_status == 1"
                   >
                  <svg
                   class="w-6 h-6 text-blue-800"
@@ -658,15 +657,17 @@
                 <div class="text-right w-full flex-row justify-items-between">
                     <button class="rounded-md mb-1 mr-1  bg-gray-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
                        @click="printDiv('printMe')" >Print test</button>
-                    <button  @click.prevent="closeModalPrint" class="text-white text-md bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
+                    <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
                 <!-- <div>{{selectedArray['name']}}</div> -->
                 <div v-if="printOutsent.id == 1">
-                       <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
-                        :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                     <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                        :printOutsent="printOutsent" :printDoctor="printDoctor"
                          :pathImageLeft="pathImageLeft"
                         :pathThinLeft='pathThinLeft'
-                        :pathThinRight='pathThinRight'/>
+                        :pathThinRight='pathThinRight'
+                        :selectedArray='selectedArray'
+                        :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 6">
                         <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
@@ -781,12 +782,15 @@ data(){
     printOutsent:'',
     printDoctor:'',
     selectedArray:'',
+    imgeLeft:'',
 
   output: null,
     ousentFill:this.filters.ousentFill,
+     pathThinLeft:'/storage/imageThinLeft/',
     pathImageLeft:'/images/Logo/Thinprep.jpg',
-    pathThinLeft:'/images/Thinprep/hLeft.jpg',
-    pathThinRight:'/images/Thinprep/hRight.jpg',
+   // pathThinLeft:'/images/Thinprep/hLeft.jpg',
+   // pathThinRight:'/images/Thinprep/hRight.jpg',
+    pathThinRight:'/storage/imageThinRight/',
 
     getdistricts:'',
     getwards:'',
@@ -830,6 +834,7 @@ data(){
         ward_id:'',
         testname_id:[''],
         selected:[],
+        element_id:[],
         diagnose:'',
 
       },
@@ -944,14 +949,9 @@ currentDate() {
       return date;
     },
 
-     printDiv(divName){
-          var printContents = document.getElementById(divName).innerHTML;
-          var originalContents = document.body.innerHTML;
-          document.body.innerHTML = printContents;
+  printDiv(divName){
+
           window.print();
-                    //window.location.reload()
-          document.body.innerHTML = originalContents;
-           closeModalPrint();
 
 		},
     closeModalPrint(){
@@ -962,14 +962,11 @@ currentDate() {
         this.printCustommers = bill.custommer;
         this.printOutsent= bill.ousent;
         this.printDoctor = bill.doctor;
-        if(bill.results){
-            let printSelected= bill.results;
-             this.selectedArray = printSelected[0];
-        }
+        this.imgeLeft = bill.image_left.thinLeft;
 
-
-       /// this.addresses =
-        //this.printAddress=' '+ bill.custommer.address+' '+bill.ward.name+', '+bill.district.name+', ' + bill.province.name;
+        const elementChecked1 = bill.results;
+         let result = elementChecked1.map(({ element_id }) => element_id)
+        this.selectedArray = result;
         this.printAddress=' '+ bill.custommer.address;
         this.showModlPrint = true;
 
@@ -1141,16 +1138,35 @@ currentDate() {
 
 
 <style media="print">
- @media print{
-   #printMe{
-     display: block;
-     padding-left:0px;
+@media print {
+  /* .noPrint :not(.printMe){
+    display:none;
+  } */
+   body * {
+    visibility: hidden;
+  }
+  #printMe * {
+    visibility: visible;
+    padding:0px;
+    margin: 0px;
+  }
+  @page{
+    size: a4;
+    /* margin: 05mm 15mm 5mm 10mm; */
+    /*Chagen print here size: A5; landscape*/
+    font-family: 'Times New Roman';
+    /* font-size: 20px; */
    }
+   @page :left {
+         margin-left: 1cm;
+         /* margin-right: 2cm; */
+      }
+
+      @page :right {
+         margin-left: 1cm;
+         /* margin-right: 2cm; */
+      }
+}
 
 
-   @page{
-     margin-left:60px;
-     margin-right:60px;
-   }
- }
 </style>
