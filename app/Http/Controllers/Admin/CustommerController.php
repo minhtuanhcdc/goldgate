@@ -30,9 +30,10 @@ class CustommerController extends Controller
     public function index(Request $request)
     {
         $perpage = $request->perpageFill?$request->perpageFill:5;
-        if($request->ousentFill){
+        $ousentFill=$request->ousentFill?$request->ousentFill:'all';
+        if($request->ousentFill && $request->ousentFill !=='all'){
             //dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$request->ousentFill)->paginate($perpage);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$ousentFill)->paginate($perpage);
         //dd($billtests);
         }
         else{
@@ -50,9 +51,7 @@ class CustommerController extends Controller
         // $nametests=TestnameResource::collection(Testname::select('id','name')->get());
         $filters=[
             'ousentFill'=>$request->ousentFill,
-
         ];
-
         return Inertia::render('Custommer/Index',[
             'billtests'=>$billtests,
             'nametests'=>TestnameResource::collection(Testname::select('id','name')->get()),

@@ -1,5 +1,5 @@
 <template>
- <div class="pl-2" ref="printMe" id="printMe">
+ <div class="pl-2" ref="printMe" id="printMe" >
                       <div class="grid grid-cols-8 mx-0 py-0">
                           <div class="col-span-2 py-0">
                               <img
@@ -44,7 +44,7 @@
                           </div>
                             <div class="grid grid-cols-2 italic text-md">
                               <div class="font-sans-Timenew leading-6">Chẩn đoán lâm sàng(Clinical diagnose):<span class="font-bold pl-2">{{getbilltests['diagnose']}}</span></div>
-                              <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2"> {{printDoctor['name']}}</span></div>
+                              <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2" v-if="printDoctor"> {{printDoctor['name']}}</span></div>
                           </div>
                       <div>
                             <div class="text-center font-bold text-xl font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
@@ -163,13 +163,13 @@
                               <div class="grid grid-cols-1 text-center">
                                 <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:</span>
                                 <span class="mb-16 font-bold font-sans-Timenew text-md" style="margin-bottom:40px">BS/KTV đọc kết quả:</span>
-                                <span class="font-bold font-sans-Timenew text-md">{{printDoctor['name']}}</span>
+                                <span class="font-bold font-sans-Timenew text-md" v-if="printDoctor">{{printDoctor['name']}}</span>
                                 <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
                                 <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>
                               </div>
                             </div>
                         </div>
-                  </div>
+  </div>
 </template>
 
 <script>

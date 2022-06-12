@@ -24,15 +24,15 @@ class OusentController extends Controller
      */
     public function index()
     {
-        
+
        // $ousents = Ousent::paginate(2);
         //dd($ousents);
 
         //$ousents=OusentResource::collection(Ousent::simplePaginate(10));
-    
+
         return Inertia::render('Ousent/Index',[
-            
-            'ousents'=>Ousent::paginate(2)
+
+            'ousents'=>Ousent::paginate(10)
         ]);
     }
 
@@ -63,12 +63,12 @@ class OusentController extends Controller
             $data=
             [
                'name'=> $request->name,
-               'address'=> $request->address,         
+               'address'=> $request->address,
                'phone'=> $request->phone,
                'id_ou'=> $request->id_ou,
                'person_contact'=> $request->person_contact,
-            ];   
-            //$data= $request->all();    
+            ];
+            //$data= $request->all();
             //dd($data);
              $data['logo']=$uploadeFile->setFile($request->file('logo'))
             ->setUploadPath((new Ousent())->uploadFolder())
@@ -76,7 +76,7 @@ class OusentController extends Controller
 
            $ousents= Ousent::create($data);
            //Ousent::create($data);
-          
+
             DB::commit();
             return redirect()->route('ousents.index')->with('success','Add successfully!');
             }catch(Exception $excepton){
@@ -121,15 +121,15 @@ class OusentController extends Controller
         //$request->session()->put('url.intended',url()->previous());
         try{
             DB::beginTransaction();
-            $data=$request->all();     
+            $data=$request->all();
             // $data=
             // [
             //    'name'=> $request->name,
-            //    'address'=> $request->address,         
+            //    'address'=> $request->address,
             //    'phone'=> $request->phone,
             //    'id_ou'=> $request->id_ou,
             //    'person_contact'=> $request->person_contact,
-            // ];    
+            // ];
             if ($request->file('logo')) {
                 $ousent->deleteImage();
                     $data['logo']=$uploadeFile->setFile($request->file('logo'))
@@ -143,8 +143,8 @@ class OusentController extends Controller
                 DB::rollBack();
                 Log::error('Message:'.$excepton->getMessage().'---Line:'.$excepton->getLine());
             }
-       return back()->withInput()->with('success','Update successfully!');    
-       //return back()->withInput()->with('success','Update successfully!');    
+       return back()->withInput()->with('success','Update successfully!');
+       //return back()->withInput()->with('success','Update successfully!');
     }
 
     /**
@@ -153,7 +153,7 @@ class OusentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
         public function destroy(Ousent $ousent)
         {
             //dd($ousent);

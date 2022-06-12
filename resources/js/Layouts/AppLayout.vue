@@ -9,7 +9,7 @@
           <div class="flex justify-between h-16">
             <div class="flex">
               <!-- Logo -->
-              <div class="flex-shrink-0 flex items-center mr-6">
+              <div class="flex-shrink-0 flex items-center mr-2">
                 <Link :href="route('dashboard')">
                   <jet-application-mark class="block h-9 w-auto" />
                 </Link>
@@ -61,8 +61,8 @@
 <!-- menu Dropdown -->
             </div>
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-              <div class="ml-3 relative">
-                <!-- Teams Dropdown -->
+              <!-- <div class="ml-3 relative">
+                 Teams Dropdown
                 <jet-dropdown
                   align="right"
                   width="60"
@@ -91,7 +91,7 @@
                     </span>
                   </template>
                 </jet-dropdown>
-              </div>
+              </div> -->
               <!-- Settings Dropdown -->
               <div class="ml-3 relative">
                 <jet-dropdown align="right" width="48">
@@ -102,7 +102,7 @@
                     >
                       <img
                         class="h-8 w-8 rounded-full object-cover"
-                        :src="$page.props.user.profile_photo_url"
+                        :src="pathImgUser"
                         :alt="$page.props.user.name"
                       />
                     </button>
@@ -130,7 +130,7 @@
                   <template #content>
                     <!-- Account Management -->
                     <div class="block px-4 py-2 text-xs text-gray-400">
-                      Manage Account
+                       {{ $page.props.user.name }}
                     </div>
                     <jet-dropdown-link :href="route('profile.show')">
                       Profile
@@ -147,7 +147,7 @@
                     <div class="border-t border-gray-100"></div>
                     <!-- Authentication -->
                     <form @submit.prevent="logout">
-                      <jet-dropdown-link as="button"> Log Out123 </jet-dropdown-link>
+                      <jet-dropdown-link as="button"> Log Out </jet-dropdown-link>
                     </form>
                   </template>
                 </jet-dropdown>
@@ -267,7 +267,7 @@
         </div>
       </header>
       <!-- Page Content -->
-      <main>
+      <main class="place-items-center items-center">
         <FlashMessage class="" />
         <slot></slot>
       </main>
@@ -307,6 +307,7 @@ export default defineComponent({
 
   data() {
     return {
+      pathImgUser:'/storage/Image_users/202111081331.jpg',
       showingNavigationDropdown: false,
     };
   },

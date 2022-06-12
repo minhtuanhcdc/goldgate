@@ -7,11 +7,15 @@
       <Card>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
-           <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
-           <div>
-           <button  class="bg-yellow-400 px-2 py-0 rounded-md float-right text-md cursor-pointer mr-1">Export PDF <span class="text-xs ml-1">(2)</span></button>
-           <button  class="bg-green-400 px-2 py-0 rounded-md float-right cursor-pointer ml-2">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
-           </div>
+<img class="w-20" src="/storage/Logo/Thinprep.jpg"/>
+            <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
+            <div class="flex flex-row">
+             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer" target="blank" >Dowload PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
+            <!-- <button @click="exportDomPDFSelect"  class="bg-yellow-400 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white">Export domPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button> -->
+            <button @click="exportDomPDF"  class="bg-blue-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white ">Export DomPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
+            <button @click="exportPDF"  class="bg-red-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white ">Export PDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
+            <button  class="bg-green-400 px-2 py-0 rounded-md float-right cursor-pointer m-1 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
+            </div>
 
         <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200">
           <!-- <form  @submit.prevent="importFile(formUpload)" enctype="multipart/form-data">
@@ -24,36 +28,16 @@
 
            <form @submit.prevent="submitFile">
              <div class="flex flex-row">
-                            <div>
-                                <input type="file"
-                                    class="w-full px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                                    @change="previewImage"
-                                    ref="photo"
-                                />
-                                <!-- <img v-if="url" :src="url"
-                                    class="w-full mt-4 h-80" />
-                                <div
-                                    v-if="errors.image"
-                                    class="font-bold text-red-600"
-                                >
-                                    {{ errors.image }}
-                                </div> -->
-                            </div>
-                            <div class="flex items-center mt-0">
-                                <button
-                                    class="
-                                        px-2
-                                        py-1
-                                        text-white
-                                        bg-gray-900
-                                        rounded
-                                    "
-                                >
-                                    Upload
-                                </button>
-                            </div>
-             </div>
-              </form>
+                <div>
+                    <input type="file"
+                      class="w-full px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                      @change="previewImage" ref="photo"/>
+                </div>
+                <div class="flex items-center mt-0">
+                    <button class="px-2 py-1 text-white bg-gray-900 rounded " >Upload</button>
+                </div>
+              </div>
+            </form>
 
         </div>
         </div>
@@ -112,9 +96,34 @@
           </div>
         <div class="col-span-2">
           <div class="flex flex-row">
-          <div>Ngày nhận mẫu</div>
-          <div class="mx-2">Từ</div>
-          <div class="">Đến</div>
+              <div class="flex flex-row">
+                  <span>Từ:</span>
+                  <div class=" w-44">
+                      <div class="flex flex-row">
+
+                          <jet-input
+                          id="endDate"
+                          type="datetime-local"
+                          class="h-6 block w-3/4"
+                          v-model="startDate"
+                          autocomplete="endDate"/>
+                      </div>
+                  </div>
+                </div>
+              <div class="flex flex-row">
+                  <span>Đến:</span>
+                  <div class=" w-44">
+                      <div class="flex flex-row">
+                                  <jet-input
+                                    id="endDate"
+                                    type="datetime-local"
+                                    class= "h-6 block w-3/4"
+                                    v-model="endDate"
+                                    autocomplete="endDate"
+                                  />
+                      </div>
+                    </div>
+              </div>
           </div>
         </div>
         <div class="items-center">
@@ -179,8 +188,9 @@
           </div>
       </div>
       <!---//////////==================------->
-      <Table :headers="headers" :addClass="addClass">
+      <Table :headers="headers" :addClass="addClass" id="exportMe">
           <tr class="hover:bg-gray-300 " v-for="(bill,i) in billtests.data" :key="i">
+             <td><input type="checkbox" :value="bill.id" v-model="checkPrint"></td>
             <td class="border-r-2 text-center">{{i+1}}</td>
              <td class="border-r-2">{{bill.custommer.name}}</td>
              <td class="border-r-2">
@@ -199,6 +209,8 @@
                 {{tn.name}},
               </span>
               </td>
+              <td class="border-r-2 text-center">{{bill.thinprep_code}}</td>
+              <td class="border-r-2 text-center">{{bill.hpv_code}}</td>
              <td class="border-r-2" ><span v-if="bill.doctor">{{bill.doctor.title}} {{bill.doctor.name}}</span></td>
             <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
             <td class="text-center border-r-2">
@@ -654,13 +666,17 @@
         </DialogModal>
         <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
              <template v-slot:content>
-                <div class="text-right w-full flex-row justify-items-between">
+                <div class="text-right w-full flex-row justify-items-between" >
+                    <button class="rounded-md mb-1 mr-1  bg-blue-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
+                     @click="printDocumentTest"   >Export PDF</button>
                     <button class="rounded-md mb-1 mr-1  bg-gray-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
                        @click="printDiv('printMe')" >Print test</button>
                     <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
+
                 <!-- <div>{{selectedArray['name']}}</div> -->
-                <div v-if="printOutsent.id == 1">
+                <div v-if="printOutsent.id == 1" id="printTestMe">
+                  <h1>PDF here</h1>
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
                         :pathImageLeft="pathImageLeft"
@@ -724,6 +740,12 @@ import { PencilIcon } from '@heroicons/vue/solid'
 import { CheckIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
 
+
+// import pdfMake from 'pdfmake';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
+// import htmlToPdfmake from 'html-to-pdfmake';
+
+
 export default defineComponent({
 
   name: "Danh sách bệnh nhân",
@@ -767,13 +789,13 @@ export default defineComponent({
     PrintviewVigor,
      PencilIcon,
     CheckIcon,
-    BeakerIcon
-
+    BeakerIcon,
 
   },
 data(){
   return{
-
+    checkDPF:[''],
+checkPrint:[],
  url: null,
     getbilltests:'',
      printCustommers:'',
@@ -880,17 +902,20 @@ setup() {
     },
     headers() {
       return [
+        { name: "Check", class:'w-12 text-center' },
         { name: "#", class:'w-12 text-center' },
-        { name: "Tên khách hàng", class:'border-l-2 text-center w-52 px-2 font-serif' },
-        { name: "Giới tính", class:'border-l-2 text-center w-8 px-2 font-serif' },
-        { name: "Năm sinh", class:'border-l-2 text-center px-0' },
-        { name: "Địa chỉ", class:'border-l-2 text-center' },
-        { name: "Điện thoại", class:'border-l-2 text-center px-1' },
-        { name: "Chỉ định xét nghiệm", class:'border-l-2 text-center' },
-        { name: "Bác sỹ chỉ định", class:'border-l-2 text-center' },
+        { name: "Tên khách hàng", class:'border-l-2 text-center w-52 px-2 font-normal' },
+        { name: "Giới tính", class:'border-l-2 text-center w-8 px-2 font-normal' },
+        { name: "Năm sinh", class:'border-l-2 text-center px-0 font-normal' },
+        { name: "Địa chỉ", class:'border-l-2 text-center font-normal' },
+        { name: "Điện thoại", class:'border-l-2 text-center px-1 font-normal' },
+        { name: "Tên xét nghiệm", class:'border-l-2 text-center font-normal' },
+        { name: "Mã Thinprep", class:'border-l-2 text-center font-normal' },
+        { name: "Mã HPV", class:'border-l-2 text-center font-normal' },
+        { name: "Bác sỹ chỉ định", class:'border-l-2 text-center font-normal' },
         { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center font-thin' },
-        { name: "Kết quả", class:'border-l-2 text-center' },
-        { name: "Action", class: "text-right border-l-2" },
+        { name: "Kết quả", class:'border-l-2 text-center font-normal' },
+        { name: "Action", class: "text-right border-l-2 font-normal" },
       ];
     },
     addClass() {
@@ -916,6 +941,67 @@ setup() {
     }
   },
   methods:{
+      exportDomPDFSelect(){
+       this.$inertia.get('/dashboard/downloadPDF?',
+            {
+              billId:this.checkPrint,
+              //testName:this.testName,
+             // elementSearch:data
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+      },
+    exportDomPDF(){
+
+          this.$inertia.get('/dashboard/tranbillids?',
+            {
+              billId:this.checkPrint,
+             },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+    },
+    exportPDF(){
+          this.$inertia.get('/dashboard/printview?',
+            {
+              billId:this.checkPrint,
+              //testName:this.testName,
+             // elementSearch:data
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+    },
+    dowloadPDF(){
+      this.$inertia.get('/dashboard/downloadPDF/');
+    },
+     printDocument() {
+          //get table html
+          const pdfTable = document.getElementById('exportMe');
+          //html to pdf format
+          var html = htmlToPdfmake(pdfTable.innerHTML);
+
+          const documentDefinition = { content: html };
+          pdfMake.vfs = pdfFonts.pdfMake.vfs;
+          pdfMake.createPdf(documentDefinition).open();
+
+    },
+     printDocumentTest() {
+          //get table html
+          const pdfTable = document.getElementById('printTestMe');
+          //html to pdf format
+          var html = htmlToPdfmake(pdfTable.innerHTML);
+
+          const documentDefinition = { content: html };
+          pdfMake.vfs = pdfFonts.pdfMake.vfs;
+          pdfMake.createPdf(documentDefinition).open();
+
+    },
+
     submitFile() {
             if (this.$refs.photo) {
                 this.form.file = this.$refs.photo.files[0];
@@ -1008,7 +1094,7 @@ setup() {
          return false;
     }
     return true;
-},
+  },
     getelementSearch(data){
        this.$inertia.get('testelements?',
             {
@@ -1030,12 +1116,11 @@ setup() {
       }
 
     },
-
-     getPageFill(){
+    getPageFill(){
         this.$inertia.get('custommers?',
             {
               //alert(ousentFill);
-              //perPage:this.perPage,
+              perPage:this.perPage,
               ousentFill:this.ousentFill,
             },
             {
@@ -1043,11 +1128,11 @@ setup() {
               replace:true            }
             )
      },
-      getfilePerpage(){
+    getfilePerpage(){
          this.$inertia.get('custommers?',
             {  //search:this.search,
-                perpageFill:this.perpageFill,
-               ousentFill:this.ousentFill,
+              perpageFill:this.perpageFill,
+              ousentFill:this.ousentFill,
 
             },
             {
@@ -1058,7 +1143,9 @@ setup() {
      },
      refreshFill(){
         this.$inertia.get('custommers?',
-
+             { //perpageFill:this.perpageFill,
+             // ousentFill:this.ousentFill
+             },
             {
               preserveState:true,
               replace:true            }
@@ -1134,16 +1221,14 @@ setup() {
 </style>
  <style src="@vueform/multiselect/themes/default.css"></style>
 
-
-
 <style media="print">
 @media print {
   /* .noPrint :not(.printMe){
     display:none;
-  } */
+  }
    body * {
     visibility: hidden;
-  }
+  }*/
   #printMe * {
     visibility: visible;
     padding:0px;

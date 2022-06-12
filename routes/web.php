@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\ClassesController;
 use App\Http\Controllers\Admin\Postcontroller;
 use App\Http\Controllers\Admin\UpdateCustommerController;
 use App\Http\Controllers\Admin\ImportController;
+use App\Http\Controllers\Admin\PDFController;
+use App\Http\Controllers\Admin\PrintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +87,7 @@ Route::middleware(['auth', 'verified'])
     Route::resource('/testunits','TestunitController');
 
     Route::resource('/custommers','CustommerController');
+    //Route::get('/custommers','CustommerController@index')->name('custommerindex');
     Route::resource('/results','ResultController');
     Route::resource('/doctors','DoctorController');
     Route::get('/formsaigon','FormController@formsaigon')->name('formsaigon');
@@ -92,13 +95,16 @@ Route::middleware(['auth', 'verified'])
     Route::get('/formvigor','FormController@formvigor')->name('formvigor');
 
     Route::get('/print','PrintController@printOne')->name('print');
-
+    Route::get('/printview',[PrintController::class,'showPrint'])->name('printview');
 
     Route::post('/updatecustommer',[UpdateCustommerController::class,'ousent'])->name('updatecustommer');
    // Route::post('/importprovince',[ImportController::class,'importProvince'])->name('importprovince');
     Route::post('/importdistrict',[ImportController::class,'importDistrict'])->name('importdistrict');
     Route::post('/importcustommers',[ImportController::class,'importcustommers'])->name('importcustommers');
+
     Route::resource('/images','UploadImageController');
 
+    Route::get('/tranbillids',[PDFController::class,'TransBillId'])->name('TransBillId');
+    Route::get('/downloadPDF',[PDFController::class,'downloadPDF'])->name('downloadPDF');
 
 });

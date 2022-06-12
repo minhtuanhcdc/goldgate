@@ -7,42 +7,100 @@
     <Container>
       <Card>
 
-        <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200 justify-between mb-2">
+        <div class="px-2 grid grid-cols-1 mb-2 bg-gray-200">
+            <div class="grid grid-cols-7">
+              <div class="col-span-2 ">
+                <div class="flex flex-row">
+                    <div class="">
+                          <span>ĐV gửi mẫu:</span>
+                      </div>
+                    <div class="col-span-2 w-52">
+                          <select
+                              name="testgroup"
+                              id="testgroup"
+                              class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                              v-model="ousentFill"
+                            >
+                              <option value="all">All</option>
+                              <option
+                                v-for="(ous,i) in ousents"
+                                :key="i"
+                                :value="ous.id"
+                              >
+                                {{ ous.name }}
+                              </option>
+                          </select>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-span-2  mx-2">
+                <div class="flex flex-grow">
+                  <div class="">
+                        <span>Bác sỹ CĐ:</span>
+                      </div>
+                    <div class="col-span-2 w-52">
+                          <select
+                              name="testgroup"
+                              id="testgroup"
+                              class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                              v-model="doctorFill"
+                            >
+                              <option value="all">All</option>
 
-            <Button  class="mb-1 float-right cursor-pointer"  @click="addResult">Nhập Kết quả <span class=" font-bold text-md">(9)</span> </Button>
-           <form @submit.prevent="submitFile">
-             <div class="flex flex-row">
-                            <div>
-
-                                <input type="file"
-                                    class="w-full px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                                    @change="previewImage"
-                                    ref="photo"
-                                />
-                                <!-- <img v-if="url" :src="url"
-                                    class="w-full mt-4 h-80" />
-                                <div
-                                    v-if="errors.image"
-                                    class="font-bold text-red-600"
-                                >
-                                    {{ errors.image }}
-                                </div> -->
-                            </div>
-                            <div class="flex items-center mt-0">
-                                <button
-                                    class="
-                                        px-2
-                                        py-1
-                                        text-white
-                                        bg-gray-900
-                                        rounded
-                                    "
-                                >
-                                    Upload
-                                </button>
-                            </div>
-             </div>
-            </form>
+                          </select>
+                    </div>
+                    </div>
+                </div>
+              <div class="col-span-2">
+                <div class="flex flex-row">
+                <div>Ngày nhận mẫu</div>
+                <div class="mx-2">Từ</div>
+                <div class="">Đến</div>
+                </div>
+              </div>
+              <div class="items-center">
+                  <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
+                      Fill
+                  </button>
+                  <button @click="refreshFill" class="px-2 mx-2 py-2 justify-auto text-white font-bold bg-yellow-400 rounded-md text-sm h-8">
+                      Refresh
+                  </button>
+                </div>
+          </div>
+          <div class="flex justify-between mt-2">
+           <Button  class="mb-1 float-right cursor-pointer"  @click="addResult">Nhập Kết quả <span class=" font-bold text-md">(9)</span> </Button>
+            <div class=" bg-blue-100">
+              <div class=" text-right">
+                <div class="flex mb-2 text-right h-8 px-2 w-full">
+                            <jet-input
+                              required
+                              id="search"
+                              type="text"
+                              class="mt-1 block w-full h-8 mr-2"
+                              autocomplete="search"
+                              v-model="elementSearch"
+                            />
+                        <span class="justify-center justify-items-center mt-2 cursor-pointer">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </span>
+                  </div>
+                </div>
+            </div>
+              <form @submit.prevent="submitFile">
+                <div class="flex flex-row">
+                    <div class=" p-0 w-56">
+                      <input type="file"
+                        class=" px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+                        @change="previewImage" ref="photo"/>
+                    </div>
+                    <div class="flex items-center mt-0">
+                      <button class="px-2 py-1 text-white bg-gray-900  rounded">Upload File</button>
+                    </div>
+                </div>
+              </form>
+          </div>
         </div>
          <Table :headers="headers" :addClass="addClass">
           <tr class="hover:bg-blue-300" v-for="(bill ,i) in billtests.data" :key="i">
@@ -434,7 +492,8 @@ export default defineComponent({
   name: "Nhập Kết quả",
   props: {
     billtests:'',
-    testElements:''
+    testElements:'',
+    ousents:''
   },
   components: {
     AppLayout,

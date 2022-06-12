@@ -2,7 +2,7 @@
   <app-layout title="User list">
     <template #header>
       <breadcrumb :items="breadcrumbs" />
-    
+
     </template>
     <Container>
       <!---
@@ -29,7 +29,7 @@
             <td class="border-r-2">{{ou.id_ou}}</td>
             <td class="border-r-2">
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn            
+                <EditBtn
                   title="Edit"
                   class="text-green-800"
                   @click="editOu(ou)"
@@ -48,7 +48,7 @@
                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                     ></path></svg>
                 </EditBtn>
-                <DeleteBtn 
+                <DeleteBtn
                   :url="route('ousents.destroy',ou.id )"
                   class="p-0 cursor-pointer text-red-700"
                   module-name="ou"
@@ -68,7 +68,7 @@
              />
            </template>
          </div>
-        </div> 
+        </div>
         <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave">
              <template v-slot:title >
                <div class="flex justify-between">
@@ -80,7 +80,7 @@
              <template v-slot:content>
                <div class="px-4 pb-0">
                    <form
-                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg" 
+                    class="py-1 px-6 sm:p-1 sm:px-6 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveOu(form)">
                     <div class="grid grid-cols-1">
                       <div class="mt-2">
@@ -93,7 +93,7 @@
                           v-model="form.name"
                           autocomplete="name"
                         />
-                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>  
+                         <div class="ml-4 text-red-800" v-if="errors.name"> * {{ errors.name }}</div>
                       </div>
                     </div>
                     <div class="grid grid-cols-1">
@@ -107,13 +107,13 @@
                               autocomplete="address"
                             />
                             <!-- <div class="ml-4 text-red-800" v-if="errors.username"> * {{ errors.username }}</div>  -->
-                            
+
                       </div>
                     </div>
                 <div class="grid grid-cols-2">
                       <div class="ml-1 mt-4">
                             <jet-label for="id_ou" value="Mã đơn vị" />
-                            <jet-input 
+                            <jet-input
                               id="id_ou"
                               type="text"
                               class="mt-4 block w-3/4"
@@ -121,17 +121,17 @@
                               autocomplete="id_ou"
                             />
                             <!-- <div class="ml-4 text-red-800" v-if="errors.username"> * {{ errors.username }}</div>  -->
-                            
+
                       </div>
                      <div class="ml-4 mt-4">
                       <AppImage
-                        class="mt-2"
+                        class="mt-2 rounded-none"
                         v-model="form.logo"
                         :image-url="logoUrl"
                         label="Logo"
                       />
-                    </div> 
-                </div>  
+                    </div>
+                </div>
                     <!-- <div class="mt-4 grid grid-cols-1">
                       <div class="mt-1 w-full rounded-sm">
                         <jet-label
@@ -140,15 +140,15 @@
                             class="w-full block rounded-sm"
                         />
                         <Multiselect
-                      
+
                             v-model="form.role_id"
                             v-bind="example4"
                             selected
                         ></Multiselect>
-                       
+
                       </div>
                     </div> -->
-          
+
                     <div class="mt-4 grid grid-cols-2">
                       <div class="mt-2">
                         <jet-label for="person_contact" value="Người liên hệ" />
@@ -169,10 +169,10 @@
                           v-model="form.phone"
                           autocomplete="phone"
                         />
-                      
+
                       </div>
-                    </div>     
-          
+                    </div>
+
                     <div class="mt-4 text-center mb-1" >
                         <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                              <button v-show="!editMode"  type="submit" class="bg-blue-900 text-white inline-flex justify-center w-20 rounded-md border border-gray-300 px-4 py-2  leading-6 font-medium  shadow-sm hover:bg-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
@@ -187,11 +187,11 @@
                               </button>
                             </span>
                     </div>
-                </form>  
+                </form>
               </div>
             </template>
         >
-        </DialogModal> 
+        </DialogModal>
 
       </Card>
     </Container>
@@ -220,10 +220,10 @@ import AppImage from "@/Components/Image";
 import { Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
-  
+
   name: "Danh sách đơn vị gửi mẫu",
   props: {
-    ousents:'', 
+    ousents:'',
      errors: Object,
   },
   components: {
@@ -243,10 +243,10 @@ export default defineComponent({
     JetLabel,
     JetInput,
     AppImageView,
-   
-    Link 
 
-  
+    Link
+
+
   },
 data(){
   return{
@@ -264,7 +264,7 @@ data(){
         //options: this.roles.data,
         searchable: true,
         createTag: true,
-        
+
     },
 
     form: this.$inertia.form({
@@ -274,7 +274,7 @@ data(){
           logo: "",
           person_contact: "",
           phone: "",
-         
+
       },
         {
           resetOnSuccess: false,
@@ -282,7 +282,7 @@ data(){
       ),
     }
   },
- 
+
   computed: {
     breadcrumbs() {
       return [
@@ -341,33 +341,33 @@ data(){
                 }
             },
       addOu(){
-       
+
             this.showModal = true;
             },
     //  openModalEdit(user) {
-      
+
     //          this.userEdit=user;
     //          console.log('roles_ididididid:',this.userEdit.name);
     //           this.showModal = true;
     //             this.editMode=true;
     //         },
-      editOu(ou) {      
+      editOu(ou) {
         this.form = Object.assign({}, ou);
         this.editMode = true;
-      
+
      this.showModal=true;
         },
       saveOu(data) {
-       
+
         //alert('Save');
         //  let obj = {
         //            //roles:this.selected,
         //            //user_id:user_id,
         //          }
                 this.$inertia.post('/dashboard/ousents',data)
-               
+
                 this.closeModal();
-               
+
     },
     updateOu(data){
       console.log('hehehe',data.phone);
@@ -376,7 +376,7 @@ data(){
         this.reset();
         this.closeModal();
     }
-    
+
   }
 });
 </script>

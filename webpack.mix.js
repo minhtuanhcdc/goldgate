@@ -21,3 +21,20 @@ mix.js('resources/js/app.js', 'public/js').vue()
 if (mix.inProduction()) {
     mix.version();
 }
+const webpack = require('webpack')
+
+// module.exports = {
+//     // ...
+//     externals: {
+//         // only define the dependencies you are NOT using as externals!
+//         canvg: "canvg",
+//         html2canvas: "html2canvas",
+//         dompurify: "dompurify"
+//     }
+// };
+
+// mix.webpackConfig({
+//     stats: {
+//         children: true,
+//     },
+// });

@@ -15,8 +15,11 @@
         "@inertiajs/progress": "^0.2.6",
         "@tailwindcss/forms": "^0.2.1",
         "@tailwindcss/typography": "^0.3.0",
+        "@types/jspdf": "^2.0.0",
         "@vue/compiler-sfc": "^3.0.5",
         "axios": "^0.21",
+        "css-loader": "^6.7.1",
+        "install": "^0.13.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
@@ -30,12 +33,17 @@
         "@ckeditor/ckeditor5-vue": "^2.0.1",
         "@heroicons/vue": "^1.0.6",
         "@vueform/multiselect": "^2.2.0",
+        "autoprefixer": "10.4.5",
         "datatables.net-bs4": "^1.11.4",
         "datatables.net-buttons-bs4": "^2.2.2",
+        "html-to-pdfmake": "^2.3.11",
         "jquery": "^3.6.0",
+        "jspdf": "^2.5.1",
         "jszip": "^3.7.1",
         "pdfmake": "^0.2.4",
         "true-case-path": "^2.2.1",
-        "vue-html-to-paper": "^1.4.4"
+        "vue-html-to-paper": "^1.4.4",
+        "vue-html2canvas": "^0.0.4",
+        "vue-html2pdf": "^1.8.0"
     }
 }

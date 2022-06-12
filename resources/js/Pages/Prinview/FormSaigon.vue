@@ -1,6 +1,6 @@
 <template>
 <!-- <div>{{getbilltests}}</div> -->
-      <div id="printMe">
+      <div id="printMe" ref="printMe">
         <div class="flex justify-between mx-0 py-0">
             <div class=" py-0">
                 <img

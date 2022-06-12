@@ -30,12 +30,12 @@ class ArticleController extends Controller
                     'edit' => Auth::user()->checkPermissionAccess(config('permissions.access.edit-article')),
                     'delete' => Auth::user()->checkPermissionAccess(config('permissions.access.delete-article')),
                     'view' => Auth::user()->checkPermissionAccess(config('permissions.access.list-article')),
-                    
+
                 ],
             'articles'=>ArticleResource::collection(Article::with(['category'])->Paginate(10)),
             //'can'=>Gate::allows('list-article')
             ]);
-      
+
         // if(Gate::allows('list-article')){
         // return Inertia::render('Articles/Index',[
         //     'articles'=>ArticleResource::collection(Article::with(['category'])->Paginate(10))
@@ -53,11 +53,11 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Articles/Create',[
-            'edit'=>false,
-            'categories'=>CategoryResource::collection(Category::select(['id','name'])->get()),
-            'articles'=>new ArticleResource(new Article())
-        ]);
+        // return use PDF;,[
+        //     'edit'=>false,
+        //     'categories'=>CategoryResource::collection(Category::select(['id','name'])->get()),
+        //     'articles'=>new ArticleResource(new Article())
+        // ]);
     }
 
     /**
@@ -74,7 +74,7 @@ class ArticleController extends Controller
         'id_category'=>['required',Rule::exists(Category::class, 'id')],
         'image'=> ['required', 'image'],
         'description'=>['required','string'],
-        'slug'=>['required', Rule::unique(Article::class)], 
+        'slug'=>['required', Rule::unique(Article::class)],
        ]);
        //dd($data);
        $data['image']=$uploadeFile->setFile($request->file('image'))
@@ -104,12 +104,12 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-      
+
         return Inertia::render('Articles/Create',[
             'edit'=>true,
             'article'=>new ArticleResource($article),
             'categories'=>CategoryResource::collection(Category::select(['id','name'])->get()),
-           
+
         ]);
     }
 
@@ -143,7 +143,7 @@ class ArticleController extends Controller
         $article->update($data);
 
         return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
-        
+
     }
 
     /**

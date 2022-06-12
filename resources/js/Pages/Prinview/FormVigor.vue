@@ -1,6 +1,6 @@
 <template>
 <!-- <div>{{getbilltests}}</div> -->
-    <div class="" id="printMe">
+    <div class="" id="printMe" ref="printMe">
           <div>
             <div class="col-span-2 py-0">
                   <img
@@ -168,7 +168,7 @@
                 <div class="grid grid-cols-1 text-center">
                   <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:</span>
                   <span class="mb-16 font-bold font-sans-Timenew text-md">BS/KTV đọc kết quả:</span>
-                  <span class="font-bold font-sans-Timenew text-md">??</span>
+                  <span class="font-bold font-sans-Timenew text-md" v-if="printDoctor">??</span>
                   <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
                   <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>
                 </div>
