@@ -8,16 +8,18 @@
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
 <img class="w-20" src="/storage/Logo/Thinprep.jpg"/>
+
+<span class="fa fa-envelope"></span>
             <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
             <div class="flex flex-row">
-             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer" target="blank" >Dowload PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
+             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Dowload PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
             <!-- <button @click="exportDomPDFSelect"  class="bg-yellow-400 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white">Export domPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button> -->
-            <button @click="exportDomPDF"  class="bg-blue-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white ">Export DomPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
-            <button @click="exportPDF"  class="bg-red-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white ">Export PDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
-            <button  class="bg-green-400 px-2 py-0 rounded-md float-right cursor-pointer m-1 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
+            <button @click="exportDomPDF"  class="bg-blue-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white h-8">Export DomPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
+            <button @click="exportPDF"  class="bg-red-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white h-8">Export PDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
+            <button  class="bg-green-400 px-2 py-0 rounded-md float-right cursor-pointer m-1 h-8 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
             </div>
 
-        <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200">
+        <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200 h-8">
           <!-- <form  @submit.prevent="importFile(formUpload)" enctype="multipart/form-data">
            <button type="submit"  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white text-md">Import file</button>
             <input class="w-42 my-0 rounded-sm text-xs cursor-pointer" type="file"

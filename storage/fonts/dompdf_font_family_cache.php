@@ -85,5 +85,14 @@ return array (
     '300' => $fontDir . '/roboto_300_32acfcb296f555e063ebba2be7db9e2f',
     'normal' => $fontDir . '/roboto_normal_7bc701b343c10631f60048716b96e4f7',
   ),
+  'fontawesome' => array(
+    'normal' => $fontDir . '/fontawesome_normal_a07c54af815ea54af1b5e5aa13cc5f8b',
+  ),
+  'material icons' => array(
+    'normal' => $fontDir . '/material_icons_normal_2db07391810ae8c200780b0e3879bbed',
+  ),
+  'fontawesome3' => array(
+    'normal' => $fontDir . '/fontawesome3_normal_a07c54af815ea54af1b5e5aa13cc5f8b',
+  ),
 );
 }; ?>

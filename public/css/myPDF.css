@@ -1,5 +1,9 @@
-* {
-    color: blue;
-    font-size: 12px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
-}
+    * {
+        font-size: 12px;
+        /*font-family: 'Times New Roman', serif !important;*/
+        /*font-family: 'Times New Roman', DejaVu Sans, ;*/
+        font-family: DejaVu Sans, 'Times New Roman', 'Josefin Sans', sans-serif !important;
+        src: url('{{storage_path("storage/fonts/DejaVuSans-Bold.ttf")}}') format("truetype");
+    }
+    
+    @import url(https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&display=swap);
