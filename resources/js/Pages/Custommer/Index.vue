@@ -1227,11 +1227,11 @@ setup() {
 @media print {
   /* .noPrint :not(.printMe){
     display:none;
-  }
-   body * {
-    visibility: hidden;
   }*/
-  #printMe * {
+    body {
+    visibility: hidden;
+  }
+  #printMe {
     visibility: visible;
     padding:0px;
     margin: 0px;

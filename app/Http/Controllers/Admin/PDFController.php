@@ -11,7 +11,7 @@ use App\Models\Billtest;
 use App\Models\Testelement;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-//require_once 'dompdf/autoload.inc.php';
+
 class PDFController extends Controller
 {
     public function TransBillId(Request $r){
@@ -34,17 +34,30 @@ class PDFController extends Controller
         'testElements'=>$testElements,
 
       ]);
+      $pdf->setPaper('A4', 'portrait');
 
+      //$pdf->render();
+      return $pdf->stream();
+      //return $pdf->stream('Leito.pdf');
+
+      // $options = new Options();
+      // $options->set('defaultFont', 'sans-serif');
+      // $dompdf = new Dompdf($options);
+      // $dompdf->loadView('printView.Index', [
+      //   'billtests'=>$billtests,
+      //   'testElements'=>$testElements,
+
+      // ]);
+      // $dompdf->setPaper('A4', 'landscape');
+//$pdf->$options;
+      //PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+     //$pdf->setDefaultFont('sans-serif');
       //$pdf->setMarginBottom('margin-bottom', '0mm');
       // $pdf->Options('margin-top', '0mm');
       // $pdf->Options('margin-right', '0mm');
       // $pdf->Options('margin-left', '0mm');
       //$pdf->setPaper('A4', 'landscape');
-     $pdf->setPaper('A4', 'portrait');
 
-     //$pdf->render();
-     return $pdf->stream();
-     //return $pdf->stream('Leito.pdf');
 
       }
 }
