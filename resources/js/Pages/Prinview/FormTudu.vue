@@ -54,7 +54,7 @@
                                 <div class="col-span-3 grid grid-cols-2" >
                                   <div class="" v-for="eg1 in testElements" :key="eg1.id">
                                     <span class="font-bold" v-if="eg1.element_group == 1">{{eg1.name}}
-                                        <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg1.id" v-model="selectedArray"/>
+                                        <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg1.id" v-model="selectedArray"/>
                                       </span>
                                   </div>
                             </div>
@@ -62,21 +62,21 @@
                             <div class="grid grid-cols-1">
                                   <div class="" v-for="eg2 in testElements" :key="eg2.id">
                                       <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
-                                      <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg2.id" v-model="selectedArray"/>
+                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg2.id" v-model="selectedArray"/>
                                       </span>
                                   </div>
                               </div>
                           <div class="flex flex-cols-5">
                               <div class="" v-for="eg3 in testElements" :key="eg3.id">
                                   <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                                      <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg3.id" v-model="selectedArray"/>
+                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg3.id" v-model="selectedArray"/>
                                   </span>
                               </div>
                           </div>
                           <div class="grid grid-cols-1">
                               <div class="" v-for="eg4 in testElements" :key="eg4.id">
-                                  <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
-                                        <!-- <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg4.id" v-model="form.element_id"/> -->
+                                  <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg4.element_group == 4">+ {{eg4.name}}
+                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg4.id" v-model="selectedArray"/>
                                   </span>
                               </div>
                           </div>
@@ -85,16 +85,16 @@
                                   <span class=" font-sans-Timenew font-bold text-sm  text-blue-700">TẾ BÀO GAI (Squamuos cell)</span>
                                   <div class="grid grid-cols-2 leading-5 italic">
                                     <div class="flex flex-col">
-                                      <div v-for="(eg5, i) in testElements" :key="i">
-                                  <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
-                                    <!-- <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg5.id" v-model="form.element_id"/> -->
-                                    </span>
+                                       <div class="" v-for="eg5 in testElements" :key="eg5.id">
+                                      <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
+                                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg5.id" v-model="selectedArray"/>
+                                        </span>
                                 </div>
                                     </div>
                                     <div class="flex flex-col">
-                                        <div class="" v-for="(eg6, i) in testElements" :key="i">
+                                        <div class="" v-for="eg6 in testElements" :key="eg6.id">
                                         <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
-                                          <!-- <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg6.id" v-model="form.element_id"/> -->
+                                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg6.id" v-model="selectedArray"/>
                                         </span>
                                     </div>
                                     </div>
@@ -109,21 +109,20 @@
                                     <div v-for="eg7 in testElements" :key="eg7.id">
                                       <div v-if="eg7.element_group == 7">
                                         <span class="text-left font-bold text-xs ml-4 mr-6  font-sans-Timenew" >{{eg7.name}}
-                                          <!-- <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg7.id" v-model="form.element_id"/> -->
+                                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg7.id" v-model="selectedArray"/>
                                           </span>
                                         </div>
                                 </div>
                                   </div>
                                 </div>
                             </div>
-
-                            <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic mt-2">
-                              <div class="font-bold m-0 p-0">Đề nghị (Suggestions):</div>
-                              <div class="font-bold col-span-3">
+                  <div class="font-bold mt-2 p-0 font-sans-Timenew">Đề nghị (Suggestions):</div>
+                            <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic mt-0">
+                              <div class="font-bold col-span-4">
                                 <div class="flex flex-rows-2">
                                 <div  v-for="eg8 in testElements" :key="eg8.id">
                                     <span class="font-bold text-xs w-full mr-3" v-if="eg8.element_group ==8 && eg8.element_group !==null ">{{eg8.name}}
-                                        <!-- <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg8.id" v-model="form.element_id"/> -->
+                                      <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg8.id" v-model="selectedArray"/>
                                     </span>
                                   </div>
                                   </div>

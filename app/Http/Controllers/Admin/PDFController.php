@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PDF;
+use Carbon\Carbon;
 //use Barryvdh\DomPDF\Facade as PDF;
 use Inertia\Inertia;
 use App\Models\Billtest;
@@ -22,16 +23,18 @@ class PDFController extends Controller
     public function downloadPDF(Request $r){
      // dd($r->all());
       $fruits = collect($r->all());
-
       $keys = $fruits->keys();
      //dd($keys);
       $billtests=Billtest::whereIn('id',$keys)->with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->get();
-      $hello = 1;
+     // $dateNow = Carbon::now()->toDateTimeString('d-m-Y');
+      $date = date('d-m-Y', time());
+
       //dd($billtests);
       $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
       $pdf = PDF::loadView('printView.Index', [
         'billtests'=>$billtests,
         'testElements'=>$testElements,
+        'dateNow'=>$date,
 
       ]);
       $pdf->setPaper('A4', 'portrait');

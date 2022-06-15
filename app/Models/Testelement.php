@@ -26,6 +26,7 @@ class Testelement extends Model
     public function valueresult($id_bill)
     {
         $rs = Result::where(['bill_id'=>$id_bill,'element_id'=>$this->id])->first();
+        //dd($rs);
         if($rs)
             return $rs->resulttest;
         else

@@ -16,4 +16,10 @@ class Testname extends Model
 
         return $this->belongsTo(Labogroup::class, 'group_id');
     }
+
+    public function elementtests()
+    {
+        dd($this->hasMany('App\Models\Testelement', 'id_nametest', 'id'));
+        return $this->hasMany('App\Models\Testelement', 'id_nametest', 'id');
+    }
 }

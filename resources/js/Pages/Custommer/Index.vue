@@ -7,16 +7,13 @@
       <Card>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
-<img class="w-20" src="/storage/Logo/Thinprep.jpg"/>
+<!-- <img class="w-20" src="/storage/Logo/Thinprep.jpg"/>
 
-<span class="fa fa-envelope"></span>
+<span class="fa fa-envelope"></span> -->
             <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
             <div class="flex flex-row">
-             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Dowload PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
-            <!-- <button @click="exportDomPDFSelect"  class="bg-yellow-400 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white">Export domPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button> -->
-            <button @click="exportDomPDF"  class="bg-blue-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white h-8">Export DomPDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
-            <button @click="exportPDF"  class="bg-red-600 px-2 py-0 rounded-md float-right text-md cursor-pointer m-1 text-white h-8">Export PDF <span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button>
-            <button  class="bg-green-400 px-2 py-0 rounded-md float-right cursor-pointer m-1 h-8 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
+             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Print PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
+            <button  class="ml-2 bg-green-600 px-2 py-0 rounded-md float-right cursor-pointer h-8 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
             </div>
 
         <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200 h-8">
@@ -201,8 +198,12 @@
 
                </td>
              <td class="border-r-2">{{bill.custommer.birthday}}</td>
-              <td class="border-r-2 text-center">{{bill.custommer.address}},&nbsp  {{bill.custommer.district.name}},&nbsp
-              {{bill.custommer.province.title}}. {{bill.custommer.province.name}}
+              <td class="border-r-2 text-center">
+                <span v-if="bill.custommer">{{bill.custommer.address}}</span>
+                <span v-if="bill.custommer.district">{{bill.custommer.district.name}}</span>
+                <span v-if="bill.custommer.province">{{bill.custommer.province.title}}. {{bill.custommer.province.name}}</span>
+
+
               </td>
             <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.custommer.phone}}</td>
             <td class="border-r-2 text-center" v-else></td>
