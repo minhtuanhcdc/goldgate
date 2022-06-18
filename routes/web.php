@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\UpdateCustommerController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\PrintController;
+use App\Http\Controllers\Admin\updateCusBill;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,7 +98,9 @@ Route::middleware(['auth', 'verified'])
     Route::get('/print','PrintController@printOne')->name('print');
     Route::get('/printview',[PrintController::class,'showPrint'])->name('printview');
 
-    Route::post('/updatecustommer',[UpdateCustommerController::class,'ousent'])->name('updatecustommer');
+    Route::post('/updatebill',[UpdateCustommerController::class,'updatebill'])->name('updatebill');
+
+    //Route::post('/updatecustommer',[updateCusBill::class,'updatecustommer'])->name('updatecustommer');
    // Route::post('/importprovince',[ImportController::class,'importProvince'])->name('importprovince');
     Route::post('/importdistrict',[ImportController::class,'importDistrict'])->name('importdistrict');
     Route::post('/importcustommers',[ImportController::class,'importcustommers'])->name('importcustommers');

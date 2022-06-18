@@ -48,6 +48,7 @@ class UserController extends Controller
 
         ],
             'users'=>UserResource::collection(User::with(['permissionroles'])->orderBy('id','asc')->paginate(4)),
+
            'roles'=>RoleResource::collection(Role::select('id','name')->get()),
        ]);
     }
@@ -73,7 +74,7 @@ class UserController extends Controller
      */
     public function store(SaveUserRequest $request,UploadFile $uploadeFile)
     {
-        //dd($request->all());
+       // dd($request->all());
         try{
             DB::beginTransaction();
             $data=$request->all();
@@ -139,7 +140,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,User $user, UploadFile $uploadeFile){
-     //dd($request->all());
+    // dd($request->all());
 
         try{
             DB::beginTransaction();

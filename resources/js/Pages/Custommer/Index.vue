@@ -72,7 +72,7 @@
         <div class="col-span-2  mx-2">
           <div class="flex flex-grow">
             <div class="">
-                  <span>Bác sỹ CĐ:</span>
+                  <span>BS đọc KQ(ĐV đọc KQ):</span>
                 </div>
               <div class="col-span-2 w-52">
                     <select
@@ -168,7 +168,7 @@
                           name="perPage"
                           id="perPage"
                           class="block py-0 w-24 form-input h-8 rounded-lg"
-                          v-model="perpageFill"
+                          v-model="perPage"
                           @change="getfilePerpage"
                         >
                           <option value="1">1</option>
@@ -195,15 +195,12 @@
              <td class="border-r-2">
                <span v-if="bill.custommer.gender==0">Nữ</span>
                <span v-else>Nam</span>
-
                </td>
              <td class="border-r-2">{{bill.custommer.birthday}}</td>
               <td class="border-r-2 text-center">
                 <span v-if="bill.custommer">{{bill.custommer.address}}</span>
                 <span v-if="bill.custommer.district">{{bill.custommer.district.name}}</span>
                 <span v-if="bill.custommer.province">{{bill.custommer.province.title}}. {{bill.custommer.province.name}}</span>
-
-
               </td>
             <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.custommer.phone}}</td>
             <td class="border-r-2 text-center" v-else></td>
@@ -216,6 +213,8 @@
               <td class="border-r-2 text-center">{{bill.hpv_code}}</td>
              <td class="border-r-2" ><span v-if="bill.doctor">{{bill.doctor.title}} {{bill.doctor.name}}</span></td>
             <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
+            <td class="border-r-2" ><span></span></td>
+
             <td class="text-center border-r-2">
                 <EditBtn
                   title="View"
@@ -255,6 +254,7 @@
               </svg>
               </EditBtn>
             </td>
+             <td class="border-r-2">{{bill.userupdate_id}}</td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
                 <EditBtn
@@ -270,7 +270,6 @@
                   class="text-blue-800"
                   @click="editCustommer(bill)"
                   >
-
                   <PencilIcon class="w-6 h-6"/>
                 </EditBtn>
                 <DeleteBtn
@@ -305,7 +304,7 @@
                     <div class="bg-gray-100 p-2 border-solid border-2 border-blue-500 rounded-md">
                       <div class="w-full flex flex-row place-content-between">
                         <span class="text-gray-400 underline">Info Custommer</span>
-                        <span  class="text-white  bg-blue-600 px-2 py-0 rounded-md cursor-pointer" @click="updateCustommer(form)">Update</span>
+                        <span v-show="editMode"  class="text-white  bg-blue-600 px-2 py-0 rounded-md cursor-pointer" @click="updateCustommer(form)">Update</span>
                       </div>
                       <div class="ml-4 grid grid-cols-4">
                               <div  class=" col-span-3 mr-2 h-8">
@@ -452,7 +451,7 @@
                       <div class="mt-1 bg-gray-200 p-2 border-solid border-2 border-blue-500 rounded-md">
                          <div class="w-full flex flex-row place-content-between">
                           <span class="text-gray-400 underline">Thông tin ĐV gửi:</span>
-                          <span  class="text-white  bg-blue-600 px-2 py-0 rounded-md cursor-pointer" @click="updateOusent(form)">Update</span>
+                          <span v-show="editMode"  class="text-white  bg-blue-600 px-2 py-0 rounded-md cursor-pointer" @click="updateBill(form)">Update</span>
                           </div>
 
                         <div class="ml-4 grid grid-cols-2">
@@ -468,7 +467,7 @@
                                           class="block py-1 w-full form-input rounded-lg ml-1 h-8"
                                           v-model="form.ousent_id">
                                       <option value="">--</option>
-                                      <option v-for="(ou,i) in ousents" :key="i" :value="ou.id">{{ou.name}}</option>
+                                      <option v-for="(ou,i) in getOusents" :key="i" :value="ou.id">{{ou.name}}</option>
                                     </select>
                                     </div>
                                   </div>
@@ -485,13 +484,31 @@
                                           class="block form-input rounded-lg w-full h-8 py-1"
                                           v-model="form.doctor_id">
                                       <option value="">--</option>
-                                      <option v-for="(dot, i) in getdoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}}</option>
+                                      <option v-for="(dot, i) in getdoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}} ({{dot.ousent.name}})</option>
                                     </select>
                                     </div>
                                 </div>
                              </div>
                         </div>
-                        <div class="ml-4 grid grid-cols-2">
+                        <div class=" grid grid-cols-1">
+
+                                 <div class="mt-2 flex flex-row ml-0">
+                                    <div class="w-48">
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Chỉ định XN: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
+                                    </div>
+                                    <div class="w-full">
+
+                                       <Multiselect
+                                       class="rounded-sm h-6"
+                                        v-model="form.testname_id"
+                                         v-bind="example4"
+                                        selected>
+                                      </Multiselect>
+                                    </div>
+                                  </div>
+
+                        </div>
+                        <div class="ml-0 grid grid-cols-1">
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
@@ -509,25 +526,7 @@
                                     </div>
                                   </div>
                              </div>
-                             <div>
-                                 <div class="mt-2 flex flex-row">
-                                    <div class="w-48">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Chỉ định XN: <span class="m-0 font-normal text-base font-italic text-gray-400">(diagonose)</span></div>
-                                    </div>
-                                    <div class="w-full">
-                                        <select
 
-                                          name="testname_id"
-                                          id="testname_id"
-                                          class="block form-input rounded-lg w-full h-8 text-xs "
-                                          v-model="form.testname_id">
-                                      <option value='1'>ThinPrep-Pap Smear</option>
-                                      <option value='2'>HPV</option>
-
-                                    </select>
-                                    </div>
-                                  </div>
-                             </div>
                         </div>
                         <div class="ml-4 grid grid-cols-2">
                              <div>
@@ -550,7 +549,7 @@
                              <div>
                                  <div class="mt-2 flex flex-row">
                                     <div class="w-48">
-                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">King: <span class="m-0 font-normal text-base font-italic text-gray-400"></span></div>
+                                        <div class="text-right pr-1 text-bold text-lg text-blue-800 w-full m-0 leading-3">Kinhcuoi: <span class="m-0 font-normal text-base font-italic text-gray-400"></span></div>
                                     </div>
                                     <div class="w-full">
                                        <jet-input
@@ -570,7 +569,6 @@
                                 <div class="flex flex-row">
                                 <jet-label for="sample_id" class="self-center text-right pr-1 text-bold text-lg text-blue-800 w-48 leading-3" value="Mã XN ĐV gửi:" />
                                 <jet-input
-
                                   id="sample_code"
                                   type="text"
                                   class="mt-1 block w-full h-8"
@@ -578,7 +576,6 @@
                                   autocomplete="sample_code"
                                 />
                                 </div>
-
                             </div>
                           <div class="w-1/2">
 
@@ -640,8 +637,21 @@
                                   v-model="form.date_re"
                                   autocomplete="date_re"/>
                                 </div>
-                          </div>
-                          </div>
+                              </div>
+                            </div>
+                             <div class=" w-1/2">
+                              <div class="mt-2">
+                                <div class="flex flex-row">
+                                <jet-label for="readsample" class="text-center pr-1 text-bold text-lg text-blue-800 w-48" value="Đơn vị đọc mẫu:" />
+                                <jet-input
+                                  id="readsample"
+                                  type="text-local"
+                                  class="mt-1 block w-full h-8"
+                                  v-model="form.readsample"
+                                  autocomplete="readsample"/>
+                                </div>
+                              </div>
+                            </div>
                         </div>
                       </div>
                   <!----Info Indication================================================----->
@@ -655,13 +665,7 @@
                                 Save
                               </button>
                             </span>
-                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                              <button wire:click.prevent="store()" type="button"
-                               class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                                v-show="editMode" @click.prevent="updateTotal(form)">
-                                Update
-                              </button>
-                            </span>
+
                     </div>
                 </form>
               </div>
@@ -670,11 +674,10 @@
         <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
              <template v-slot:content>
                 <div class="text-right w-full flex-row justify-items-between" >
-                    <button class="rounded-md mb-1 mr-1  bg-blue-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
-                     @click="printDocumentTest"   >Export PDF</button>
-                    <button class="rounded-md mb-1 mr-1  bg-gray-800 text-white cursor-pointer text-md px-2 py-1 hover:bg-gray-600" type=""
-                       @click="printDiv('printMe')" >Print test</button>
-                    <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
+
+                    <button class="px-4 rounded-md mb-1 mr-1  bg-gray-800 text-white cursor-pointer text-md py-1 hover:bg-gray-600" type=""
+                       @click="printDiv('printMe')" >Print</button>
+                    <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
 
                 <!-- <div>{{selectedArray['name']}}</div> -->
@@ -699,9 +702,7 @@
                 <div v-if="printOutsent.id == 9">
                          <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
-
                           :pathThinLeft='pathThinLeft'
-
                           />
                 </div>
             </template>
@@ -744,11 +745,6 @@ import { CheckIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
 
 
-// import pdfMake from 'pdfmake';
-// import pdfFonts from 'pdfmake/build/vfs_fonts';
-// import htmlToPdfmake from 'html-to-pdfmake';
-
-
 export default defineComponent({
 
   name: "Danh sách bệnh nhân",
@@ -762,7 +758,6 @@ export default defineComponent({
     ousents:'',
     doctors:'',
     custommer:"",
-
     filters:{},
     errors: Object,
 
@@ -797,9 +792,10 @@ export default defineComponent({
   },
 data(){
   return{
-    checkDPF:[''],
-checkPrint:[],
- url: null,
+    testselect:[1],
+       checkDPF:[''],
+    checkPrint:[],
+    url: null,
     getbilltests:'',
      printCustommers:'',
     //printName:'',
@@ -810,17 +806,17 @@ checkPrint:[],
     selectedArray:'',
     imgeLeft:'',
 
-  output: null,
+    output: null,
     ousentFill:this.filters.ousentFill,
-     pathThinLeft:'/storage/imageThinLeft/',
+    pathThinLeft:'/storage/imageThinLeft/',
     pathImageLeft:'/images/Logo/Thinprep.jpg',
    // pathThinLeft:'/images/Thinprep/hLeft.jpg',
    // pathThinRight:'/images/Thinprep/hRight.jpg',
     pathThinRight:'/storage/imageThinRight/',
-
-    getdistricts:'',
+    getOusents:this.ousents,
+    getdistricts:this.district,
     getwards:'',
-    getdoctors:'',
+    getdoctors:this.doctors,
     form_errors:[],
 
     name:'123',
@@ -838,36 +834,10 @@ checkPrint:[],
         mode: "tags",
         value: "value",
         label: "name",
-        options: this.nametests.data,
+        options:this.nametests.data,
         searchable: true,
         createTag: true,
     },
-    formUpload: this.$inertia.form({
-      name: null,
-      avatar: null,
-    }),
-    form: this.$inertia.form({
-         // "_method": this.edit ? 'PUT' : "",bỉ
-        name: "",
-        birthday: "123",
-        ousent_id: "",
-        kinhchot: "",
-        phone: "",
-        gender: '',
-        address: "",
-        province_id: "",
-        district_id:'',
-        ward_id:'',
-        testname_id:[''],
-        selected:[],
-        element_id:[],
-        diagnose:'',
-
-      },
-        {
-          resetOnSuccess: false,
-        }
-      ),
     }
   },
 setup() {
@@ -884,7 +854,9 @@ setup() {
        this.getelementSearch(this.elementSearch)
     },
     "form.province_id":function(value){
+
       // console.log(value);
+      //alert(he-Province);
        this.getDistrictFill(value)
     },
     "form.district_id":function(value){
@@ -917,7 +889,9 @@ setup() {
         { name: "Mã HPV", class:'border-l-2 text-center font-normal' },
         { name: "Bác sỹ chỉ định", class:'border-l-2 text-center font-normal' },
         { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center font-thin' },
+        { name: "Ngày nhận mẫu mẫu", class:'border-l-2 text-center font-thin' },
         { name: "Kết quả", class:'border-l-2 text-center font-normal' },
+        { name: "User create", class:'border-l-2 text-center font-normal' },
         { name: "Action", class: "text-right border-l-2 font-normal" },
       ];
     },
@@ -932,19 +906,218 @@ setup() {
       },
     },
   mounted() {
-    if (this.edit) {
-       //this.checkededit=this.labogroups.data.status==1? true:false;
-      //this.form.testname_id=[1];
-      // //this.form.role_id = this.roleOfUser !== "" ? this.roleOfUser : "";
-      //this.form.name =123;
-      // this.form.username =this.user.data.username;
-      // this.form.email = this.user.data.email;
-      // this.form.phone = this.user.data.phone;
-      // this.imageUrl = this.user.data.profile_photo_path;
-    }
+
   },
   methods:{
-      exportDomPDFSelect(){
+      editCustommer(bill) {
+             this.form = Object.assign({}, bill);
+              //console.log(bilForm);
+              this.checkededit= this.form.status
+              this.form.name=this.form.custommer.name;
+              this.form.gender=this.form.custommer.gender;
+              this.form.birthday=this.form.custommer.birthday;
+              this.form.address=this.form.custommer.address;
+              this.form.para=this.form.para;
+              this.form.kinhchot=this.form.kinhchot;
+
+
+                //const iterator = this.form.testnames;
+
+                 //var arr =  this.form.testnames;
+
+var result = this.form.testnames.map(function(a) {return a.id;});
+this.form.testname_id=result;
+//console.log('Hehehehehehehe',result);
+
+
+
+
+              //  const provinceBill=this.form.province;
+              //  if(provinceBill){
+              //      this.form.province_id = provinceBill.id;
+              //  }
+              // const districtBill=this.form.district;
+              // if(districtBill){
+              //     this.form.district_id = districtBill.id;
+              // }
+              // const wardBill=bilForm.ward;
+              // if(wardBill){
+              //     this.form.ward_id = wardBill.id;
+              // }
+
+              this.editMode = true;
+              this.showModal=true;
+              },
+     updateCustommer(bill){
+        bill._method = 'PUT';
+        this.$inertia.post('/dashboard/custommers/'+bill.id, bill);
+        this.reset();
+        this.closeModal();
+    },
+      updateBill(bill){
+          this.$inertia.post('/dashboard/updatebill/',bill);
+          this.closeModal();
+        },
+    currentDate() {
+          const current = new Date();
+          const date = ' '+`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+          return date;
+        },
+    printDiv(divName){
+          window.print();
+      },
+    closeModalPrint(){
+         this.showModlPrint = false;
+    },
+    printResult(bill){
+        this.getbilltests= bill;
+        this.printCustommers = bill.custommer;
+        this.printOutsent= bill.ousent;
+        this.printDoctor = bill.doctor;
+
+        if(bill.image_left){
+           this.imgeLeft = bill.image_left.thinLeft;
+        }
+        else{
+          this.imageLeft='';
+        }
+        const elementChecked1 = bill.results;
+         let result = elementChecked1.map(({ element_id }) => element_id)
+        this.selectedArray = result;
+        this.printAddress=' '+ bill.custommer.address;
+        this.showModlPrint = true;
+
+    },
+    getDoctorFill(doctor){
+      //alert(123);
+      //console.log(this.doctors);
+     const fillData = this.doctors.filter(function(el){
+       return el.ousent_id == doctor;
+     });
+     //console.log(fillData);
+     this.getdoctors = fillData;
+      },
+    getDistrictFill(province){
+     // alert(province)
+     const fillData = this.districts.filter(function(el){
+       return el.province_id == province;
+     });
+     this.getdistricts = fillData;
+      },
+    getWardFill(district){
+     const fillWards = this.wards.filter(function(el){
+       return el.district_id == district;
+     });
+     this.getwards = fillWards;
+      },
+   scrollToView(element){
+    var offset = element.offset().top;
+    if(!element.is(":visible")) {
+        element.css({"visibility":"hidden"}).show();
+        var offset = element.offset().top;
+        element.css({"visibility":"", "display":""});
+    }
+
+    var visible_area_start = $(window).scrollTop();
+    var visible_area_end = visible_area_start + window.innerHeight;
+
+    if(offset < visible_area_start || offset > visible_area_end){
+         // Not in view so scroll to it
+         $('html,body').animate({scrollTop: offset - window.innerHeight/3}, 1000);
+         return false;
+    }
+    return true;
+  },
+    getelementSearch(data){
+       this.$inertia.get('testelements?',
+            {
+              perPage:this.perPage,
+              testName:this.testName,
+              elementSearch:data
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+      },
+    saveCustommer(data) {
+      try {
+          this.$inertia.post('/dashboard/custommers',data)
+          this.closeModal();
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+    getPageFill(){
+        this.$inertia.get('custommers?',
+            {
+              //alert(ousentFill);
+              perPage:this.perPage,
+              ousentFill:this.ousentFill,
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+     },
+    getfilePerpage(){
+         this.$inertia.get('custommers?',
+            {  //search:this.search,
+              perPage:this.perPage,
+              ousentFill:this.ousentFill,
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+     },
+     refreshFill(){
+        this.$inertia.get('custommers?',
+             {
+              perPage:this.perPage,
+              ousentFill:this.ousentFill
+             },
+            {
+              preserveState:true,
+              replace:true            }
+
+            )
+     },
+    closeModal(){
+      this.reset();
+      this.showModal=false;
+      this.editMode=false;
+    },
+    openModal(){
+      this.showModal=true;
+    },
+     reset() {
+          this.getOusents=this.ousents,
+            this.form = {
+
+            name: null,
+            birthday: null,
+            //ousent_id: null,
+            //doctor_id: null,
+            kinhchot: null,
+            phone: "",
+            gender: '',
+            address: "",
+            //getdistricts:null,
+            //province_id: null,
+            //district_id:null,
+           // ward_id:null,
+            testname_id:[''],
+            selected:[],
+            diagnose:'',
+                }
+            },
+    addCustommer(){
+            this.showModal = true;
+            },
+
+   exportDomPDFSelect(){
        this.$inertia.get('/dashboard/downloadPDF?',
             {
               billId:this.checkPrint,
@@ -1015,202 +1188,6 @@ setup() {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
         },
-
-  // importFile(data) {
-  //       this.$inertia.post('/dashboard/importcustommers/',data)
-  //     },
-     updateCustommer(bill){
-        bill._method = 'PUT';
-        this.$inertia.post('/dashboard/custommers/'+bill.id, bill);
-        this.reset();
-        this.closeModal();
-    },
-      updateOusent(bill){
-          this.$inertia.post('/dashboard/updatecustommer/',bill);
-          this.closeModal();
-        },
-    currentDate() {
-          const current = new Date();
-          const date = ' '+`${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-          return date;
-        },
-    printDiv(divName){
-          window.print();
-      },
-    closeModalPrint(){
-         this.showModlPrint = false;
-    },
-    printResult(bill){
-        this.getbilltests= bill;
-        this.printCustommers = bill.custommer;
-        this.printOutsent= bill.ousent;
-        this.printDoctor = bill.doctor;
-
-        if(bill.image_left){
-           this.imgeLeft = bill.image_left.thinLeft;
-        }
-        else{
-          this.imageLeft='';
-        }
-        const elementChecked1 = bill.results;
-         let result = elementChecked1.map(({ element_id }) => element_id)
-        this.selectedArray = result;
-        this.printAddress=' '+ bill.custommer.address;
-        this.showModlPrint = true;
-
-    },
-    getDoctorFill(doctor){
-      //console.log(this.doctors);
-     const fillData = this.doctors.filter(function(el){
-       return el.ousent_id == doctor;
-     });
-     //console.log(fillData);
-     this.getdoctors = fillData;
-      },
-    getDistrictFill(province){
-      alert(province)
-     const fillData = this.districts.filter(function(el){
-       return el.province_id == province;
-     });
-     this.getdistricts = fillData;
-      },
-    getWardFill(district){
-     const fillWards = this.wards.filter(function(el){
-       return el.district_id == district;
-     });
-     this.getwards = fillWards;
-      },
-   scrollToView(element){
-    var offset = element.offset().top;
-    if(!element.is(":visible")) {
-        element.css({"visibility":"hidden"}).show();
-        var offset = element.offset().top;
-        element.css({"visibility":"", "display":""});
-    }
-
-    var visible_area_start = $(window).scrollTop();
-    var visible_area_end = visible_area_start + window.innerHeight;
-
-    if(offset < visible_area_start || offset > visible_area_end){
-         // Not in view so scroll to it
-         $('html,body').animate({scrollTop: offset - window.innerHeight/3}, 1000);
-         return false;
-    }
-    return true;
-  },
-    getelementSearch(data){
-       this.$inertia.get('testelements?',
-            {
-              perPage:this.perPage,
-              testName:this.testName,
-              elementSearch:data
-            },
-            {
-              preserveState:true,
-              replace:true            }
-            )
-      },
-    saveCustommer(data) {
-      try {
-          this.$inertia.post('/dashboard/custommers',data)
-          this.closeModal();
-      } catch (error) {
-        console.log(error);
-      }
-
-    },
-    getPageFill(){
-        this.$inertia.get('custommers?',
-            {
-              //alert(ousentFill);
-              perPage:this.perPage,
-              ousentFill:this.ousentFill,
-            },
-            {
-              preserveState:true,
-              replace:true            }
-            )
-     },
-    getfilePerpage(){
-         this.$inertia.get('custommers?',
-            {  //search:this.search,
-              perpageFill:this.perpageFill,
-              ousentFill:this.ousentFill,
-
-            },
-            {
-              preserveState:true,
-              replace:true            }
-
-            )
-     },
-     refreshFill(){
-        this.$inertia.get('custommers?',
-             { //perpageFill:this.perpageFill,
-             // ousentFill:this.ousentFill
-             },
-            {
-              preserveState:true,
-              replace:true            }
-
-            )
-     },
-    closeModal(){
-      this.reset();
-      this.showModal=false;
-      this.editMode=false;
-    },
-    openModal(){
-      this.showModal=true;
-    },
-     reset() {
-            this.form = {
-            name: null,
-            birthday: null,
-            ousent_id: null,
-            kinhchot: null,
-            phone: "",
-            gender: '',
-            address: "",
-            province_id: null,
-            district_id:null,
-            ward_id:null,
-            testname_id:[''],
-            selected:[],
-            diagnose:'',
-                }
-            },
-    addCustommer(){
-            this.showModal = true;
-            },
-    editCustommer(bill) {
-
-        var bilForm=this.form = Object.assign({}, bill);
-        this.checkededit= bilForm.status
-        this.form.name=bilForm.custommer.name;
-        this.form.gender=bilForm.custommer.gender;
-        this.form.birthday=bilForm.custommer.birthday;
-        this.form.address=bilForm.custommer.address;
-        const tesnameBill=bilForm.testnames;
-        this.form.testname_id = tesnameBill[0].id;
-
-         const provinceBill=bilForm.province;
-         if(provinceBill){
-            this.form.province_id = provinceBill.id;
-         }
-         const districtBill=bilForm.district;
-         if(districtBill){
-            this.form.district_id = districtBill.id;
-         }
-         const wardBill=bilForm.ward;
-         if(wardBill){
-            this.form.ward_id = wardBill.id;
-         }
-
-        this.editMode = true;
-        this.showModal=true;
-        },
-
 
 
   }

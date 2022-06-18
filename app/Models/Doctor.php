@@ -11,8 +11,7 @@ class Doctor extends Model
     protected $guarded = ['id'];
 
     public function ousent(){
-        return $this->belongsTo(Ousent::class,'ousent_id');
-        
+        return $this->belongsTo(Ousent::class,'ousent_id')->select('id','name');
     }
 
 }

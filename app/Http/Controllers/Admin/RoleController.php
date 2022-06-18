@@ -59,7 +59,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         //dd($request->menuParentCheck);
         $role=$this->role->create([
             'name'=>$request->name,
@@ -94,7 +94,7 @@ class RoleController extends Controller
         $rolesper = $this->role->all();
 
         $role1=$this->role->find($role->id);
-       
+
         $permissionOfRole= $role1->permissions;
         foreach($permissionOfRole as $roleselected){
             $permisionData[]=$roleselected->id;
@@ -104,8 +104,8 @@ class RoleController extends Controller
             'role'=>new RoleResource($role),
             'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->select(['id','name','menu_id','parent_id'])->get()),
             //'permissions'=>PermissionResource::collection(Permission::select(['id','name','parent_id'])->get()),
-            'permisionData'=>$permisionData  
-        ]);  
+            'permisionData'=>$permisionData
+        ]);
     }
     /**
      * Update the specified resource in storage.
@@ -116,22 +116,22 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-       
-        
+       //dd($request->all());
+
         MenuUser::where('user_id',$request->user_id)->delete();
         $data1=[];
         foreach($request->menuParentchecked as $menu_id){
             $data1[]=[
                 'user_id'=>$role->id,
                 'menu_id'=>$menu_id,
-                'created_at'=>date('Y-m-d H:i:s'),    
-                'updated_at'=>date('Y-m-d H:i:s'),    
+                'created_at'=>date('Y-m-d H:i:s'),
+                'updated_at'=>date('Y-m-d H:i:s'),
             ];
         }
         //dd($data1);
         MenuUser::insert($data1);
 
-        $data = $request->validate([  
+        $data = $request->validate([
             'name' => ['required', 'string'],
             'display_name' => ['required', 'string'],
         ]);
@@ -139,7 +139,7 @@ class RoleController extends Controller
         $role->update($data);
         $role->permissions()->sync($request->menuselected);
 
-            return redirect()->route('roles.index')->with('success', 'Add role successfully!'); 
+            return redirect()->route('roles.index')->with('success', 'Add role successfully!');
     }
     /**
      * Remove the specified resource from storage.
@@ -171,7 +171,7 @@ class RoleController extends Controller
             'menus'=>$menus,
             'userRole'=>$user,
             'menuedits'=>$arrays,
-            
+
         ]);
     }
 }

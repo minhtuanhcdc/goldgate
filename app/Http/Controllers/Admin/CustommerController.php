@@ -18,6 +18,8 @@ use App\Models\Testelement;
 use App\Models\Custommeraddress;
 use App\Http\Requests\SaveCustommerRequest;
 use App\Http\Resources\TestnameResource;
+use PHPUnit\Exception;
+use Illuminate\Support\Facades\Log;
 use DB;
 
 class CustommerController extends Controller
@@ -29,15 +31,16 @@ class CustommerController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpageFill?$request->perpageFill:5;
+        $perpage = $request->perPage?$request->perPage:5;
         $ousentFill=$request->ousentFill?$request->ousentFill:'all';
         if($request->ousentFill && $request->ousentFill !=='all'){
-            //dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$ousentFill)->paginate($perpage);
+           // dd($request->ousentFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
         //dd($billtests);
         }
         else{
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->paginate($perpage);
+           // dd($request->perpage);
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->paginate($perpage)->withQueryString();
 
         }
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
@@ -46,15 +49,15 @@ class CustommerController extends Controller
         $districts = District::get();
         $wards = Ward::get();
         $ousents = Ousent::select('id','name')->get();
-        $doctors = Doctor::select('id','name','ousent_id')->get();
+        $doctors = Doctor::with('ousent')->get();
         // $nametests = Testname::select('id','name')->get();
-        // $nametests=TestnameResource::collection(Testname::select('id','name')->get());
+        $nametests=TestnameResource::collection(Testname::get());
         $filters=[
             'ousentFill'=>$request->ousentFill,
         ];
         return Inertia::render('Custommer/Index',[
             'billtests'=>$billtests,
-            'nametests'=>TestnameResource::collection(Testname::select('id','name')->get()),
+            'nametests'=> $nametests,
             'testElements'=>$testElements,
             'provinces'=>$provinces,
             'districts'=>$districts,
@@ -82,9 +85,12 @@ class CustommerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SaveCustommerRequest $request)
+    public function store(Request $request)
     {
         //dd($request->all());
+        $userCreate = Auth()->user()->id;
+
+        //dd($userCreate);
         try{
             DB::beginTransaction();
             $data= $request->all();
@@ -103,15 +109,20 @@ class CustommerController extends Controller
                 'thinprep_code'=>$request->thinprep_code,
                 'sample_code'=>$request->sample_code,
                 'status'=>1,
+                'usercreate_id'=>$userCreate,
                 'created_at' => date('Y-m-d H:i:s'),
                 ]);
                 //dd($bill);
-                Billname::insert([
-                    'billtest_id'=>$Id_bill,
-                    'testname_id'=>$request->testname_id,
-                    'status'=>1,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
+                foreach($request->testname_id as $key=>$value){
+                    Billname::insert([
+                        'billtest_id'=>$Id_bill,
+                        'testname_id'=>$value,
+                        'status'=>1,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                }
+
+
                 //custommer_id`, `province_id`, `district_id`, `ward_id
                 // Custommeraddress::insert([
                 //     'custommer_id'=>$custommer->id,
@@ -165,6 +176,7 @@ class CustommerController extends Controller
     {
        //dd($request->all());
       // id`, `name`, `birthday`, `address`, `gender`, `ousent_id`, `status`, `created_at`, `updated_at
+      $userUpdate = Auth()->user()->id;
        try{
         DB::beginTransaction();
         $data=$request->all();
@@ -173,20 +185,13 @@ class CustommerController extends Controller
         'name'=>$request->name,
         'birthday'=>$request->birthday,
         'address'=>$request->address,
-        'address'=>$request->address,
+        'province_id'=>$request->province_id,
+        'district_id'=>$request->district_id,
+        'ward_id'=>$request->ward_id,
+        'phone'=>$request->phone,
+        'userupdate_id'=>$userUpdate,
         'updated_at'=>date('Y-m-d H:i:s'),
        ]);
-// "testname_id" => 1" province_id" => "2"" district_id" => 2" ward_id" => 2
-    //   Custommeraddress::where('custommer_id', '=',$request->custommer_id)->update([
-    //     'custommer_id'=>$request->custommer_id,
-    //     'province_id'=>$request->province_id,
-    //     'district_id'=>$request->district_id,
-    //     'phone'=>$request->phone,
-    //     'ward_id'=>$request->ward_id,
-    //     'updated_at' => date('Y-m-d H:i:s'),
-    // ]);
-
-
 
         DB::commit();
 
@@ -210,4 +215,5 @@ class CustommerController extends Controller
     {
         //
     }
+
 }
