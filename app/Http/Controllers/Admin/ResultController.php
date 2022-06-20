@@ -135,7 +135,7 @@ class ResultController extends Controller
      */
     public function update(Request $request, $id)
     {
-      // dd($request->all());
+       //dd($request->all());
        Result::where('bill_id',$id)->delete();
        foreach ($request->element_id as $eid=>$value) {
                 if($value != 26){

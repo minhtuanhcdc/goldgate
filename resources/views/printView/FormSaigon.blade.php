@@ -10,7 +10,7 @@
                     <td style="border:none !important" class="" colspan=""></td>
                     <td  style="border:none !important" class="col-1 py-0 text-right" colspan="5">
                         <div class="d-flex flex-column text-center uppercase py-0">
-                            <div class="py-0 font-bold text-right text-primary" style="font-size:16px;line-height:1; text-decoration:underline">PHIẾU XÉT NGHIỆM TẾ BÀO CỔ TỬ CUNG</div>
+                            <div class="py-0 font-bold text-right text-primary" style="font-size:16px;line-height:1; text-decoration:underline;">PHIẾU XÉT NGHIỆM TẾ BÀO CỔ TỬ CUNG</div>
                         </div>
                     </td>
                     <td style="border:none !important " colspan="4" class=" py-0 pt-1">
@@ -183,28 +183,43 @@
                                 <img class="" style="width:260px; height:180px"
                                 src="{{ public_path('/storage') }}/imageThinLeft/{{$value->imageLeft->thinLeft}}"
                             />
-                            @endif
-                                    <img class="" style="width:260px; height:180px; opacity:0.3"
+                            @elseif(!$value->imageLeft)
+                              <img class="" style="width:260px; height:180px; opacity:0.3"
                                 src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/>
+                            @endif
+
                         </td>
                         <td colspan="5" class="p-0"  style="border:none !important">
                              @if ($value->imageLeft)
                                 <img class="" style="width:260px; height:180px"
                                 src="{{ public_path('/storage') }}/imageThinLeft/{{$value->imageLeft->thinLeft}}"
                             />
-                            @endif
-                            <img class="" style="width:260px; height:180px; opacity:0.3"
+                              @elseif(!$value->imageLeft)
+                              <img class="" style="width:260px; height:180px; opacity:0.3"
                                 src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/>
+                            @endif
                         </td>
                     </tr>
 
             <tr class="py-0 m-0 bordered align-middle">
                     <td colspan="5"  style="border:none !important" class=" p-0 pl-2">
                        <div class="d-flex flex-col">
-                        <p class="py-0 m-0 text-primary font-italic" style="line-height:1;font-size:12px"><span class="uppercase font-bold">Kết luận</span> <span class="">(Conclutions)</span>:</p>
-                        <span class="m-0 uppercase py-0 pl-2 text-danger" style="line-height:1;font-size:12px">
-                            - Không tổn thương trong biểu mô
-                        </span>
+                         @foreach ($testElements as $key=>$elm9 )
+                                @if ($elm9->element_group == 9)
+
+                                        <div class="p-0 m-0 align-middle  mr-4">
+                                        <span class="align-middle m-0 p-0 font-bold uppercase" style="font-size:12px"> {{$elm9->name}}</span>
+                                            @foreach ($value->results as $k=>$v)
+                                                @if ($v->element_id == 26)
+                                                    <p class="text-danger uppercase" style="line-heigh:50%">- {{$v->result}}</p>
+                                                @endif
+
+
+                                            @endforeach
+                                        </div>
+
+                                @endif
+                        @endforeach
                        </div>
                        <div class="mt-4">
                         <p class="py-0 m-0 text-primary font-italic" style="line-height:1;font-size:12px"><span class="uppercase font-bold">ĐỀ NGHỊ:</span>:</p>
@@ -249,4 +264,4 @@
             </tbody>
         </table>
 </div>
-<div style="page-break-after: auto;"></div>
+<div style="page-break-after: avoid;"></div>

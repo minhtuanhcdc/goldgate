@@ -704,6 +704,7 @@
                           :pathImageLeft="pathImageLeft"
                           :pathThinLeft='pathThinLeft'
                           :pathThinRight='pathThinLeft'
+                           :ketluan='ketluan'
                           :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 9">
@@ -1212,7 +1213,7 @@ setup() {
   }
   @page{
     size: a4;
-    margin: 05mm 15mm 5mm 10mm;
+    /* margin: 05mm 15mm 5mm 5mm; */
     /*Chagen print here size: A5; landscape*/
     font-family: 'Times New Roman';
     /* font-size: 20px; */
@@ -1223,8 +1224,8 @@ setup() {
       }
 
       @page :right {
-         margin-left: 1cm;
-         /* margin-right: 2cm; */
+         /* //margin-left: 0.5cm; */
+         margin-right: 1cm;
       }
 
 .page-break {page-break-before: always !important; }

@@ -1,6 +1,6 @@
 <template>
 <!-- <div>{{getbilltests}}</div> -->
-      <div id="printMe" ref="printMe">
+  <div id="printMe" ref="printMe" class="px-0">
         <div class="flex justify-between mx-0 py-0">
             <div class=" py-0">
                 <img
@@ -122,10 +122,10 @@
          </div>
 
          <div class="grid grid-cols-2">
-            <div  class="text-center">
-              {{imageThinLeft}}
+            <div  class="text-center place-items-center">
+
                <img v-if="imageThinLeft"
-                    class="w-80 max-h-52 "
+                    class=" ml-10 w-80 max-h-52"
                     :src="pathThinLeft+imageThinLeft"
                     :alt="imageThinLeft"/>
 
@@ -150,11 +150,13 @@
          <div class="grid grid-cols-3">
            <div class="col-span-2">
              <div class="grid grid-cols-1">
-               <span class="font-bold text-blue-800 font-sans-Timenew text-sm underline underline-offset-2">KẾT LUẬN</span>
-               <span class="font-bold text-red-700 font-sans-Timenew text-md">- Không tổn thương trong biểu mô hay ung thư</span>
-               <span class="font-bold text-md font-sans-Timenew">- Tế bào cổ tử cung biến đổi do viêm</span>
+               <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
+                  <div  v-for="eg9 in testElements" :key="eg9.id">
+                      <span class="font-bold text-xs w-full mr-3" v-if="eg9.element_group ==9 && eg9.element_group !==null ">
+                        <p v-if="kl!==null" class="uppercase text-red-800 font-sans-Timenew text-lg pl-2">- {{ketluan}}</p>
+                      </span>
+                  </div>
              </div>
-
               <div class="font-bold text-blue-800 font-sans-Timenew text-md underline underline-offset-2">ĐỀ NGHỊ:</div>
            </div>
            <div class="grid grid-cols-1 text-center">
@@ -175,7 +177,7 @@
              </div>
              <div></div>
            </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -194,6 +196,7 @@ export default {
         pathThinLeft:'',
         pathThinRight:'',
         imageThinLeft:'',
+        ketluan:'',
 
     },
     components:{

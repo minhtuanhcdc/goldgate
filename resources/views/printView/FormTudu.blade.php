@@ -1,4 +1,4 @@
-<div class="container-fluid " style="padding:20px">
+<div class="container-fluid " style="padding:20px; margin-top:10px">
         <table class="table borderless " style="padding:20px 0px 20px 20px">
             <tbody>
 
@@ -46,7 +46,7 @@
             </tbody>
         </table>
     <div class="text-center text-danger font-weight-thin mb-0 p-0" style="line-height:30%; font-size:16px">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
-        <table class="table mt-0" style="padding:20px 0px 20px 20px">
+        <table class="table mt-0" style="padding:0px 0px 20px 20px">
             <tbody>
                 <tr class="align-middle">
                     <td class="" colspan="5" style="border:none !important" ><span class="font-bold" >Đánh giá lam (Specimen evalueation):</span></td>
@@ -211,28 +211,41 @@
                                 <img class="" style="width:260px; height:180px"
                                 src="{{ public_path('/storage') }}/imageThinLeft/{{$value->imageLeft->thinLeft}}"
                             />
-                            @endif
-                                    <img class="" style="width:260px; height:180px; opacity:0.3"
+                            @elseif(!$value->imageLeft)
+                              <img class="" style="width:260px; height:180px; opacity:0.3"
                                 src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/>
+                            @endif
+
                         </td>
                         <td colspan="5" class="p-0"  style="border:none !important">
                              @if ($value->imageLeft)
                                 <img class="" style="width:260px; height:180px"
                                 src="{{ public_path('/storage') }}/imageThinLeft/{{$value->imageLeft->thinLeft}}"
                             />
-                            @endif
-                                    <img class="" style="width:260px; height:180px; opacity:0.3"
+                               @elseif(!$value->imageLeft)
+                              <img class="" style="width:260px; height:180px; opacity:0.3"
                                 src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/>
+                            @endif
                         </td>
                     </tr>
             <tr class="py-0 m-0 bordered align-middle mt-2">
                     <td colspan="5"  style="border:none !important" class=" p-0 pl-2">
-                       <div class="d-flex flex-col">
-                        <p class="uppercase font-bold py-0 m-0" style="line-height:1;font-size:14px">Kết luận(Conclutions):</p>
-                        <span class="m-0 uppercase py-0 text-danger" style="line-height:1;font-size:12px">
-                            Không tổn thương trong biểu mô
-                        </span>
-                       </div>
+                        @foreach ($testElements as $key=>$elm9 )
+                                @if ($elm9->element_group == 9)
+
+                                        <div class="p-0 m-0 align-middle  mr-4">
+                                        <span class="align-middle m-0 p-0 font-bold uppercase" style="font-size:12px"> {{$elm9->name}}</span>
+                                            @foreach ($value->results as $k=>$v)
+                                                @if ($v->element_id == 26)
+                                                    <p class="text-danger uppercase" style="line-heigh:50%">- {{$v->result}}</p>
+                                                @endif
+
+
+                                            @endforeach
+                                        </div>
+
+                                @endif
+                        @endforeach
                     </td>
                     <td colspan="5" class="p-0 text-right"  style="border:none !important">
                         <div class="text-center font-bold">
