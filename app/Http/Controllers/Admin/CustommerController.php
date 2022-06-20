@@ -9,6 +9,7 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\Ward;
 use App\Models\Ousent;
+use App\Models\Ouread;
 use App\Models\Doctor;
 use App\Models\Custommer;
 use App\Models\Billtest;
@@ -21,6 +22,7 @@ use App\Http\Resources\TestnameResource;
 use PHPUnit\Exception;
 use Illuminate\Support\Facades\Log;
 use DB;
+use \Illuminate\Support\Str;
 
 class CustommerController extends Controller
 {
@@ -33,10 +35,16 @@ class CustommerController extends Controller
     {
         $perpage = $request->perPage?$request->perPage:5;
         $ousentFill=$request->ousentFill?$request->ousentFill:'all';
+        $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
         if($request->ousentFill && $request->ousentFill !=='all'){
            // dd($request->ousentFill);
             $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
-        //dd($billtests);
+                //dd($billtests);
+        }
+        if($request->readcodeFill && $request->readcodeFill !=='all'){
+            //dd($request->readcodeFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+                //dd($billtests);
         }
         else{
            // dd($request->perpage);
@@ -50,6 +58,7 @@ class CustommerController extends Controller
         $wards = Ward::get();
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::with('ousent')->get();
+        $readcodes = Ouread::get();
         // $nametests = Testname::select('id','name')->get();
         $nametests=TestnameResource::collection(Testname::get());
         $filters=[
@@ -64,6 +73,7 @@ class CustommerController extends Controller
             'wards'=>$wards,
             'ousents'=>$ousents,
             'doctors'=>$doctors,
+            'readcodes'=>$readcodes,
             'filters'=>$filters,
             'custommer'=>Custommer::with('province')->get(),
         ]);
@@ -91,6 +101,7 @@ class CustommerController extends Controller
         $userCreate = Auth()->user()->id;
 
         //dd($userCreate);
+
         try{
             DB::beginTransaction();
             $data= $request->all();
@@ -100,6 +111,8 @@ class CustommerController extends Controller
             //`id`, `custommer_id`, `ousent_id`, `doctor_id`, `diagonose`,
             // `hpv_code`, `thinprep_code`, `sample_code`, `status`
 
+              $readCode =   substr ( $request->thinprep_code ,0, 4 );
+              //dd($readCode);
             $Id_bill=$custommer->billtest()->insertGetId([
                 'custommer_id'=>$custommer->id,
                 'ousent_id'=>$request->ousent_id,
@@ -109,7 +122,7 @@ class CustommerController extends Controller
                 'thinprep_code'=>$request->thinprep_code,
                 'sample_code'=>$request->sample_code,
                 'date_receive'=>$request->date_re,
-                'read_code'=>$request->read_code,
+                'read_code'=>$readCode,
                 'status'=>1,
                 'usercreate_id'=>$userCreate,
                 'created_at' => date('Y-m-d H:i:s'),

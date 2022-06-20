@@ -555,7 +555,7 @@ data(){
               },
           reset() {
               this.form = {
-                element_id:null,
+                element_id:[],
                 ket_luan:'',
                 bill_id:'',
                 thin_code:'',
@@ -563,9 +563,9 @@ data(){
                 }
             },
           closeModal(){
-               this.reset();
               this.showModal=false;
               this.editMode=false;
+              this.reset();
               },
           updateResult(bill){
             //alert(123);
@@ -608,7 +608,7 @@ data(){
              var ketluanFill = elementChecked1.find(obj => {
                       return obj.element_id ==26
                     })
-            console.log('Tessssssssssssssss',ketluanFill);
+            // console.log('Tessssssssssssssss',ketluanFill);
 
               let result = elementChecked1.map(({ element_id }) => element_id)
 

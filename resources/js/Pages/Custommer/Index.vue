@@ -78,15 +78,15 @@
                         name="testgroup"
                         id="testgroup"
                         class="block py-0 w-full form-input h-8 rounded-lg text-md"
-                        v-model="doctorFill"
+                        v-model="readcodeFill"
                       >
                         <option value="all">All</option>
                         <option
-                          v-for="(dtr,i) in doctors"
+                          v-for="(rcd,i) in readcodes"
                           :key="i"
-                          :value="dtr.id"
+                          :value="rcd.read_code"
                         >
-                          {{ dtr.name }}
+                          {{ rcd.name }} ({{rcd.read_code}})
                         </option>
                     </select>
               </div>
@@ -764,6 +764,7 @@ export default defineComponent({
     wards:'',
     ousents:'',
     doctors:'',
+    readcodes:'',
     custommer:"",
     filters:{},
     errors: Object,
@@ -1048,6 +1049,7 @@ setup() {
               //alert(ousentFill);
               perPage:this.perPage,
               ousentFill:this.ousentFill,
+              readcodeFill:this.readcodeFill,
             },
             {
               preserveState:true,
@@ -1059,6 +1061,7 @@ setup() {
             {  //search:this.search,
               perPage:this.perPage,
               ousentFill:this.ousentFill,
+              readcodeFill:this.readcodeFill,
             },
             {
               preserveState:true,
@@ -1069,7 +1072,8 @@ setup() {
         this.$inertia.get('custommers?',
              {
               perPage:this.perPage,
-              ousentFill:this.ousentFill
+              ousentFill:this.ousentFill,
+              readcodeFill:this.readcodeFill
              },
             {
               preserveState:true,
