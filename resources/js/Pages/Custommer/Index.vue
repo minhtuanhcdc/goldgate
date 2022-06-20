@@ -24,7 +24,6 @@
               @input="form.uploadFile = $event.Target.files[0]"
               />
           </form> -->
-
            <form @submit.prevent="submitFile">
              <div class="flex flex-row">
                 <div>
@@ -190,7 +189,7 @@
       <Table :headers="headers" :addClass="addClass" id="exportMe">
           <tr class="hover:bg-gray-300 " v-for="(bill,i) in billtests.data" :key="i">
              <td><input type="checkbox" :value="bill.id" v-model="checkPrint"></td>
-            <td class="border-r-2 text-center">{{i+1}}</td>
+            <td class="border-r-2 text-center">{{bill.id}}</td>
              <td class="border-r-2">{{bill.custommer.name}}</td>
              <td class="border-r-2">
                <span v-if="bill.custommer.gender==0">Nữ</span>
@@ -213,7 +212,8 @@
               <td class="border-r-2 text-center">{{bill.hpv_code}}</td>
              <td class="border-r-2" ><span v-if="bill.doctor">{{bill.doctor.title}} {{bill.doctor.name}}</span></td>
             <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
-            <td class="border-r-2" ><span></span></td>
+            <td class="border-r-2" ><span>{{bill.date_receive}}</span></td>
+            <td class="border-r-2" ><span>{{bill.read_code}}</span></td>
 
             <td class="text-center border-r-2">
                 <EditBtn
@@ -273,7 +273,7 @@
                   <PencilIcon class="w-6 h-6"/>
                 </EditBtn>
                 <DeleteBtn
-                  :url="route('custommers.destroy',bill.id)"
+                  :url="route('custommers.destroy', bill.id )"
                   class="p-0 cursor-pointer text-red-700"
                   module-name="el"
                 />
@@ -647,7 +647,7 @@
                                   id="readsample"
                                   type="text-local"
                                   class="mt-1 block w-full h-8"
-                                  v-model="form.readsample"
+                                  v-model="form.read_code"
                                   autocomplete="readsample"/>
                                 </div>
                               </div>
@@ -682,13 +682,13 @@
 
                 <!-- <div>{{selectedArray['name']}}</div> -->
                 <div v-if="printOutsent.id == 1" id="printTestMe">
-                  <h1>PDF here</h1>
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
                         :pathImageLeft="pathImageLeft"
                         :pathThinLeft='pathThinLeft'
                         :pathThinRight='pathThinLeft'
                         :selectedArray='selectedArray'
+                        :ketluan='ketluan'
                         :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 6">
@@ -805,6 +805,7 @@ data(){
     printDoctor:'',
     selectedArray:'',
     imgeLeft:'',
+    ketluan:'',
 
     output: null,
     ousentFill:this.filters.ousentFill,
@@ -890,6 +891,7 @@ setup() {
         { name: "Bác sỹ chỉ định", class:'border-l-2 text-center font-normal' },
         { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center font-thin' },
         { name: "Ngày nhận mẫu mẫu", class:'border-l-2 text-center font-thin' },
+        { name: "Đơn vị đọc", class:'border-l-2 text-center font-thin' },
         { name: "Kết quả", class:'border-l-2 text-center font-normal' },
         { name: "User create", class:'border-l-2 text-center font-normal' },
         { name: "Action", class: "text-right border-l-2 font-normal" },
@@ -909,6 +911,7 @@ setup() {
 
   },
   methods:{
+
       editCustommer(bill) {
              this.form = Object.assign({}, bill);
               //console.log(bilForm);
@@ -917,34 +920,11 @@ setup() {
               this.form.gender=this.form.custommer.gender;
               this.form.birthday=this.form.custommer.birthday;
               this.form.address=this.form.custommer.address;
+              this.form.phone=this.form.custommer.phone;
               this.form.para=this.form.para;
               this.form.kinhchot=this.form.kinhchot;
-
-
-                //const iterator = this.form.testnames;
-
-                 //var arr =  this.form.testnames;
-
-var result = this.form.testnames.map(function(a) {return a.id;});
-this.form.testname_id=result;
-//console.log('Hehehehehehehe',result);
-
-
-
-
-              //  const provinceBill=this.form.province;
-              //  if(provinceBill){
-              //      this.form.province_id = provinceBill.id;
-              //  }
-              // const districtBill=this.form.district;
-              // if(districtBill){
-              //     this.form.district_id = districtBill.id;
-              // }
-              // const wardBill=bilForm.ward;
-              // if(wardBill){
-              //     this.form.ward_id = wardBill.id;
-              // }
-
+              var result = this.form.testnames.map(function(a) {return a.id;});
+              this.form.testname_id=result;
               this.editMode = true;
               this.showModal=true;
               },
@@ -982,15 +962,17 @@ this.form.testname_id=result;
           this.imageLeft='';
         }
         const elementChecked1 = bill.results;
-         let result = elementChecked1.map(({ element_id }) => element_id)
-        this.selectedArray = result;
+         let results = elementChecked1.map(({ element_id }) => element_id)
+         let keluanfill = elementChecked1.map(({result }) =>result)
+
+         var last = keluanfill.slice(-1)[0]
+         this.ketluan = last;
+        this.selectedArray = results;
         this.printAddress=' '+ bill.custommer.address;
         this.showModlPrint = true;
 
     },
     getDoctorFill(doctor){
-      //alert(123);
-      //console.log(this.doctors);
      const fillData = this.doctors.filter(function(el){
        return el.ousent_id == doctor;
      });
@@ -1081,7 +1063,6 @@ this.form.testname_id=result;
             {
               preserveState:true,
               replace:true            }
-
             )
      },
     closeModal(){
@@ -1216,7 +1197,7 @@ this.form.testname_id=result;
   }
   @page{
     size: a4;
-    /* margin: 05mm 15mm 5mm 10mm; */
+    margin: 05mm 15mm 5mm 10mm;
     /*Chagen print here size: A5; landscape*/
     font-family: 'Times New Roman';
     /* font-size: 20px; */
@@ -1230,6 +1211,9 @@ this.form.testname_id=result;
          margin-left: 1cm;
          /* margin-right: 2cm; */
       }
+
+.page-break {page-break-before: always !important; }
+
 }
 
 

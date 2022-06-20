@@ -155,10 +155,16 @@
                               <div class="col-span-2">
                                 <div class="grid grid-cols-1">
                                   <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
-                                  <span class="font-bold text-red-700 font-sans-Timenew text-xs uppercase">- Không tổn thương trong biểu mô hay ung thư</span>
-                                  <span class="font-bold text-md font-sans-Timenew">- Tế bào cổ tử cung biến đổi do viêm</span>
+                                 <div  v-for="eg9 in testElements" :key="eg9.id">
+                                    <span class="font-bold text-xs w-full mr-3" v-if="eg9.element_group ==9 && eg9.element_group !==null ">
+
+                                         <p v-if="kl!==null" class="uppercase text-red-800 font-sans-Timenew text-lg pl-2">- {{ketluan}}</p>
+
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
+
                               <div class="grid grid-cols-1 text-center">
                                 <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:</span>
                                 <span class="mb-16 font-bold font-sans-Timenew text-md" style="margin-bottom:40px">BS/KTV đọc kết quả:</span>
@@ -186,6 +192,7 @@ export default {
         pathThinLeft:'',
         pathThinRight:'',
         imageThinLeft:'',
+        ketluan:'',
 
 
     },

@@ -89,11 +89,11 @@
       <Table :headers="headers" :addClass="addClass">
           <tr class="hover:bg-gray-300 " v-for="(el,i) in testElements.data" :key="i">
             <td class="border-r-2 text-center">{{i+1}}</td>
+            <td class="border-r-2 text-center  bg-blue-300">{{el.id}}</td>
              <td class="border-r-2">{{el.name}}</td>
              <td class="border-r-2 text-center">{{el.element_group}}</td>
             <td class="border-r-2 text-center">{{el.testname.name}}</td>
             <td class="border-r-2" ></td>
-
 
             <td class="text-center border-r-2">
                 <EditBtn
@@ -426,6 +426,7 @@ data(){
     headers() {
       return [
         { name: "#", class:'w-12 text-center' },
+        { name: "Id", class:'w-12 text-center' },
         { name: "Thành phần xét nghiệm", class:'border-l-2' },
         { name: "Element group", class:'border-l-2 text-center' },
         { name: "Tên xét nghiệm", class:'border-l-2 text-center px-1' },

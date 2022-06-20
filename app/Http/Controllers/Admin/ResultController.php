@@ -72,29 +72,36 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-
-//dd($request->all());
-        // foreach($request->element_id as $ied=>$value){
-        //     Result::insert([
-        //         'bill_id'=>$request->bill_id,
-        //         'thin_code'=>$request->thin_code,
-        //         'element_id'=>$value,
-        //         'result'=>$ied,
-        //         'created_at'=>date('Y-m-d H:i:s'),
-        //         'updated_at'=>date('Y-m-d H:i:s'),
-        //     ]);
-        //};
-
+        //dd($request->all());
                 foreach ($request->element_id as $eid=>$value) {
-                    Result::insert([
-                        'bill_id'=>$request->bill_id,
-                        'thin_code'=>$request->thin_code,
-                        'element_id'=>$value,
-                        'result'=>$request->ketluan_conclution,
-                        'created_at'=>date('Y-m-d H:i:s'),
-                        'updated_at'=>date('Y-m-d H:i:s'),
-                        ]);
-            };
+                    if($value!==null){
+                        Result::insert([
+                            'bill_id'=>$request->bill_id,
+                            'thin_code'=>$request->thin_code,
+                            'element_id'=>$eid,
+                            'result'=>$value,
+                            'created_at'=>date('Y-m-d H:i:s'),
+                            'updated_at'=>date('Y-m-d H:i:s'),
+                            ]);
+                    };
+                    }
+
+                // foreach ($request->ket_luan as $key=>$value) {
+                //  if($key == 26){
+                //     Result::insert([
+                //         'element_id'=>$key,
+                //         'result'=>$value,
+                //         'bill_id'=>$request->bill_id,
+                //         'thin_code'=>$request->thin_code,
+                //         'created_at'=>date('Y-m-d H:i:s'),
+                //         'updated_at'=>date('Y-m-d H:i:s'),
+                //         ]);
+                //  }
+                // };
+
+
+
+
             Billtest::where('id',$request->bill_id)->update(
                 [
                     'result_status'=>1

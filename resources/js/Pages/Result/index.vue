@@ -6,7 +6,6 @@
     </template>
     <Container>
       <Card>
-
         <div class="px-2 grid grid-cols-1 mb-2 bg-gray-200">
             <div class="grid grid-cols-7">
               <div class="col-span-2 ">
@@ -123,6 +122,7 @@
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
                 <EditBtn
+                v-show="bill.result_status==1"
                   title="Edit"
                   class="text-green-800"
                     @click="editUser(bill)"
@@ -177,6 +177,7 @@
                     <hr>
                 <form
                     class="py-1 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
+
                     @submit.prevent="saveResult(form)">
                 <h1>form Sài Gòn</h1>
                 <div class="text-center font-bold text-md underline underline-offset-2 font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG (BETHESDA 2014)</div>
@@ -313,14 +314,13 @@
                     class="py-1 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                     @submit.prevent="saveResult(form)">
                     <div>
-
                   <div class="text-center font-bold text-md font-sans-Timenew mt-1 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
                   <div class="grid grid-cols-5 font-sans-Timenew leading-6">
                   <div class="font-bold italic col-span-2">Đánh giá lam (Specimen evalueation)</div>
                   <div class="col-span-3 grid grid-cols-2" >
-                    <div class="" v-for="el1 in testElements" :key="el1.id">
-                      <span class="font-bold" v-if="el1.element_group ==1">{{el1.name}} - {{el1.id}}
-                        <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="el1.id" v-model="form.element_id"/>
+                    <div class="" v-for="eg1 in testElements" :key="eg1.id">
+                      <span class="font-bold" v-if="eg1.element_group ==1">{{eg1.name}} - {{eg1.id}}
+                        <input   type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg1.id" v-model="form.element_id[eg1.id]"/>
                       </span>
                     </div>
                     </div>
@@ -328,7 +328,7 @@
                   <div class="grid grid-cols-1">
                     <div class="" v-for="eg2 in testElements" :key="eg2.id">
                         <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
-                          <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg2.id" v-model="form.element_id"/>
+                          <input :checked="checkedElement == eg2.id?true:false"   type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg2.id" v-model="form.element_id[eg2.id]"/>
                         </span>
                     </div>
                   </div>
@@ -336,32 +336,31 @@
                 <div class="flex flex-cols-5">
                   <div class="" v-for="eg3 in testElements" :key="eg3.id">
                     <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg3.id" v-model="form.element_id"/>
+                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg3.id" v-model="form.element_id[eg3.id]"/>
                     </span>
                 </div>
                 </div>
                 <div class="grid grid-cols-1">
                   <div class="" v-for="eg4 in testElements" :key="eg4.id">
                     <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
-                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg4.id" v-model="form.element_id"/>
+                          <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg4.id" v-model="form.element_id[eg4.id]"/>
                     </span>
                 </div>
                 </div>
-
               <div class="col-span-2">
                   <span class=" font-sans-Timenew font-bold text-sm  text-blue-700">+ TẾ BÀO GAI (Squamuos cell)</span>
                     <div class="grid grid-cols-2 leading-5 italic">
                       <div class="flex flex-col">
                         <div v-for="(eg5, i) in testElements" :key="i">
                           <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
-                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg5.id" v-model="form.element_id"/>
+                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg5.id" v-model="form.element_id[eg5.id]"/>
                             </span>
                         </div>
                       </div>
                       <div class="flex flex-col">
                         <div class="" v-for="(eg6, i) in testElements" :key="i">
                           <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
-                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
+                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id[eg6.id]"/>
                             </span>
                         </div>
                       </div>
@@ -375,9 +374,9 @@
                     <div class="grid grid-cols-1 leading-5 italic">
                       <div class="flex flex-cols-3 ">
 
-                      <div v-for="(eg6, i) in testElements" :key="i">
-                        <span class="text-left font-bold text-xs  font-sans-Timenew mr-5" v-if="eg6.element_group == 7">{{eg6.name}}
-                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
+                      <div v-for="(eg7, i) in testElements" :key="i">
+                        <span class="text-left font-bold text-xs  font-sans-Timenew mr-5" v-if="eg7.element_group == 7">{{eg7.name}}
+                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg7.id" v-model="form.element_id[eg7.id]"/>
                           </span>
 
                       </div>
@@ -393,7 +392,7 @@
             <div class="grid grid-cols-2">
                 <div  v-for="el8 in testElements" :key="el8.id">
                   <span class="font-bold text-xs" v-if="el8.element_group ==8">{{el8.name}}
-                    <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="el8.id" v-model="form.element_id"/>
+                    <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="el8.id" v-model="form.element_id[el8.id]"/>
                   </span>
                 </div>
             </div>
@@ -418,25 +417,17 @@
          <div class="grid grid-cols-3">
            <div class="col-span-2">
               <div class="grid grid-cols-1">
-                 <div  v-for="eg9 in testElements" :key="eg9.id">
-                  <span class="font-bold text-xs" v-if="eg9.element_group ==9">{{eg9.name}}
-                    <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg9.id" v-model="form.element_id"/>
-                     <input type="text" class="w-full" v-model="form.ketluan_conclution"/>
+                 <div  v-for="(eg9,index) in testElements" :key="index">
+                  <span class="font-bold text-xl" v-if="eg9.element_group ==9">{{eg9.name}}
+                    <span v-if="eg9.id == 26">
+                         <input  type="text" class="w-full rounded-md h-10" v-model="form.element_id[eg9.id]">
+                    </span>
+                    <!-- <span v-else>
+                           <input v-if="editMode" type="text" class="w-full rounded-md h-10" v-model="form.ket_luan">
+                    </span> -->
                   </span>
                 </div>
-            <!-- <div class="">
-              <span class="text-left font-bold text-md  font-sans-Timenew text-red-700">- Kết luận
-                     <input type="checkbox"  class="form-checkbox text-pink-600 h-3 w-3" :value="" v-model="form.element_id" checked />
-                     <input type="text" class="w-full" v-model="form.ketluan_conclution"/>
-              </span>
-          </div> -->
-            <!--   <input type="text" name="result[{{$item2->id}}]" class="form-control bg-light" placeholder="Enter ..." value="{{$item2->valueresult($bill->id)}}">-->
-             <!-- <div class="" v-for="eg9 in testElements" :key="eg9.id">
-              <span class="text-left font-bold text-md  font-sans-Timenew text-red-700" v-if="eg9.element_group == 9">- {{eg9.name}}
-                     <input type="text" name="result[{{$item2->id}}]" class="form-control bg-light" placeholder="Enter ..." value="{{$item2->valueresult($bill->id)}}">
-                     <input type="text" class="w-full" v-model="form.ketluan_conclution"/>
-              </span>
-          </div> -->
+
           </div>
            </div>
 
@@ -517,7 +508,10 @@ export default defineComponent({
   },
 data(){
   return{
-   viewOutsent:'',
+    checkedElement:[],
+    ket_luan:[],
+    ketluan:'',
+    viewOutsent:'',
     name:'',
     test_id:'',
     thinprep_code:'',
@@ -538,6 +532,7 @@ data(){
 
     form: this.$inertia.form({
           element_id:[],
+          ket_luan:[],
           bill_id:'',
           thin_code:'',
           hpv_code:'',
@@ -549,6 +544,12 @@ data(){
     }
   },
   methods:{
+     created(){
+   this.paymentmethods.forEach((value) => {
+     this.pays.push({id:value.value, ref: 'test123' , val: 0 })
+   });
+   console.log(this.pays);
+  },
           openModal(){
                 this.showModal=true;
               },
@@ -563,7 +564,9 @@ data(){
               this.editMode=false;
               },
           saveResult(data) {
+
             const data2 = {
+              'ket_luan':this.form.ket_luan,
               'thin_code': this.thinprep_code,
               'bill_id': this.test_id,
               };
@@ -575,11 +578,13 @@ data(){
                 },
           editUser(bill) {
               this.form = Object.assign({}, bill);
+              console.log(bill);
+               this.viewOutsent= bill.ousent.id;
               this.name = bill.custommer.name;
               const elementChecked1 =bill.results;
-                let result = elementChecked1.map(({ element_id }) => element_id)
-                this.elementChecked = result;
-                this.form.element_id = result;
+              let result = elementChecked1.map(({ element_id }) => element_id)
+                this.checkedElement = result;
+                this.form.element_id =result;
                 this.editMode = true;
                 this.showModal=true;
               },

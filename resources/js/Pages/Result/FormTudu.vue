@@ -117,8 +117,10 @@
               <div class="grid grid-cols-1">
                  <div  v-for="eg9 in testElements" :key="eg9.id">
                   <span class="font-bold text-xs" v-if="eg9.element_group ==9">{{eg9.name}}
-                    <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg9.id" v-model="form.element_id"/>
-                     <input type="text" class="w-full" v-model="form.ketluan_conclution"/>
+                    <!-- <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg9.id" v-model="form.element_id"/> -->
+
+
+                      <input type="text" class="w-full" v-model="form.lows['eg9.id'].value"/>
                   </span>
                 </div>
             <!-- <div class="">

@@ -108,6 +108,8 @@ class CustommerController extends Controller
                 'hpv_code'=>$request->hpv_code,
                 'thinprep_code'=>$request->thinprep_code,
                 'sample_code'=>$request->sample_code,
+                'date_receive'=>$request->date_re,
+                'read_code'=>$request->read_code,
                 'status'=>1,
                 'usercreate_id'=>$userCreate,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -180,7 +182,6 @@ class CustommerController extends Controller
        try{
         DB::beginTransaction();
         $data=$request->all();
-
        $custommerId=Custommer::where('id',$request->custommer_id)->update([
         'name'=>$request->name,
         'birthday'=>$request->birthday,
@@ -188,6 +189,7 @@ class CustommerController extends Controller
         'province_id'=>$request->province_id,
         'district_id'=>$request->district_id,
         'ward_id'=>$request->ward_id,
+        'gender'=>$request->gender,
         'phone'=>$request->phone,
         'userupdate_id'=>$userUpdate,
         'updated_at'=>date('Y-m-d H:i:s'),
@@ -213,7 +215,10 @@ class CustommerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Billtest::where('id',$id)->delete();
+        Billname::where('billtest_id',$id)->delete();
+        //$billtest->delete();
+        return back()->withInput()->with('success','Add  successfully!');
     }
 
 }

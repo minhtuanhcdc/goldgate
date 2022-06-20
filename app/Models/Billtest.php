@@ -51,10 +51,6 @@ class Billtest extends Model
     public function cutommerupdate(){
           return $this->hasOne(Custommer::class);
     }
-    public function billnametests(){
-        //dd($this->belongsToMany(Role::class,'user_role','user_id','role_id'));
-        return $this->belongsToMany(Testname::class,'billnames','testname_id','billtest_id');
-    }
 
 
 }

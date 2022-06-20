@@ -25,7 +25,7 @@ class UpdateCustommerController extends Controller
 {
 
     public function updatebill(Request $request, Billtest $billtest){
-        //dd($request->all());
+       // dd($request->all());
 
         //$billtest->update($request->all());
 
@@ -49,14 +49,8 @@ class UpdateCustommerController extends Controller
             'updated_at'=>date('Y-m-d H:i:s'),
            ]);
 
-           Billname::where('billtest_id',$request->id)->delete();
+        Billname::where('billtest_id',$request->id)->delete();
 
-        //    Billname::insert([
-        //     'billtest_id'=>$request->id,
-        //     'testname_id'=>$request->testname_id,
-        //     'status'=>2,
-        //     'updated_at' => date('Y-m-d H:i:s'),
-        // ]);
         foreach($request->testname_id as $key=>$value){
             Billname::insert([
                 'billtest_id'=>$request->id,
@@ -65,8 +59,7 @@ class UpdateCustommerController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
         }
-
-        //$billtest->billnametests()->synch($request->testname_id);
+        //$billtestUpdate->testnames()->synch($request->testname_id);
             DB::commit();
             }catch(Exception $excepton){
                 DB::rollBack();
@@ -75,5 +68,10 @@ class UpdateCustommerController extends Controller
     return back()->withInput()->with('success','Add  successfully!');
     }
 
+    public function destroy(Billtest $billtest)
+    {
+        $billtest->delete();
+        return back()->withInput()->with('success','Add  successfully!');
+    }
 
 }

@@ -18,7 +18,8 @@ use App\Http\Controllers\Admin\UpdateCustommerController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\PrintController;
-use App\Http\Controllers\Admin\updateCusBill;
+
+use App\Http\Controllers\Admin\CheckCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,8 +107,10 @@ Route::middleware(['auth', 'verified'])
     Route::post('/importcustommers',[ImportController::class,'importcustommers'])->name('importcustommers');
 
     Route::resource('/images','UploadImageController');
+    Route::resource('/oureads','OureadController');
 
     Route::get('/tranbillids',[PDFController::class,'TransBillId'])->name('TransBillId');
     Route::get('/downloadPDF',[PDFController::class,'downloadPDF'])->name('downloadPDF');
+    Route::get('/checkcodeoureads',[CheckCodeController::class,'checkcodeouread'])->name('checkcodeoureads');
 
 });
