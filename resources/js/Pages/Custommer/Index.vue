@@ -214,8 +214,15 @@
             <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
             <td class="border-r-2" ><span>{{bill.date_receive}}</span></td>
             <td class="border-r-2" ><span>{{bill.read_code}}</span></td>
+            <td class="border-r-2" >
+              <span v-for="(rs,i) in bill.results" :key="i">
+                <span v-if="rs.element_id ==26" class="text-red-600">
+                    {{rs.result}},
+                </span>
+              </span>
+            </td>
 
-            <td class="text-center border-r-2">
+            <!-- <td class="text-center border-r-2">
                 <EditBtn
                   title="View"
                   class="text-green-800"
@@ -253,7 +260,7 @@
                 ></path>
               </svg>
               </EditBtn>
-            </td>
+            </td> -->
              <td class="border-r-2">{{bill.userupdate_id}}</td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
@@ -963,10 +970,14 @@ setup() {
         }
         const elementChecked1 = bill.results;
          let results = elementChecked1.map(({ element_id }) => element_id)
-         let keluanfill = elementChecked1.map(({result }) =>result)
+         //let keluanfill = elementChecked1.map(({result }) =>result)
 
-         var last = keluanfill.slice(-1)[0]
-         this.ketluan = last;
+          var ketluanFill = elementChecked1.find(obj => {
+                      return obj.element_id ==26
+                    })
+
+        //  var last = keluanfill.slice(-1)[0]
+         this.ketluan = ketluanFill.result;
         this.selectedArray = results;
         this.printAddress=' '+ bill.custommer.address;
         this.showModlPrint = true;

@@ -78,29 +78,21 @@ class ResultController extends Controller
                         Result::insert([
                             'bill_id'=>$request->bill_id,
                             'thin_code'=>$request->thin_code,
-                            'element_id'=>$eid,
+                            'element_id'=>$value,
                             'result'=>$value,
                             'created_at'=>date('Y-m-d H:i:s'),
                             'updated_at'=>date('Y-m-d H:i:s'),
                             ]);
                     };
                     }
-
-                // foreach ($request->ket_luan as $key=>$value) {
-                //  if($key == 26){
-                //     Result::insert([
-                //         'element_id'=>$key,
-                //         'result'=>$value,
-                //         'bill_id'=>$request->bill_id,
-                //         'thin_code'=>$request->thin_code,
-                //         'created_at'=>date('Y-m-d H:i:s'),
-                //         'updated_at'=>date('Y-m-d H:i:s'),
-                //         ]);
-                //  }
-                // };
-
-
-
+                    Result::insert([
+                        'element_id'=>26,
+                        'result'=>$request->ket_luan,
+                        'bill_id'=>$request->bill_id,
+                        'thin_code'=>$request->thin_code,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                        'updated_at'=>date('Y-m-d H:i:s'),
+                        ]);
 
             Billtest::where('id',$request->bill_id)->update(
                 [
@@ -143,7 +135,42 @@ class ResultController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      // dd($request->all());
+       Result::where('bill_id',$id)->delete();
+       foreach ($request->element_id as $eid=>$value) {
+                if($value != 26){
+
+                    Result::insert([
+                        'bill_id'=>$id,
+                        'thin_code'=>$request->thin_code,
+                        'element_id'=>$value,
+                        'result'=>$value,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                        'updated_at'=>date('Y-m-d H:i:s'),
+                        ]);
+                };
+                if($value == 26){
+                    Result::insert([
+                        'bill_id'=>$id,
+                        'thin_code'=>$request->thin_code,
+                        'element_id'=>26,
+                        'result'=>$request->ket_luan,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                        'updated_at'=>date('Y-m-d H:i:s'),
+                        ]);
+                }
+
+        }
+        // Result::insert([
+        //     'element_id'=>26,
+        //     'result'=>$request->ketluan,
+        //     'bill_id'=>$id,
+        //     'thin_code'=>$request->thin_code,
+        //     'created_at'=>date('Y-m-d H:i:s'),
+        //     'updated_at'=>date('Y-m-d H:i:s'),
+        //     ]);
+
+            return back()->withInput()->with('success','Add  successfully!');
     }
 
     /**

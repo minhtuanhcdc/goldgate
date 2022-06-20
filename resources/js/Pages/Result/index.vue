@@ -320,7 +320,7 @@
                   <div class="col-span-3 grid grid-cols-2" >
                     <div class="" v-for="eg1 in testElements" :key="eg1.id">
                       <span class="font-bold" v-if="eg1.element_group ==1">{{eg1.name}} - {{eg1.id}}
-                        <input   type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg1.id" v-model="form.element_id[eg1.id]"/>
+                        <input   type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg1.id" v-model="form.element_id"/>
                       </span>
                     </div>
                     </div>
@@ -328,7 +328,7 @@
                   <div class="grid grid-cols-1">
                     <div class="" v-for="eg2 in testElements" :key="eg2.id">
                         <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
-                          <input :checked="checkedElement == eg2.id?true:false"   type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg2.id" v-model="form.element_id[eg2.id]"/>
+                          <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg2.id" v-model="form.element_id"/>
                         </span>
                     </div>
                   </div>
@@ -336,14 +336,14 @@
                 <div class="flex flex-cols-5">
                   <div class="" v-for="eg3 in testElements" :key="eg3.id">
                     <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg3.id" v-model="form.element_id[eg3.id]"/>
+                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg3.id" v-model="form.element_id"/>
                     </span>
                 </div>
                 </div>
                 <div class="grid grid-cols-1">
                   <div class="" v-for="eg4 in testElements" :key="eg4.id">
                     <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg4.element_group == 4">- {{eg4.name}}
-                          <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg4.id" v-model="form.element_id[eg4.id]"/>
+                          <input  type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg4.id" v-model="form.element_id"/>
                     </span>
                 </div>
                 </div>
@@ -353,14 +353,14 @@
                       <div class="flex flex-col">
                         <div v-for="(eg5, i) in testElements" :key="i">
                           <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
-                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg5.id" v-model="form.element_id[eg5.id]"/>
+                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg5.id" v-model="form.element_id"/>
                             </span>
                         </div>
                       </div>
                       <div class="flex flex-col">
-                        <div class="" v-for="(eg6, i) in testElements" :key="i">
+                        <div class="" v-for="eg6 in testElements" :key="eg6.id">
                           <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
-                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id[eg6.id]"/>
+                            <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg6.id" v-model="form.element_id"/>
                             </span>
                         </div>
                       </div>
@@ -374,9 +374,9 @@
                     <div class="grid grid-cols-1 leading-5 italic">
                       <div class="flex flex-cols-3 ">
 
-                      <div v-for="(eg7, i) in testElements" :key="i">
+                      <div v-for="eg7 in testElements" :key="eg7.id">
                         <span class="text-left font-bold text-xs  font-sans-Timenew mr-5" v-if="eg7.element_group == 7">{{eg7.name}}
-                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg7.id" v-model="form.element_id[eg7.id]"/>
+                          <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg7.id" v-model="form.element_id"/>
                           </span>
 
                       </div>
@@ -390,9 +390,9 @@
             <div class="font-bold italic">Đề nghị (Suggestions)</div>
           <div class="col-span-3" >
             <div class="grid grid-cols-2">
-                <div  v-for="el8 in testElements" :key="el8.id">
-                  <span class="font-bold text-xs" v-if="el8.element_group ==8">{{el8.name}}
-                    <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="el8.id" v-model="form.element_id[el8.id]"/>
+                <div  v-for="eg8 in testElements" :key="eg8.id">
+                  <span class="font-bold text-xs" v-if="eg8.element_group ==8">{{eg8.name}}
+                    <input type="checkbox" class="form-checkbox text-pink-600 h-3 w-3" :value="eg8.id" v-model="form.element_id"/>
                   </span>
                 </div>
             </div>
@@ -417,10 +417,10 @@
          <div class="grid grid-cols-3">
            <div class="col-span-2">
               <div class="grid grid-cols-1">
-                 <div  v-for="(eg9,index) in testElements" :key="index">
+                 <div  v-for="eg9 in testElements" :key="eg9.id">
                   <span class="font-bold text-xl" v-if="eg9.element_group ==9">{{eg9.name}}
                     <span v-if="eg9.id == 26">
-                         <input  type="text" class="w-full rounded-md h-10" v-model="form.element_id[eg9.id]">
+                         <input  type="text" class="w-full rounded-md h-10" v-model="form.ketluan">
                     </span>
                     <!-- <span v-else>
                            <input v-if="editMode" type="text" class="w-full rounded-md h-10" v-model="form.ket_luan">
@@ -442,7 +442,7 @@
                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                               <button wire:click.prevent="store()" type="button"
                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                                v-show="editMode" @click.prevent="updateLaboGroup(form)">
+                                v-show="editMode" @click.prevent="updateResult(form)">
                                 Update
                               </button>
                             </span>
@@ -555,18 +555,40 @@ data(){
               },
           reset() {
               this.form = {
-                element_id: null,
+                element_id:null,
+                ket_luan:'',
+                bill_id:'',
+                thin_code:'',
+                hpv_code:'',
                 }
             },
           closeModal(){
-               //this.reset();
+               this.reset();
               this.showModal=false;
               this.editMode=false;
               },
+          updateResult(bill){
+            //alert(123);
+           // let kl = bill.results.map(({ result }) => result)
+
+             //const ketluan = kl.slice(1)
+             const data = {
+              'ket_luan':bill.ketluan,
+              'thin_code': bill.thinprep_code,
+              'bill_id': bill.id,
+              'element_id': bill.element_id,
+              };
+              //const data3 = {...bill, ...data2 }
+           //const data = bill;
+                data._method = 'PUT';
+                this.$inertia.post('/dashboard/results/'+bill.id, data);
+                this.reset();
+                this.closeModal();
+            },
           saveResult(data) {
 
             const data2 = {
-              'ket_luan':this.form.ket_luan,
+              'ket_luan':this.form.ketluan,
               'thin_code': this.thinprep_code,
               'bill_id': this.test_id,
               };
@@ -578,12 +600,19 @@ data(){
                 },
           editUser(bill) {
               this.form = Object.assign({}, bill);
-              console.log(bill);
+              //console.log(bill);
                this.viewOutsent= bill.ousent.id;
               this.name = bill.custommer.name;
               const elementChecked1 =bill.results;
+
+             var ketluanFill = elementChecked1.find(obj => {
+                      return obj.element_id ==26
+                    })
+            console.log('Tessssssssssssssss',ketluanFill);
+
               let result = elementChecked1.map(({ element_id }) => element_id)
-                this.checkedElement = result;
+
+                this.form.ketluan = ketluanFill.result;
                 this.form.element_id =result;
                 this.editMode = true;
                 this.showModal=true;
