@@ -42,9 +42,10 @@
                               name="testgroup"
                               id="testgroup"
                               class="block py-0 w-full form-input h-8 rounded-lg text-md"
-                              v-model="doctorFill"
+                              v-model="readcodeFill"
                             >
                               <option value="all">All</option>
+                              <option v-for="or in readcodes" :key="or.id" :value="or.read_code">({{or.read_code}})-{{or.name}}</option>
 
                           </select>
                     </div>
@@ -479,7 +480,8 @@ export default defineComponent({
   props: {
     billtests:'',
     testElements:'',
-    ousents:''
+    ousents:'',
+    readcodes:'',
   },
   components: {
     AppLayout,
@@ -541,6 +543,44 @@ data(){
     }
   },
   methods:{
+
+    getPageFill(){
+        this.$inertia.get('results?',
+            {
+              //alert(ousentFill);
+              perPage:this.perPage,
+              ousentFill:this.ousentFill,
+              readcodeFill:this.readcodeFill,
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+     },
+    getfilePerpage(){
+         this.$inertia.get('results?',
+            {  //search:this.search,
+              perPage:this.perPage,
+              ousentFill:this.ousentFill,
+              readcodeFill:this.readcodeFill,
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+     },
+     refreshFill(){
+        this.$inertia.get('results?',
+             {
+              perPage:this.perPage,
+              ousentFill:this.ousentFill,
+              readcodeFill:this.readcodeFill
+             },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+     },
      created(){
    this.paymentmethods.forEach((value) => {
      this.pays.push({id:value.value, ref: 'test123' , val: 0 })

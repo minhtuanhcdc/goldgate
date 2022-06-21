@@ -104,6 +104,8 @@ Route::middleware(['auth', 'verified'])
     //Route::post('/updatecustommer',[updateCusBill::class,'updatecustommer'])->name('updatecustommer');
    // Route::post('/importprovince',[ImportController::class,'importProvince'])->name('importprovince');
     Route::post('/importdistrict',[ImportController::class,'importDistrict'])->name('importdistrict');
+    Route::post('/importWard',[ImportController::class,'importWard'])->name('importWard');
+
     Route::post('/importcustommers',[ImportController::class,'importcustommers'])->name('importcustommers');
 
     Route::resource('/images','UploadImageController');

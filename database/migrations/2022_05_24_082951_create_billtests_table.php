@@ -20,7 +20,7 @@ class CreateBilltestsTable extends Migration
             $table->foreignId('doctor_id')->constrained()->setNullOnDelete();
             $table->string('diagonose');
             $table->string('hpv_code');
-            $table->string('thinprep_code');
+            $table->string('thinprep_code')->unique();
             $table->string('sample_code');
             $table->integer('status');
             $table->timestamps();

@@ -9,6 +9,7 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\Ward;
 use App\Models\Ousent;
+use App\Models\Ouread;
 use App\Models\Doctor;
 use App\Models\Custommer;
 use App\Models\Billtest;
@@ -32,24 +33,36 @@ class ResultController extends Controller
     public function index(Request $request)
     {
         $perpage = $request->perpageFill?$request->perpageFill:10;
+        $ousentFill=$request->ousentFill?$request->ousentFill:'all';
+        $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
+        if($request->ousentFill && $request->ousentFill !=='all'){
+           // dd($request->ousentFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
+                //dd($billtests);
+        }
+        if($request->readcodeFill && $request->readcodeFill !=='all'){
+           // dd($request->ousentFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+                //dd($billtests);
+        }
+
+        else{
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->paginate($perpage);
+        }
+
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
-        //$testElements = Testelement::where('testname_id',1)->with('valueresult')->get();
-        //$userId = 44;
-// Event::with(["owner", "participants" => function($q) use($userId ){
-//     $q->where('participants.IdUser', '=', 1);
+        $ousents = Ousent::select('id','name')->get();
+        $readcodes = Ouread::get();
+        $doctors = Doctor::select('id','name','ousent_id')->get();
         $filters=[
             'ousentFill'=>$request->ousentFill,
         ];
-
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->paginate($perpage);
-        $ousents = Ousent::select('id','name')->get();
-        $doctors = Doctor::select('id','name','ousent_id')->get();
-
         return Inertia::render('Result/Index',[
             'billtests'=>$billtests,
             'ousents'=>$ousents,
             'testElements'=>$testElements,
             'doctors'=>$doctors,
+            'readcodes'=>$readcodes,
             'filters'=>$filters,
         ]);
     }

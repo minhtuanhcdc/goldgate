@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Imports\ProvinceImport;
 use App\Imports\DistrictImport;
 use App\Imports\CustommerImport;
+use App\Imports\WardImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
@@ -24,15 +25,30 @@ class ImportController extends Controller
     {
        //dd($request->file);
 
-        Excel::import(new CustommerImport, $request->file);
+       Excel::import(new CustommerImport, $request->file);
+        //(new CustommerImport)->import($request->file);
 
         return back()->withInput()->with('success','Add  successfully!');
+
+
     }
     public function importDistrict(Request $request)
     {
-       //dd($request->file);
+
 
         Excel::import(new DistrictImport, $request->file);
+
+        return back()->withInput()->with('success','Add  successfully!');
+    }
+    public function importWard(Request $request)
+    {
+
+      //$import = new WardImport;
+
+       // $import->import($request->file);
+       // dd($import->errors());
+
+      $array = Excel::import(new WardImport, $request->file);
 
         return back()->withInput()->with('success','Add  successfully!');
     }

@@ -56,6 +56,7 @@ class CustommerController extends Controller
         $provinces = Province::with('districts','wards')->get();
         $districts = District::get();
         $wards = Ward::get();
+
         $ousents = Ousent::select('id','name')->get();
         $doctors = Doctor::with('ousent')->get();
         $readcodes = Ouread::get();

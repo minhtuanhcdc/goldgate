@@ -15,6 +15,7 @@ class CreateWardsTable extends Migration
     {
         Schema::create('wards', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('name');
             $table->foreignId('district_id')->constrained()->setNullOnDelete();
             $table->integer('status')->nulable();

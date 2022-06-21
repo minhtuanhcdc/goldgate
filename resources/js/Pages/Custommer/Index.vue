@@ -5,6 +5,13 @@
     </template>
     <Container>
       <Card>
+        <div class="text-right text-red-600 " v-if="errors">
+
+            <p v-for="(er,i) in errors" :key="i">
+              {{er}}
+            </p>
+
+          </div>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
 <!-- <img class="w-20" src="/storage/Logo/Thinprep.jpg"/>
@@ -870,6 +877,7 @@ setup() {
        this.getDistrictFill(value)
     },
     "form.district_id":function(value){
+      //alert(value);
        this.getWardFill(value)
     },
     "form.ousent_id":function(value){
@@ -1179,9 +1187,10 @@ setup() {
             if (this.$refs.photo) {
                 this.form.file = this.$refs.photo.files[0];
             }
+            //this.form.post('/dashboard/importWard/');
             this.form.post('/dashboard/importcustommers/');
         },
-        previewImage(e) {
+    previewImage(e) {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
         },

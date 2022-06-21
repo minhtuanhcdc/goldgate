@@ -9,9 +9,16 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Illuminate\Support\Facades\Validator;
 
-class CustommerImport implements ToCollection, WithHeadingRow
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+
+class CustommerImport implements ToCollection, WithHeadingRow, WithValidation, SkipsOnError
 {
+use SkipsErrors;
     /**
     * @param array $row
     *
@@ -19,10 +26,11 @@ class CustommerImport implements ToCollection, WithHeadingRow
     */
     public function collection(Collection $rows)
     {
+
         foreach ($rows as $row)
         {
-//`name`, `birthday`, `address`, `province_id`, `district_id`, `ward_id`, `gender`, `status`, `created_at`, `updated_at`
-           $custommerId = Custommer::insertGetId([
+
+        $custommerId = Custommer::insertGetId([
                'name' => $row['name'],
                'gender' => $row['gender'],
                'birthday' => $row['birthday'],
@@ -31,7 +39,9 @@ class CustommerImport implements ToCollection, WithHeadingRow
                'district_id' => $row['district_id'],
                'ward_id' => $row['ward_id'],
            ]);
-//`id`, `custommer_id`, `row['name']`, `doctor_id`, `diagnose`, `hpv_code`, `thinprep_code`, `sample_code`, `para`, `kinhchot`, `status`, `result_status`,
+
+           $readCode =   substr ( $row['thinprep_code'] ,0, 4 );
+
         $Id_bill=Billtest::insertGetId([
                 'custommer_id' =>$custommerId,
                 'ousent_id' => $row['ousent_id'],
@@ -40,16 +50,36 @@ class CustommerImport implements ToCollection, WithHeadingRow
                 'thinprep_code' => $row['thinprep_code'],
                 'hpv_code' => $row['hpv_code'],
                 'sample_code' => $row['sample_code'],
+                'read_code' => $readCode,
                 'para' => $row['para'],
                 'kinhchot' => $row['kinhchot'],
             ]);
-//billtest_id`, `testname_id`
+
             Billname::create([
                 'billtest_id' =>$Id_bill,
                 'testname_id' => $row['testname_id'],
             ]);
-
       }
    }
- }
+
+    public function rules(): array
+    {
+        return [
+            //'name'=>'required',
+            'thinprep_code'=>'unique:billtests,thinprep_code',
+
+        ];
+    }
+
+    public function customValidationMessages()
+        {
+            return [
+              //  'name.required' => 'Tên trống',
+                'thinprep_code.unique' => 'Trùng mã Thinrep_code',
+            ];
+        }
+}
+
+
+
 
