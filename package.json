@@ -40,6 +40,7 @@
         "jquery": "^3.6.0",
         "jspdf": "^2.5.1",
         "jszip": "^3.7.1",
+        "moment": "^2.29.3",
         "pdfmake": "^0.2.4",
         "true-case-path": "^2.2.1",
         "vue-html-to-paper": "^1.4.4",

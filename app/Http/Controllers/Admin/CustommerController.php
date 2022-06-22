@@ -57,7 +57,7 @@ class CustommerController extends Controller
         $districts = District::get();
         $wards = Ward::get();
 
-        $ousents = Ousent::select('id','name')->get();
+        $ousents = Ousent::select('id','name','logo')->get();
         $doctors = Doctor::with('ousent')->get();
         $readcodes = Ouread::get();
         // $nametests = Testname::select('id','name')->get();

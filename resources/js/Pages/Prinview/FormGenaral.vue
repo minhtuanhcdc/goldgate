@@ -2,7 +2,12 @@
  <div class="pl-2" ref="printMe" id="printMe" >
                       <div class="grid grid-cols-8 mx-0 py-0">
                           <div class="col-span-2 py-0">
-                              <img
+                              <img v-if="logo"
+                                class="w-36"
+                                :src="pathLogo+logo"
+                                :alt="LogoThin"
+                              />
+                              <img v-else
                                 class="w-36"
                                 :src="pathImageLeft"
                                 :alt="LogoThin"
@@ -19,7 +24,7 @@
                                 </div>
                           </div>
                           <div class="col-span-2 text-left text-italy text-sm font-bold font-sans-Timenew  mt-8 w-full">
-                                <span class="p-0 m-0 w-full text-xs">Số(Number):{{getbilltests['thinprep_code']}}/2022</span>
+                                <span class="p-0 m-0 w-full text-xs">Số(Number): {{getbilltests['thinprep_code']}}</span>
                           </div>
                       </div>
                         <div class="grid grid-cols-4 leading-6 text-md">
@@ -32,16 +37,7 @@
                               <div class=" font-sans-Timenew leading-6 italic">Số điện thoại:<span class="pl-2 font-bold">???</span></div>
                           </div>
                           <div class="font-sans-Timenew leading-6 italic text-md">Đơn vị gửi(Custommer):<span class="pl-2 font-bold">{{printOutsent['name']}} </span></div>
-                          <div class="grid grid-cols-4 font-sans-Timenew leading-6 italic">
-                              <div class="font-bold">IUD (Intra-Uterine Devices) <i class="fa fa-square-o mt-2"></i></div>
-                              <div class="font-bold text-center">Nội tiết (Hormone) <i class="fa fa-square-o mt-2"></i></div>
-                              <div class="font-bold text-center">Xạ (Radiation) <i class="fa fa-square-o mt-2"></i></div>
-                              <div class="font-bold text-center">Có thai (Pregnancy) <i class="fa fa-square-o mt-2"></i></div>
-                          </div>
-                          <div class="grid grid-cols-2 italic text-md">
-                              <div class="font-sans-Timenew leading-6">Kinh chót(Last Menstrual Period):<span class="font-bold pl-2">{{getbilltests['kinhchot']}}</span></div>
-                              <div class="text-center font-sans-Timenew leading-6">Ngày gửi (Date sent):<span class="font-bold">??</span></div>
-                          </div>
+
                             <div class="grid grid-cols-2 italic text-md">
                               <div class="font-sans-Timenew leading-6">Chẩn đoán lâm sàng(Clinical diagnose):<span class="font-bold pl-2">{{getbilltests['diagnose']}}</span></div>
                               <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2" v-if="printDoctor"> {{printDoctor['name']}}</span></div>
@@ -169,10 +165,9 @@
 
                               <div class="grid grid-cols-1 text-center">
                                 <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả: {{currentDate}}</span>
-                                <span class="mb-16 font-bold font-sans-Timenew text-md" style="margin-bottom:40px">BS/KTV đọc kết quả:</span>
+                                <span class="mb-16 font-bold font-sans-Timenew text-md" style="margin-bottom:100px">BS/KTV đọc kết quả:</span>
                                 <span class="font-bold font-sans-Timenew text-md" v-if="printDoctor">{{printDoctor['name']}}</span>
-                                <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
-                                <span class="font-bold font-sans-Timenew text-md">BỆNH VIỆN TỪ DŨ</span>
+
                               </div>
                             </div>
                         </div>
@@ -195,6 +190,8 @@ export default {
         pathThinRight:'',
         imageThinLeft:'',
         ketluan:'',
+        logo:'',
+        pathLogo:'',
         currentDate:'',
 
 

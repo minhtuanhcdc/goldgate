@@ -160,7 +160,7 @@
               <div class="font-bold text-blue-800 font-sans-Timenew text-md underline underline-offset-2">ĐỀ NGHỊ:</div>
            </div>
            <div class="grid grid-cols-1 text-center">
-             <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:</span>
+             <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả: {{currentDate}}</span>
              <span class=" font-bold font-sans-Timenew text-md" style="margin-bottom:40px">BÁC SĨ ĐỌC KẾT QUẢ</span>
              <span class="font-bold font-sans-Timenew text-md">"tên Bác sỹ"</span>
              <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
@@ -197,6 +197,7 @@ export default {
         pathThinRight:'',
         imageThinLeft:'',
         ketluan:'',
+        currentDate:'',
 
     },
     components:{

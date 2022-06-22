@@ -14,9 +14,7 @@
           </div>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
-<!-- <img class="w-20" src="/storage/Logo/Thinprep.jpg"/>
 
-<span class="fa fa-envelope"></span> -->
             <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
             <div class="flex flex-row">
              <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Print PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
@@ -24,13 +22,7 @@
             </div>
 
         <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200 h-8">
-          <!-- <form  @submit.prevent="importFile(formUpload)" enctype="multipart/form-data">
-           <button type="submit"  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white text-md">Import file</button>
-            <input class="w-42 my-0 rounded-sm text-xs cursor-pointer" type="file"
-              name="uploadFile"
-              @input="form.uploadFile = $event.Target.files[0]"
-              />
-          </form> -->
+
            <form @submit.prevent="submitFile">
              <div class="flex flex-row">
                 <div>
@@ -50,7 +42,7 @@
         <!---/////==================------->
         <!---==================------->
         <hr class="mb-2">
-      <div class="grid grid-cols-7">
+      <div class="grid grid-cols-8">
         <div class="col-span-2 ">
           <div class="flex flex-row">
               <div class="">
@@ -103,7 +95,7 @@
           <div class="flex flex-row">
               <div class="flex flex-row">
                   <span>Từ:</span>
-                  <div class=" w-44">
+                  <div class=" w-72">
                       <div class="flex flex-row">
 
                           <jet-input
@@ -117,7 +109,7 @@
                 </div>
               <div class="flex flex-row">
                   <span>Đến:</span>
-                  <div class=" w-44">
+                  <div class=" w-72">
                       <div class="flex flex-row">
                                   <jet-input
                                     id="endDate"
@@ -131,7 +123,7 @@
               </div>
           </div>
         </div>
-        <div class="items-center">
+        <div class="col-span-2">
             <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
                 Fill
             </button>
@@ -219,7 +211,10 @@
               <td class="border-r-2 text-center">{{bill.hpv_code}}</td>
              <td class="border-r-2" ><span v-if="bill.doctor">{{bill.doctor.title}} {{bill.doctor.name}}</span></td>
             <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
-            <td class="border-r-2" ><span>{{bill.date_receive}}</span></td>
+            <td class="border-r-2 text-center" ><span class="text-center">
+
+                {{formatDate(bill.date_receive) }}
+              </span></td>
             <td class="border-r-2" ><span>{{bill.read_code}}</span></td>
             <td class="border-r-2" >
               <span v-for="(rs,i) in bill.results" :key="i">
@@ -695,7 +690,7 @@
                 </div>
 
                 <!-- <div>{{selectedArray['name']}}</div> -->
-                <div v-if="printOutsent.id == 1" id="printTestMe">
+                <div v-if="printOutsent.id == 1" id="">
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
                         :pathImageLeft="pathImageLeft"
@@ -703,6 +698,7 @@
                         :pathThinRight='pathThinLeft'
                         :selectedArray='selectedArray'
                         :ketluan='ketluan'
+                         :currentDate='currentDate()'
                         :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 6">
@@ -712,13 +708,33 @@
                           :pathThinLeft='pathThinLeft'
                           :pathThinRight='pathThinLeft'
                            :ketluan='ketluan'
+                            :currentDate='currentDate()'
                           :imageThinLeft='imgeLeft'/>
                 </div>
                 <div v-if="printOutsent.id == 9">
                          <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathThinLeft='pathThinLeft'
+                          :ketluan='ketluan'
+                           :pathImageLeft="pathImageLeft"
+                          :pathThinRight='pathThinLeft'
+                           :currentDate='currentDate()'
+                          :imageThinLeft='imgeLeft'/>
+
+                </div>
+                <div v-if="printOutsent.id != 6 && printOutsent.id != 9 && printOutsent.id != 1">
+                         <PrintviewGenaral :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                          :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                          :pathThinLeft='pathThinLeft'
+                          :ketluan='ketluan'
+                          :logo='logo'
+                          :pathLogo='pathLogo'
+                           :pathImageLeft="pathImageLeft"
+                          :pathThinRight='pathThinLeft'
+                          :imageThinLeft='imgeLeft'
+                          :currentDate='currentDate()'
                           />
+
                 </div>
             </template>
         </DialogModal>
@@ -753,12 +769,13 @@ import Checkbox from '@/Jetstream/Checkbox';
 import PrintviewTudu from '@/Pages/Prinview/FormTudu'
 import PrintviewSaigon from '@/Pages/Prinview/FormSaigon'
 import PrintviewVigor from '@/Pages/Prinview/FormVigor'
+import PrintviewGenaral from '@/Pages/Prinview/FormGenaral'
 
 import { BeakerIcon } from '@heroicons/vue/solid'
 import { PencilIcon } from '@heroicons/vue/solid'
 import { CheckIcon } from '@heroicons/vue/solid'
 import { useForm } from '@inertiajs/inertia-vue3'
-
+import moment from 'moment'
 
 export default defineComponent({
 
@@ -801,6 +818,7 @@ export default defineComponent({
     PrintviewTudu,
     PrintviewSaigon,
     PrintviewVigor,
+    PrintviewGenaral,
      PencilIcon,
     CheckIcon,
     BeakerIcon,
@@ -808,8 +826,9 @@ export default defineComponent({
   },
 data(){
   return{
+    logo:'',
     testselect:[1],
-       checkDPF:[''],
+    checkDPF:[''],
     checkPrint:[],
     url: null,
     getbilltests:'',
@@ -826,6 +845,7 @@ data(){
     output: null,
     ousentFill:this.filters.ousentFill,
     pathThinLeft:'/storage/imageThinLeft/',
+    pathLogo:'/storage/Image_Ousent/',
     pathImageLeft:'/images/Logo/Thinprep.jpg',
    // pathThinLeft:'/images/Thinprep/hLeft.jpg',
    // pathThinRight:'/images/Thinprep/hRight.jpg',
@@ -928,7 +948,10 @@ setup() {
 
   },
   methods:{
-
+    formatDate(value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY hh:mm')}
+    },
       editCustommer(bill) {
              this.form = Object.assign({}, bill);
               //console.log(bilForm);
@@ -972,8 +995,14 @@ setup() {
         this.printOutsent= bill.ousent;
         this.printDoctor = bill.doctor;
 
+        if(bill.ousent.logo){
+          this.logo = bill.ousent.logo;
+        }
+        else{
+          this.logo='';
+        }
         if(bill.image_left){
-           this.imgeLeft = bill.image_left.thinLeft;
+          this.imgeLeft = bill.image_left.thinLeft;
         }
         else{
           this.imageLeft='';
@@ -987,7 +1016,10 @@ setup() {
                     })
 
         //  var last = keluanfill.slice(-1)[0]
-         this.ketluan = ketluanFill.result;
+        if(ketluanFill){
+            this.ketluan = ketluanFill.result;
+        }
+
         this.selectedArray = results;
         this.printAddress=' '+ bill.custommer.address;
         this.showModlPrint = true;
@@ -1099,6 +1131,7 @@ setup() {
     },
      reset() {
           this.getOusents=this.ousents,
+          this.imgeLeft=null,
             this.form = {
 
             name: null,
@@ -1189,6 +1222,7 @@ setup() {
             }
             //this.form.post('/dashboard/importWard/');
             this.form.post('/dashboard/importcustommers/');
+            this.form.file = ""
         },
     previewImage(e) {
             const file = e.target.files[0];

@@ -25,7 +25,7 @@ class UpdateCustommerController extends Controller
 {
 
     public function updatebill(Request $request, Billtest $billtest){
-       // dd($request->all());
+        //dd($request->all());
 
         //$billtest->update($request->all());
 
@@ -40,6 +40,7 @@ class UpdateCustommerController extends Controller
             'doctor_id'=>$request->doctor_id,
             'hpv_code'=>$request->hpv_code,
             'thinprep_code'=>$request->thinprep_code,
+            'date_receive'=>$request->date_re,
             'sample_code'=>$request->sample_code,
             'para'=>$request->para,
             'kinhchot'=>$request->kinhchot,

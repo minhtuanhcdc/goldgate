@@ -18,7 +18,7 @@ use Maatwebsite\Excel\Concerns\SkipsErrors;
 
 class CustommerImport implements ToCollection, WithHeadingRow, WithValidation, SkipsOnError
 {
-use SkipsErrors;
+use Importable, SkipsErrors;
     /**
     * @param array $row
     *
@@ -74,8 +74,8 @@ use SkipsErrors;
     public function customValidationMessages()
         {
             return [
-              //  'name.required' => 'Tên trống',
-                'thinprep_code.unique' => 'Trùng mã Thinrep_code',
+             // 'name.required' => 'Tên trống',
+            'thinprep_code.unique' => 'Trùng mã Thinrep_code',
             ];
         }
 }

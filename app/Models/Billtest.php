@@ -18,7 +18,7 @@ class Billtest extends Model
         return $this->hasOne(Doctor::class,'id','doctor_id')->select('id','name','title');
     }
     public function ousent(){
-        return $this->hasOne(Ousent::class,'id','ousent_id')->select('id','name');
+        return $this->hasOne(Ousent::class,'id','ousent_id')->select('id','name','logo');
     }
     public function testnames(){
      //dd($this->belongsTomany(Testname::class,'billnames','billtest_id','testname_id'));

@@ -135,38 +135,43 @@
                 </div>
 
               </div>
-              <div class="grid grid-cols-2 mt-2 text-center">
-                  <div  class="text-center">
-                    <!-- <img v-if="imageThinLeft"
-                        class="w-80 max-h-52 "
-                        :src="pathThinLeft+imageThinLeft"
-                        :alt="imageThinLeft"/>
-                    <img v-else
-                        class="w-80 max-h-52 "
-                        :src="pathThinLeft"
-                        alt="imageThinLeft"/> -->
-                      </div>
-                  <div class="text-center">
-                    <!-- <img v-if="imageThinLeft"
-                        class="w-80 max-h-52 "
-                        :src="pathThinRight+imageThinLeft"
-                        :alt="imageThinLeft"/>
-                    <img v-else
-                        class="w-80 max-h-52 "
-                        :src="pathThinRight"
-                        alt="imageThinLeft"/> -->
-                    </div>
-              </div>
+               <div class="grid grid-cols-2 mt-2 text-center">
+                                <div  class="text-center">
+
+                                  <img v-if="getbilltests['para'] == imageThinLeft"
+                                      class="ml-10 w-80 max-h-52 "
+                                      :src="pathThinLeft+imageThinLeft"
+                                      :alt="imageThinLeft"/>
+
+                                  <img v-else
+                                      class="w-80 max-h-52 "
+                                      :src="pathImageLeft"
+                                      alt="imageThinLeft"/>
+                                  </div>
+                                <div class="text-center place-items-center">
+                                  <img v-if="getbilltests['para'] == imageThinLeft"
+                                      class="ml-10 w-80 max-h-52 "
+                                      :src="pathThinRight+imageThinLeft"
+                                      :alt="LogoThin"/>
+                                  <img v-else
+                                      class="w-80 max-h-52 "
+                                      :src="pathImageLeft"
+                                      alt="LogoThin"/>
+                                  </div>
+                            </div>
               <div class="grid grid-cols-3">
                 <div class="col-span-2">
                   <div class="grid grid-cols-1">
-                    <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
-                    <span class="font-bold text-red-700 font-sans-Timenew text-xs uppercase">- Không tổn thương trong biểu mô hay ung thư</span>
-                    <span class="font-bold text-md font-sans-Timenew">- Tế bào cổ tử cung biến đổi do viêm</span>
+                      <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
+                        <div  v-for="eg9 in testElements" :key="eg9.id">
+                            <span class="font-bold text-xs w-full mr-3" v-if="eg9.element_group ==9 && eg9.element_group !==null ">
+                              <p v-if="ketluan" class="uppercase text-red-800 font-sans-Timenew text-lg pl-2" >- {{ketluan}}</p>
+                            </span>
+                        </div>
                   </div>
                 </div>
                 <div class="grid grid-cols-1 text-center">
-                  <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả:</span>
+                  <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả: {{currentDate}}</span>
                   <span class="mb-16 font-bold font-sans-Timenew text-md">BS/KTV đọc kết quả:</span>
                   <span class="font-bold font-sans-Timenew text-md" v-if="printDoctor">??</span>
                   <span class="font-bold font-sans-Timenew text-md">KHOA GIẢI PHẨU BỆNH</span>
@@ -202,6 +207,8 @@ export default {
         pathThinLeft:'',
         pathThinRight:'',
         imageThinLeft:'',
+        ketluan:'',
+        currentDate:'',
 
     },
     components:{
