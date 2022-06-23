@@ -5,13 +5,12 @@
     </template>
     <Container>
       <Card>
-        <div class="text-right text-red-600 " v-if="errors">
 
+        <div class="text-right text-red-600 " v-if="errors">
             <p v-for="(er,i) in errors" :key="i">
               {{er}}
             </p>
-
-          </div>
+        </div>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
 
@@ -42,7 +41,7 @@
         <!---/////==================------->
         <!---==================------->
         <hr class="mb-2">
-      <div class="grid grid-cols-8">
+      <div class="grid grid-cols-7">
         <div class="col-span-2 ">
           <div class="flex flex-row">
               <div class="">
@@ -95,35 +94,34 @@
           <div class="flex flex-row">
               <div class="flex flex-row">
                   <span>Từ:</span>
-                  <div class=" w-72">
+
                       <div class="flex flex-row">
 
                           <jet-input
-                          id="endDate"
-                          type="datetime-local"
-                          class="h-6 block w-3/4"
+                          id="startDate"
+                          type="date"
+                          class="h-8 block w-full"
                           v-model="startDate"
-                          autocomplete="endDate"/>
+                          autocomplete="startDate"/>
                       </div>
-                  </div>
+
                 </div>
-              <div class="flex flex-row">
+              <div class="flex flex-row ml-2">
                   <span>Đến:</span>
-                  <div class=" w-72">
-                      <div class="flex flex-row">
+
                                   <jet-input
                                     id="endDate"
-                                    type="datetime-local"
-                                    class= "h-6 block w-3/4"
+                                    type="date"
+                                    class= "h-8 block w-full"
                                     v-model="endDate"
                                     autocomplete="endDate"
                                   />
-                      </div>
-                    </div>
+
+
               </div>
           </div>
         </div>
-        <div class="col-span-2">
+      <div class="col-span-1 text-right">
             <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
                 Fill
             </button>
@@ -203,7 +201,7 @@
             <td class="border-r-2 text-center" v-if="bill.phone!==null">{{bill.custommer.phone}}</td>
             <td class="border-r-2 text-center" v-else></td>
             <td class="border-r-2 text-center" >
-              <span v-for="(tn,i) in bill.testnames" :key="i">
+              <span class="text-green-800 font-bold" v-for="(tn,i) in bill.testnames" :key="i">
                 {{tn.name}},
               </span>
               </td>
@@ -688,9 +686,9 @@
                        @click="printDiv('printMe')" >Print</button>
                     <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
-
+      <div v-for="(lan,i) in [1]" :key="i">
                 <!-- <div>{{selectedArray['name']}}</div> -->
-                <div v-if="printOutsent.id == 1" id="">
+                <div v-if="printOutsent.id == 1 && printNameTest == 1">
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
                         :pathImageLeft="pathImageLeft"
@@ -701,7 +699,7 @@
                          :currentDate='currentDate()'
                         :imageThinLeft='imgeLeft'/>
                 </div>
-                <div v-if="printOutsent.id == 6">
+                <div v-if="(printOutsent.id == 6) && (printNameTest == 1)">
                         <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathImageLeft="pathImageLeft"
@@ -711,7 +709,7 @@
                             :currentDate='currentDate()'
                           :imageThinLeft='imgeLeft'/>
                 </div>
-                <div v-if="printOutsent.id == 9">
+                <div v-if="printOutsent.id == 9 && printNameTest == 1">
                          <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathThinLeft='pathThinLeft'
@@ -722,7 +720,7 @@
                           :imageThinLeft='imgeLeft'/>
 
                 </div>
-                <div v-if="printOutsent.id != 6 && printOutsent.id != 9 && printOutsent.id != 1">
+                <div v-if="printOutsent.id != 6 && printOutsent.id != 9 && printOutsent.id != 1 && printNameTest == 1 ">
                          <PrintviewGenaral :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathThinLeft='pathThinLeft'
@@ -736,6 +734,21 @@
                           />
 
                 </div>
+
+                <div v-if="printOutsent.id == 13">
+                         <PrintHPV :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                          :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                          :pathThinLeft='pathThinLeft'
+                          :ketluan='ketluan'
+                          :logo='logo'
+                          :pathLogo='pathLogo'
+                           :pathImageLeft="pathImageLeft"
+                          :pathThinRight='pathThinLeft'
+                          :imageThinLeft='imgeLeft'
+                          :currentDate='currentDate()'/>
+
+                </div>
+        </div>
             </template>
         </DialogModal>
       </Card>
@@ -770,6 +783,7 @@ import PrintviewTudu from '@/Pages/Prinview/FormTudu'
 import PrintviewSaigon from '@/Pages/Prinview/FormSaigon'
 import PrintviewVigor from '@/Pages/Prinview/FormVigor'
 import PrintviewGenaral from '@/Pages/Prinview/FormGenaral'
+import PrintHPV from '@/Pages/Prinview/FormHPV'
 
 import { BeakerIcon } from '@heroicons/vue/solid'
 import { PencilIcon } from '@heroicons/vue/solid'
@@ -822,6 +836,7 @@ export default defineComponent({
      PencilIcon,
     CheckIcon,
     BeakerIcon,
+    PrintHPV
 
   },
 data(){
@@ -838,6 +853,7 @@ data(){
     printAddress:'',
     printOutsent:'',
     printDoctor:'',
+    printNameTest:'',
     selectedArray:'',
     imgeLeft:'',
     ketluan:'',
@@ -993,8 +1009,17 @@ setup() {
         this.getbilltests= bill;
         this.printCustommers = bill.custommer;
         this.printOutsent= bill.ousent;
+
         this.printDoctor = bill.doctor;
 
+        if(bill.testnames){
+
+           let rs =  bill.testnames.map(({ id }) => id)
+            this.printNameTest= rs;
+        }
+        else{
+          this.printNameTest='';
+        }
         if(bill.ousent.logo){
           this.logo = bill.ousent.logo;
         }
@@ -1091,6 +1116,8 @@ setup() {
               perPage:this.perPage,
               ousentFill:this.ousentFill,
               readcodeFill:this.readcodeFill,
+              startDate:this.startDate,
+              endDate:this.endDate,
             },
             {
               preserveState:true,
@@ -1256,18 +1283,22 @@ setup() {
   }
   @page{
     size: a4;
-    /* margin: 05mm 15mm 5mm 5mm; */
+   /* //margin: 0mm 0mm 0mm 0mm; */
     /*Chagen print here size: A5; landscape*/
     font-family: 'Times New Roman';
     /* font-size: 20px; */
    }
-   @page :left {
+     @page :top {
+         margin-top: 0.5cm;
+
+      }
+     @page :left {
          margin-left: 1cm;
-         /* margin-right: 2cm; */
+
       }
 
       @page :right {
-         /* //margin-left: 0.5cm; */
+
          margin-right: 1cm;
       }
 

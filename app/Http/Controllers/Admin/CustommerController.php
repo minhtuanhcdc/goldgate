@@ -36,20 +36,30 @@ class CustommerController extends Controller
         $perpage = $request->perPage?$request->perPage:5;
         $ousentFill=$request->ousentFill?$request->ousentFill:'all';
         $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
+        $startDate=$request->startDate?$request->startDate:'';
+        $endDate=$request->endDate?$request->endDate:'';
+
         if($request->ousentFill && $request->ousentFill !=='all'){
            // dd($request->ousentFill);
             $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
+
         if($request->readcodeFill && $request->readcodeFill !=='all'){
             //dd($request->readcodeFill);
             $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
+        if($startDate && $endDate && $ousentFill){
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])
+            ->whereDate('date_receive','>=',$startDate)
+            ->whereDate('date_receive','<=',$endDate)
+            ->where('read_code',$readcodeFill)
+            ->paginate($perpage)->withQueryString();
+        }
         else{
            // dd($request->perpage);
         $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->paginate($perpage)->withQueryString();
-
         }
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
         //dd($billtests);

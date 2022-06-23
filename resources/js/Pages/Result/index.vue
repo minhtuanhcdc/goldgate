@@ -163,8 +163,8 @@
          <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
             <template v-slot:title >
                <div class="flex justify-between text-blue-900 font-bold border-b-1 border-blue-200">
-                <h3 v-show="!editMode" >Nhập kết quả ThinPrep </h3>
-                <h3 v-show="editMode">Cập nhật kết quả ThinPrep</h3>
+                <h3 v-show="!editMode" >Nhập kết quả  </h3>
+                <h3 v-show="editMode">Cập nhật kết quả </h3>
                 <button  @click.prevent="closeModal" class="text-white bg-green-500 px-4 py-1 rounded-md hover:bg-green-300">Close</button>
                </div>
             </template>
@@ -307,7 +307,51 @@
 
               <!--========================================-->
 
-             <div v-if="viewOutsent == 1 || viewOutsent == 9">
+             <div v-if="viewOutsent == 13 && viewOutsent !== 6  && viewOutsent !== 1 && viewOutsent !== 9">
+                <h1 class="text-bold text-xl text-blue-600">Nhập Kết quả HPV</h1>
+
+                 <div class="px-4 pb-0">
+                    <div class="grid grid-cols-4 leading-6 mb-2">
+                        <div class="col-span-2  font-sans-Timenew italic underline underline_offset-1">Họ và tên (Name): <span class="font-bold">  {{name}}</span></div>
+                        <div class="  font-sans-Timenew italic underline underline-offset-1">Test Id:<span ref="" class="font-bold">{{test_id}}</span> </div>
+                        <div class="  font-sans-Timenew italic underline underline-offset-1">Mã HPV:<span ref="span_thin" class="font-bold">{{hpv_code}}</span> </div>
+                    </div>
+                    <hr>
+                    <form
+                        class="py-1 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
+                        @submit.prevent="saveResultHPV(form)">
+                        <div>
+                          <template v-for="(elm,i) in testElementsHpv" :key="i">
+                            <div class="flex mt-10"  v-if="elm.element_group == 20" >
+                                <div class="w-full">
+                                  <span class="font-bold" >{{elm.name}} </span>
+                                    <span>
+                                      <input  type="text" class="w-full rounded-md h-10" v-model="form.sco[elm.idhpv]">
+                                    </span>
+                                </div>
+                            </div>
+                          </template>
+                        </div>
+                        <div class="mt-4 text-center mb-1" >
+                              <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                  <button v-show="!editMode"  type="submit" class="bg-blue-900 text-white inline-flex justify-center w-20 rounded-md border border-gray-300 px-4 py-2  leading-6 font-medium  shadow-sm hover:bg-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                      Save
+                                    </button>
+                                  </span>
+                                  <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                    <button wire:click.prevent="store()" type="button"
+                                    class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                                      v-show="editMode" @click.prevent="">
+                                      Update
+                                    </button>
+                                  </span>
+                        </div>
+                    </form>
+                  </div>
+              </div>
+              <!--========================================-->
+
+             <div v-else>
                 <h1>Form Tu du và Vigor</h1>
                  <div class="px-4 pb-0">
                     <div class="grid grid-cols-4 leading-6">
@@ -473,6 +517,7 @@ import JetLabel from "@/Jetstream/Label";
 import JetInput from "@/Jetstream/Input";
 import AppImage from "@/Components/Image";
 import FormTuduVigor from "./FormTuduVigor.vue";
+import moment from 'moment'
 
 export default defineComponent({
 
@@ -480,6 +525,7 @@ export default defineComponent({
   props: {
     billtests:'',
     testElements:'',
+    testElementsHpv:'',
     ousents:'',
     readcodes:'',
   },
@@ -506,6 +552,8 @@ export default defineComponent({
   },
 data(){
   return{
+    viewInfo:'',
+    viewSCO:true,
     element_id:[],
     checkedElement:[],
     ket_luan:[],
@@ -514,6 +562,7 @@ data(){
     name:'',
     test_id:'',
     thinprep_code:'',
+    hpv_code:'',
     userEdit:'',
     showModal:'',
     editMode: false,
@@ -530,7 +579,8 @@ data(){
     },
 
     form: this.$inertia.form({
-          element_id:[1,4],
+          element_id:[],
+          sco:[],
           ket_luan:[],
           bill_id:'',
           thin_code:'',
@@ -542,8 +592,42 @@ data(){
       ),
     }
   },
-  methods:{
+   watch:{
 
+    // "form.sco":function(value){
+    //   //alert(value)
+    //   // this.callScoView(value)
+    // },
+  },
+  computed: {
+
+    },
+  methods:{
+     formatDate(value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY hh:mm')}
+    },
+//  callScoView(value) {
+//       if(value >=0.5){
+//         this.viewSCO = true;
+//       }
+//     },
+    saveResultHPV(data) {
+
+
+            const data2 = {
+              // 'sco':this.form.sco,
+              // 'sco16': this.form.sco16,
+              // 'sco18': this.form.sco18,
+              'hpv_code': this.hpv_code,
+              'bill_id': this.test_id,
+                };
+                const data3 = {...data, ...data2 }
+                    //this.$inertia.post('/dashboard/results',[{'form1':data, 'form2':thin_code}])
+                    this.$inertia.post('/dashboard/inputhpv',data3)
+                   // this.reset();
+                    this.closeModal();
+                },
     getPageFill(){
         this.$inertia.get('results?',
             {
@@ -593,6 +677,7 @@ data(){
           reset() {
               this.form = {
                 element_id:[],
+                sco:[],
                 ket_luan:'',
                 bill_id:'',
                 thin_code:'',
@@ -613,7 +698,7 @@ data(){
               'ket_luan':bill.ketluan,
               'thin_code': bill.thinprep_code,
               'bill_id': bill.id,
-              'element_id': bill.element_id,
+              //'element_id': bill.element_id,
               };
               //const data3 = {...bill, ...data2 }
            //const data = bill;
@@ -624,13 +709,13 @@ data(){
             },
           saveResult(data) {
             const data2 = {
-              'ket_luan':this.form.ketluan,
-              'thin_code': this.thinprep_code,
-              'bill_id': this.test_id,
+                'ket_luan':this.form.ketluan,
+                'thin_code': this.thinprep_code,
+                'bill_id': this.test_id,
               };
                 const data3 = {...data, ...data2 }
                     //this.$inertia.post('/dashboard/results',[{'form1':data, 'form2':thin_code}])
-                    this.$inertia.post('/dashboard/results',data3)
+                    this.$inertia.post('/dashboard/inputhpv',data3)
                    // this.reset();
                     this.closeModal();
                 },
@@ -654,11 +739,18 @@ data(){
                 this.showModal=true;
               },
           addResult(bill){
+
               const getBill = Object.assign({}, bill)
               this.viewOutsent= bill.ousent.id;
               this.name = getBill.custommer.name;
               this.thinprep_code = getBill.thinprep_code;
+              this.hpv_code = getBill.hpv_code;
+
               this.test_id = getBill.id;
+
+              this.viewInfo = getBill;
+
+
               this.showModal=true;
             },
   },

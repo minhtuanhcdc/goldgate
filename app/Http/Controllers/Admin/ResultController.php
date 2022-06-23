@@ -51,6 +51,7 @@ class ResultController extends Controller
         }
 
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
+        $testElementsHpv = Testelement::where('testname_id',2)->select('id as idhpv','name','element_group')->get();
         $ousents = Ousent::select('id','name')->get();
         $readcodes = Ouread::get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
@@ -61,6 +62,7 @@ class ResultController extends Controller
             'billtests'=>$billtests,
             'ousents'=>$ousents,
             'testElements'=>$testElements,
+            'testElementsHpv'=>$testElementsHpv,
             'doctors'=>$doctors,
             'readcodes'=>$readcodes,
             'filters'=>$filters,
@@ -85,7 +87,7 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+        dd($request->all());
                 foreach ($request->element_id as $eid=>$value) {
                     if($value!==null){
                         Result::insert([

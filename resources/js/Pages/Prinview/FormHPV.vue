@@ -1,0 +1,349 @@
+<template>
+  <div id="printMe" ref="printMe" class="px-0 my-0">
+        <div class="grid grid-cols-3 mt-0">
+            <div class="w-60  m-0 p-0"><img :src="logoPath"></div>
+            <div class="col-span-2">
+                <p class="uppercase font-sans-Timenew font-bold text-xl">Erolab - phòng xét nghiệm y khoa</p>
+                <div class="grid grid-cols-8 text-xl">
+                    <div class="font-bold font-sans-Timenew">Địa chỉ:</div>
+                    <div class="col-span-7 text-left ml-0 pl-0 font-sans-Timenew">
+                        <p class="">Tầng 1 tòa nhà 21T1 (Cổng số 3)-Hapulico</p>
+                        <p class="leading-3">83 Vũ Trọng Phụng - Thanh Xuân - Hà Nội</p>
+                    </div>
+
+                </div>
+                <div class="grid grid-cols-8 text-lg mt-1">
+                    <div class="font-bold font-sans-Timenew">Hostline:</div>
+                    <div class="col-span-7 text-left ml-0 pl-0 font-sans-Timenew">
+                        <p class="">0243.555.9988</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    <hr style="border: 1px solic black">
+    <div class="text-center font-bold text-2xl font-sans-Timenew mt-2 text-red-600">
+        <P>PHIẾU TRẢ KẾT QUẢ XÉT NGHỆM E6/E7 mRNA HPV</P>
+        <P class="leading-3">(<span class="mt-0 pl-0">APTIMA</span> <span class="ml-0 pl-0" style="vertical-align: super; font-size:16px ; padding:0px">&reg;</span> HPV Assay)</P>
+    </div>
+    <!--INFOMATION OF PATIENT==================-->
+      <div style="border:none;" class="pb-0 font-sans-Timenew mb-0 leading-3"><span class="text-red-600 uppercase  underline font-bold text-lg">1. Thông tin mẫu:</span><span class="text-md italic">(Information)</span></div>
+    <table class="table mt-0">
+        <tr>
+            <td class="py-0" >
+                <div class="grid grid-cols-4 font-sans-Timenew text-md  m-0 mt-1 p-0" style="border:none !important">
+                    <div class="col-span-2">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Tên Bệnh Nhân: </span>
+                                <p class="leading-3 italic text-md">(Full Name)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-xl"> {{printCustommers['name']}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Giới tính: </span>
+                                <p class="leading-3 italic text-sm">(Sex)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold"> "Nữ" </span>
+                                <p class="leading-3 italic text-sm">Female</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Năm sinh: </span>
+                                <p class="leading-3 italic text-sm">(Date of birth)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold"> {{printCustommers['birthday']}} </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid grid-cols-4 font-sans-Timenew text-xl p-0 m-0" style="border:none !important">
+                    <div class="col-span-4  leading-3">
+                        <div class="flex flex-row ">
+                            <div class="leading-5  py-1">
+                                <span class="font-bold mr-2">Địa chỉ: </span>
+                                <p class="leading-3 italic text-sm">(Address)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-xl">  {{printCustommers['address']}} </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid grid-cols-4 font-sans-Timenew text-xl m-0 p-0" style="border:none !important">
+                    <div class="col-span-2  py-1">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Bác sĩ điều trị: </span>
+                                <p class="leading-3 italic text-sm">(Medical Doctor)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-xl" v-if="printDoctor"> {{printDoctor['name']}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="leading-5  py-1">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Ngày gửi: </span>
+                                <p class="leading-3 italic text-sm">(Date of sending)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold">
+                                     {{formatDate(getbilltests['date_receive']) }}
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="leading-5  py-1">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Khoa: </span>
+                                <p class="leading-3 italic text-sm">(Depart)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold"> "....." </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid grid-cols-4 font-sans-Timenew text-xl m-0 p-0" style="border:none !important">
+                    <div class="col-span-2">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Yêu cầu xét nghiệm: </span>
+                                <p class="leading-3 italic text-sm">(Test Requesting)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold"> "Định týp HPV" </span>
+                                 <p class="leading-3 italic text-sm">(HPV Genotyping)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Mã bệnh nhân: </span>
+                                <p class="leading-3 italic text-sm">(Partient ID)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold"> "....."</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="flex flex-row">
+                            <div>
+                                <span class="font-bold mr-2">Mã XN: </span>
+                                <p class="leading-3 italic text-sm">(Lab Barcode)</p>
+                            </div>
+                            <div>
+                                <span class="font-bold"> {{getbilltests['hpv_code']}} </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid grid-cols-4 font-sans-Timenew text-xl mt-0 p-0 " >
+                    <div class="col-span-4" style="border:none !important">
+                        <div class="flex flex-row" style="border:none !important">
+                            <div class="pt-1">
+                                <span class="font-bold mr-2">Phương pháp: </span>
+                                <p class="leading-3 italic text-sm">(Analytical Method)</p>
+                            </div>
+                            <div class="">
+                                <span class="font-bold text-red-600 text-lg"> APTIMA <span style="vertical-align: super; font-size:16px ; padding:0px">&reg;</span> HPV Assay. Approved by the FDA  </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+     <!--==================-->
+     <!--===========================================================================-->
+      <div style="border:none;border:none !important" class="pb-0 font-sans-Timenew"><span class="text-red-600  uppercase  underline font-bold text-lg">2. KẾT QUẢ:</span><span class="text-md italic">(Reporting result)</span></div>
+     <table class="font-sans-Timenew table table-bordered" style="border-color:black;">
+
+        <tr class="bg-black"><td class=" text-white font-sans-Timenew font-bold text-center" colspan="4">14 HPV high-risk</td></tr>
+        <tr class="bg-gray-300 font-sans-Timenew font-bold">
+         <td class=" text-blue-700 text-center text-xl" colspan="2">S/CO sample value</td>
+        <td class=" text-center text-xl" colspan="2">S/CO analyte</td>
+
+        </tr>
+        <tr class=" font-sans-Timenew ">
+            <td class=" text-red-700 text-center align-middle font-bold" colspan="2">"SCO"</td>
+            <td class="  text-center" colspan="2">
+                <div class="text-left">
+                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 0.05 </span>
+                    <p class="leading-3 italic text-md">(Negative)</p>
+                </div>
+                <div class="text-left">
+                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 0.05 </span>
+                    <p class="leading-3 italic text-md">(Positive)</p>
+                </div>
+            </td>
+
+        </tr>
+        <tr class=" font-sans-Timenew">
+            <td class="" width="" colspan="2">
+                <span class="mr-2 text-lg font-bold">Kết quả HPV </span>
+                    <p class="leading-3 italic text-md">(HPV result)</p>
+            </td>
+            <td class="  text-center" colspan="2">
+                <div class="text-left text-red-700">
+                    <span class=" mr-2 text-lg font-bold">Dương tính </span>
+                    <p class="leading-3 italic text-md">(Positive)</p>
+                </div>
+            </td>
+        </tr>
+        <tr class="bg-black"><td class=" text-white font-sans-Timenew font-bold text-center" colspan="4">GT HPV 16, 18/45</td></tr>
+        <tr class="bg-gray-300 font-sans-Timenew font-bold">
+            <td class=" text-blue-700 text-center text-xl">
+                <span>S/CO HPV 16 </span>
+                <p>sample value </p>
+            </td>
+            <td class=" text-center text-xl">
+                <span>S/CO HPV 16 </span>
+                <p>analyte </p>
+            </td>
+            <td class=" text-blue-700 text-center text-xl">
+                <span>S/CO HPV 18/45 </span>
+                <p>sample value </p>
+            </td>
+            <td class=" text-center text-xl">
+                <span>S/CO HPV 18/45</span>
+                <p>analyte </p>
+            </td>
+        </tr>
+        <tr class=" font-sans-Timenew">
+            <td class=" text-red-700 text-center align-middle font-bold">"SCO_16"</td>
+            <td class="  text-center">
+                <div class="text-left">
+                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 1.00 </span>
+                    <p class="leading-3 italic text-md">(Negative)</p>
+                </div>
+                <div class="text-left">
+                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 1.00 </span>
+                    <p class="leading-3 italic text-md">(Positive)</p>
+                </div>
+            </td>
+            <td class=" text-blue-700 text-center align-middle font-bold">"SCO_18"</td>
+            <td class="  text-center">
+                <div class="text-left">
+                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 1.00 </span>
+                    <p class="leading-3 italic text-md">(Negative)</p>
+                </div>
+                <div class="text-left">
+                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 1.00 </span>
+                    <p class="leading-3 italic text-md">(Positive)</p>
+                </div>
+            </td>
+
+        </tr>
+        <tr class=" font-sans-Timenew ">
+            <td class="">
+                <span class=" mr-2 text-lg font-bold">Kết quả HPV 16 </span>
+                    <p class="leading-3 italic text-md">(HPV 16 result)</p></td>
+            <td class="  text-center">
+                <div class="text-left text-red-700">
+                    <span class=" mr-2 text-lg font-bold">Dương tính </span>
+                    <p class="leading-3 italic text-md">(Positive)</p>
+                </div>
+            </td>
+            <td class="">
+                <span class="font-bold mr-2 text-lg">Kết quả HPV 18/45 </span>
+                    <p class="leading-3 italic text-md">(HPV 18/45result)</p></td>
+            <td class="  text-center">
+                <div class="text-left text-blue-700">
+                    <span class="d mr-2 text-lg font-bold">Âm tính </span>
+                    <p class="leading-3 italic text-md">(Negative)</p>
+                </div>
+            </td>
+
+        </tr>
+     </table>
+      <div  class="pb-0 font-sans-Timenew"><span class="text-red-600  uppercase  underline font-bold text-lg">3. KẾT Luận:</span><span class="text-md italic">(Reporting result)</span></div>
+        <table class="font-sans-Timenew table" >
+            <tr class="bg-gray-300 font-sans-Timenew">
+                <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 16</td>
+                <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 18/45</td>
+            </tr>
+            <tr class=" font-sans-Timenew " style="">
+                <td class="font-bold text-red-600 text-center  border-black border-1" colspan="2" width="50%" >Dương tính (Positive)</td>
+                <td class="font-bold text-blue-600 text-center  border-black border-1" colspan="2" >Âm tính (Negative)</td>
+            </tr>
+            <tr class=" font-sans-Timenew">
+                <td class="text-center font-bold" colspan="2"  style="border:none !important"></td>
+                <td class=" text-center " colspan="2"  style="border:none !important">
+                    <p class="italic leading-3 text-lg" style="border:none">Ngày (date): <span>{{currentDate}}</span></p>
+                    <p class="leading-3 text-lg font-bold" style="margin-bottom:80px; border:none">Trưởng Khoa GPB</p>
+                    <span class="text-xl font-bold" style=" border:none">ThS. BS. HUỲNH GIANG CHÂU</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</template>
+
+<script>
+import Table from '../../Components/Table.vue'
+import moment from 'moment'
+export default {
+  components: { Table },
+    props:{
+        getbilltests:Object,
+        printCustommers:Object,
+        printAddress:'',
+        printOutsent:'',
+        printDoctor:'',
+        selectedArray:'',
+        testElements:'',
+        pathImageLeft:"",
+        pathThinLeft:'',
+        pathThinRight:'',
+        imageThinLeft:'',
+        ketluan:'',
+        logo:'',
+        pathLogo:'',
+        currentDate:'',
+    },
+
+    data(){
+        return{
+            logoPath:'/images/Logo/logohpv.jpg',
+        }
+    },
+    methods:{
+        formatDate(value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY')}
+    }
+    }
+
+    }
+
+
+</script>
+
+<style>
+
+</style>

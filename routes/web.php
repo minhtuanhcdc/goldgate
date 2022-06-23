@@ -110,6 +110,7 @@ Route::middleware(['auth', 'verified'])
 
     Route::resource('/images','UploadImageController');
     Route::resource('/oureads','OureadController');
+    Route::resource('/inputhpv','InputHpvController');
 
     Route::get('/tranbillids',[PDFController::class,'TransBillId'])->name('TransBillId');
     Route::get('/downloadPDF',[PDFController::class,'downloadPDF'])->name('downloadPDF');
