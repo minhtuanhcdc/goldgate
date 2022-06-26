@@ -686,9 +686,9 @@
                        @click="printDiv('printMe')" >Print</button>
                     <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
-      <div v-for="(lan,i) in [1]" :key="i">
+                <div v-for="(lan,i) in [1]" :key="i">
                 <!-- <div>{{selectedArray['name']}}</div> -->
-                <div v-if="printOutsent.id == 1 && printNameTest == 1">
+                <div v-if="printOutsent.id == 1">
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
                         :pathImageLeft="pathImageLeft"
@@ -699,7 +699,7 @@
                          :currentDate='currentDate()'
                         :imageThinLeft='imgeLeft'/>
                 </div>
-                <div v-if="(printOutsent.id == 6) && (printNameTest == 1)">
+                <div v-if="(printOutsent.id == 6)">
                         <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathImageLeft="pathImageLeft"
@@ -709,7 +709,7 @@
                             :currentDate='currentDate()'
                           :imageThinLeft='imgeLeft'/>
                 </div>
-                <div v-if="printOutsent.id == 9 && printNameTest == 1">
+                <div v-if="printOutsent.id == 9">
                          <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathThinLeft='pathThinLeft'
@@ -720,7 +720,7 @@
                           :imageThinLeft='imgeLeft'/>
 
                 </div>
-                <div v-if="printOutsent.id != 6 && printOutsent.id != 9 && printOutsent.id != 1 && printNameTest == 1 ">
+                <div v-if="printOutsent.id != 6 && printOutsent.id != 9 && printOutsent.id != 1">
                          <PrintviewGenaral :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathThinLeft='pathThinLeft'
@@ -745,6 +745,7 @@
                            :pathImageLeft="pathImageLeft"
                           :pathThinRight='pathThinLeft'
                           :imageThinLeft='imgeLeft'
+                          :sco='sco'
                           :currentDate='currentDate()'/>
 
                 </div>
@@ -841,6 +842,7 @@ export default defineComponent({
   },
 data(){
   return{
+    sco:'',
     logo:'',
     testselect:[1],
     checkDPF:[''],
@@ -1009,8 +1011,8 @@ setup() {
         this.getbilltests= bill;
         this.printCustommers = bill.custommer;
         this.printOutsent= bill.ousent;
-
         this.printDoctor = bill.doctor;
+
 
         if(bill.testnames){
 
@@ -1034,11 +1036,18 @@ setup() {
         }
         const elementChecked1 = bill.results;
          let results = elementChecked1.map(({ element_id }) => element_id)
+
+
          //let keluanfill = elementChecked1.map(({result }) =>result)
 
           var ketluanFill = elementChecked1.find(obj => {
                       return obj.element_id ==26
                     })
+          this.sco = bill.results.find(obj => {
+                      return obj.element_id ==56
+                    })
+
+                      console.log('Heheheehehe',this.sco);
 
         //  var last = keluanfill.slice(-1)[0]
         if(ketluanFill){

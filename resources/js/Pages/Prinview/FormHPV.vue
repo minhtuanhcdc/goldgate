@@ -29,6 +29,7 @@
         <P class="leading-3">(<span class="mt-0 pl-0">APTIMA</span> <span class="ml-0 pl-0" style="vertical-align: super; font-size:16px ; padding:0px">&reg;</span> HPV Assay)</P>
     </div>
     <!--INFOMATION OF PATIENT==================-->
+    <div>{{}}</div>
       <div style="border:none;" class="pb-0 font-sans-Timenew mb-0 leading-3"><span class="text-red-600 uppercase  underline font-bold text-lg">1. Thông tin mẫu:</span><span class="text-md italic">(Information)</span></div>
     <table class="table mt-0">
         <tr>
@@ -181,124 +182,242 @@
      <!--==================-->
      <!--===========================================================================-->
       <div style="border:none;border:none !important" class="pb-0 font-sans-Timenew"><span class="text-red-600  uppercase  underline font-bold text-lg">2. KẾT QUẢ:</span><span class="text-md italic">(Reporting result)</span></div>
-     <table class="font-sans-Timenew table table-bordered" style="border-color:black;">
+      <div>{{getbilltests.results}}</div>
 
+     <table class="font-sans-Timenew " style="">
         <tr class="bg-black"><td class=" text-white font-sans-Timenew font-bold text-center" colspan="4">14 HPV high-risk</td></tr>
         <tr class="bg-gray-300 font-sans-Timenew font-bold">
-         <td class=" text-blue-700 text-center text-xl" colspan="2">S/CO sample value</td>
-        <td class=" text-center text-xl" colspan="2">S/CO analyte</td>
-
+            <td class="border-1  border-gray-900 text-blue-700 text-center text-xl" colspan="2">S/CO sample value</td>
+            <td class="border-1  border-gray-900 text-center text-xl" colspan="2">S/CO analyte</td>
         </tr>
-        <tr class=" font-sans-Timenew ">
-            <td class=" text-red-700 text-center align-middle font-bold" colspan="2">"SCO"</td>
-            <td class="  text-center" colspan="2">
+        <tr class=" font-sans-Timenew border-1">
+            <td class=" text-red-700 text-center align-middle font-bold border-1  border-gray-900" colspan="2" width="50%">
+                <div v-for="(sco, i) in getbilltests.results" :key="i">
+                     <span v-if="sco.element_id == 56" class="text-lg">{{sco.result}}</span>
+                </div>
+            </td>
+            <td class="border-1  border-gray-900  text-center" colspan="2">
                 <div class="text-left">
-                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 0.05 </span>
+                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 0.5 </span>
                     <p class="leading-3 italic text-md">(Negative)</p>
                 </div>
                 <div class="text-left">
-                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 0.05 </span>
+                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 0.5 </span>
                     <p class="leading-3 italic text-md">(Positive)</p>
                 </div>
             </td>
 
         </tr>
-        <tr class=" font-sans-Timenew">
-            <td class="" width="" colspan="2">
+        <tr class=" font-sans-Timenew ">
+            <td class="border-1 border-gray-900" width="50%" colspan="2">
                 <span class="mr-2 text-lg font-bold">Kết quả HPV </span>
                     <p class="leading-3 italic text-md">(HPV result)</p>
             </td>
-            <td class="  text-center" colspan="2">
-                <div class="text-left text-red-700">
-                    <span class=" mr-2 text-lg font-bold">Dương tính </span>
-                    <p class="leading-3 italic text-md">(Positive)</p>
-                </div>
-            </td>
-        </tr>
-        <tr class="bg-black"><td class=" text-white font-sans-Timenew font-bold text-center" colspan="4">GT HPV 16, 18/45</td></tr>
-        <tr class="bg-gray-300 font-sans-Timenew font-bold">
-            <td class=" text-blue-700 text-center text-xl">
-                <span>S/CO HPV 16 </span>
-                <p>sample value </p>
-            </td>
-            <td class=" text-center text-xl">
-                <span>S/CO HPV 16 </span>
-                <p>analyte </p>
-            </td>
-            <td class=" text-blue-700 text-center text-xl">
-                <span>S/CO HPV 18/45 </span>
-                <p>sample value </p>
-            </td>
-            <td class=" text-center text-xl">
-                <span>S/CO HPV 18/45</span>
-                <p>analyte </p>
-            </td>
-        </tr>
-        <tr class=" font-sans-Timenew">
-            <td class=" text-red-700 text-center align-middle font-bold">"SCO_16"</td>
-            <td class="  text-center">
-                <div class="text-left">
-                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 1.00 </span>
-                    <p class="leading-3 italic text-md">(Negative)</p>
-                </div>
-                <div class="text-left">
-                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 1.00 </span>
-                    <p class="leading-3 italic text-md">(Positive)</p>
-                </div>
-            </td>
-            <td class=" text-blue-700 text-center align-middle font-bold">"SCO_18"</td>
-            <td class="  text-center">
-                <div class="text-left">
-                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 1.00 </span>
-                    <p class="leading-3 italic text-md">(Negative)</p>
-                </div>
-                <div class="text-left">
-                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 1.00 </span>
-                    <p class="leading-3 italic text-md">(Positive)</p>
-                </div>
-            </td>
+            <td class=" border-1 border-gray-900 text-center" colspan="2">
+                <div class="text-left ">
+                    <div v-for="(sco, i) in getbilltests.results" :key="i">
+                        <div v-if="sco.element_id == 56">
+                           <div v-if="sco.result >= 0.5">
+                                <span class=" mr-2 text-lg font-bold text-red-700">Dương tính </span>
+                                <p class="leading-3 italic text-md">(Positive)</p>
+                           </div>
+                           <div v-else>
+                                <span class=" mr-2 text-lg text-blue-600 font-bold">Âm tính </span>
+                                <p class="leading-3 italic text-md">(Negative)</p>
+                           </div>
+                        </div>
+                    </div>
 
-        </tr>
-        <tr class=" font-sans-Timenew ">
-            <td class="">
-                <span class=" mr-2 text-lg font-bold">Kết quả HPV 16 </span>
-                    <p class="leading-3 italic text-md">(HPV 16 result)</p></td>
-            <td class="  text-center">
-                <div class="text-left text-red-700">
-                    <span class=" mr-2 text-lg font-bold">Dương tính </span>
-                    <p class="leading-3 italic text-md">(Positive)</p>
-                </div>
-            </td>
-            <td class="">
-                <span class="font-bold mr-2 text-lg">Kết quả HPV 18/45 </span>
-                    <p class="leading-3 italic text-md">(HPV 18/45result)</p></td>
-            <td class="  text-center">
-                <div class="text-left text-blue-700">
-                    <span class="d mr-2 text-lg font-bold">Âm tính </span>
-                    <p class="leading-3 italic text-md">(Negative)</p>
-                </div>
-            </td>
 
+                </div>
+            </td>
         </tr>
      </table>
+         <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2">
+            <div v-if="sco2.element_id == 59">
+                <div v-if="sco2.result >= 0.5">
+                    <table>
+                        <tr class="bg-black"><td class=" text-white font-sans-Timenew font-bold text-center border-1 border-gray-900" colspan="4">GT HPV 16, 18/45</td></tr>
+                        <tr class="bg-gray-300 font-sans-Timenew font-bold">
+                            <td class=" text-blue-700 text-center text-xl border-1 border-gray-900" width="25%">
+                                <span>S/CO HPV 16 </span>
+                                <p>sample value </p>
+                            </td>
+                            <td class=" text-center text-xl border-1 border-gray-900" width="25%">
+                                <span>S/CO HPV 16 </span>
+                                <p>analyte </p>
+                            </td>
+                            <td class="border-1 border-gray-900 text-blue-700 text-center text-xl" width="25%">
+                                <span>S/CO HPV 18/45 </span>
+                                <p>sample value </p>
+                            </td>
+                            <td class=" text-center text-xl border-1 border-gray-900" width="25%">
+                                <span>S/CO HPV 18/45</span>
+                                <p>analyte </p>
+                            </td>
+                        </tr>
+                        <tr class=" font-sans-Timenew">
+                            <td class="  text-center align-middle font-bold border-1 border-gray-900">
+                                <div v-for="(sco16, i) in getbilltests.results" :key="i">
+                                    <div v-if="sco16.element_id == 57">
+                                        <div v-if="sco16.result>=1">
+                                            <span  class="text-red-700 text-xl">{{sco16.result}}</span>
+                                        </div>
+                                        <div v-else>
+                                                 <span  class="text-blue-700 text-xl">{{sco16.result}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </td>
+                            <td class="  text-center border-1 border-gray-900">
+                                <div class="text-left">
+                                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 1.00 </span>
+                                    <p class="leading-3 italic text-md">(Negative)</p>
+                                </div>
+                                <div class="text-left">
+                                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 1.00 </span>
+                                    <p class="leading-3 italic text-md">(Positive)</p>
+                                </div>
+                            </td>
+                            <td class="text-center align-middle font-bold border-1 border-gray-900">
+                                 <div v-for="(sco18, i) in getbilltests.results" :key="i">
+                                    <div v-if="sco18.element_id == 58">
+                                        <div v-if="sco18.result>=1">
+                                            <span  class="text-red-700 text-xl">{{sco18.result}}</span>
+                                        </div>
+                                        <div v-else>
+                                            <span  class="text-blue-700 text-xl">{{sco18.result}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="  text-center border-1 border-gray-900">
+                                <div class="text-left">
+                                    <span class=" mr-2 text-lg">Âm tính nếu <span class="ml-10">&lt;</span> 1.00 </span>
+                                    <p class="leading-3 italic text-md">(Negative)</p>
+                                </div>
+                                <div class="text-left">
+                                    <span class=" mr-2 text-lg">Dương tính nếu <span class="ml-4">&ge;</span> 1.00 </span>
+                                    <p class="leading-3 italic text-md">(Positive)</p>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr class=" font-sans-Timenew ">
+                            <td class="border-1 border-gray-900">
+                                <span class=" mr-2 text-lg font-bold">Kết quả HPV 16 </span>
+                                    <p class="leading-3 italic text-md">(HPV 16 result)</p></td>
+                            <td class="  text-center border-1 border-gray-900">
+                                 <div class="text-left ">
+                                    <div v-for="(sco16, i) in getbilltests.results" :key="i">
+                                        <div v-if="sco16.element_id == 57">
+                                        <div v-if="sco16.result >= 1">
+                                                <span class=" mr-2 text-lg font-bold text-red-700">Dương tính </span>
+                                                <p class="leading-3 italic text-md">(Positive)</p>
+                                        </div>
+                                        <div v-else>
+                                                <span class=" mr-2 text-lg text-blue-600 font-bold">Âm tính </span>
+                                                <p class="leading-3 italic text-md">(Negative)</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="border-1 border-gray-900">
+                                <span class="font-bold mr-2 text-lg">Kết quả HPV 18/45 </span>
+                                    <p class="leading-3 italic text-md">(HPV 18/45result)</p></td>
+                            <td class="  text-center border-1 border-gray-900">
+                                <div class="text-left ">
+                                    <div v-for="(sco18, i) in getbilltests.results" :key="i">
+                                        <div v-if="sco18.element_id == 58">
+                                        <div v-if="sco18.result >= 1">
+                                                <span class=" mr-2 text-lg font-bold text-red-700">Dương tính </span>
+                                                <p class="leading-3 italic text-md">(Positive)</p>
+                                        </div>
+                                        <div v-else>
+                                                <span class=" mr-2 text-lg text-blue-600 font-bold">Âm tính </span>
+                                                <p class="leading-3 italic text-md">(Negative)</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div v-else>
+                     <table class="font-sans-Timenew table" >
+                        <tr class="bg-gray-300 font-sans-Timenew ">
+                            <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">11 Orther HPV High-Risk</td>
+                            <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 16</td>
+                            <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 18/45</td>
+                        </tr>
+                        <tr class=" font-sans-Timenew border-1 border-gray-900" style="">
+                            <td class="font-bold text-red-700 text-center   border-black border-1 text-lg" colspan="2" width="" >Dương tính (Positive)</td>
+                            <td class="font-bold text-blue-600 text-center  border-black border-1" colspan="2" width="" >Âm tính (Negative)</td>
+                            <td class="font-bold text-blue-600 text-center  border-black border-1" colspan="2" >Âm tính (Negative)</td>
+                        </tr>
+
+                    </table>
+                </div>
+        </div>
+     </div>
       <div  class="pb-0 font-sans-Timenew"><span class="text-red-600  uppercase  underline font-bold text-lg">3. KẾT Luận:</span><span class="text-md italic">(Reporting result)</span></div>
-        <table class="font-sans-Timenew table" >
-            <tr class="bg-gray-300 font-sans-Timenew">
-                <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 16</td>
-                <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 18/45</td>
-            </tr>
-            <tr class=" font-sans-Timenew " style="">
-                <td class="font-bold text-red-600 text-center  border-black border-1" colspan="2" width="50%" >Dương tính (Positive)</td>
-                <td class="font-bold text-blue-600 text-center  border-black border-1" colspan="2" >Âm tính (Negative)</td>
-            </tr>
-            <tr class=" font-sans-Timenew">
-                <td class="text-center font-bold" colspan="2"  style="border:none !important"></td>
-                <td class=" text-center " colspan="2"  style="border:none !important">
-                    <p class="italic leading-3 text-lg" style="border:none">Ngày (date): <span>{{currentDate}}</span></p>
-                    <p class="leading-3 text-lg font-bold" style="margin-bottom:80px; border:none">Trưởng Khoa GPB</p>
-                    <span class="text-xl font-bold" style=" border:none">ThS. BS. HUỲNH GIANG CHÂU</span>
-                </td>
-            </tr>
+        <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2">
+            <div v-if="sco2.element_id == 59">
+                <div v-if="sco2.result >= 0.5">
+                    <table class="font-sans-Timenew" >
+                        <tr class="bg-gray-300 font-sans-Timenew border-1 border-gray-900">
+                            <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 16</td>
+                            <td class=" bg-gray-300 text-center font-bold border-black border-1 text-xl" colspan="2">Genotype HPV 18/45</td>
+                        </tr>
+                        <tr class=" font-sans-Timenew border-1 border-gray-900 " style="">
+                            <td class="font-bold text-red-600 text-center  border-black border-1" colspan="2" width="50%" >
+                                <div v-for="(sco16, i) in getbilltests.results" :key="i">
+                                    <div v-if="sco16.element_id == 57">
+                                        <div v-if="sco16.result>=1">
+                                            <span  class="text-red-700 text-xl">Dương tính (Positive)</span>
+                                        </div>
+                                        <div v-else>
+                                            <span  class="text-blue-700 text-xl">Âm tính (Negative)</span>
+                                        </div>
+
+                                    </div>
+                                    </div>
+                            </td>
+                            <td class="font-bold text-blue-600 text-center  border-black border-1" colspan="2" >
+                                <div v-for="(sco18, i) in getbilltests.results" :key="i">
+                                    <div v-if="sco18.element_id == 58">
+                                        <div v-if="sco18.result>=1">
+                                            <span  class="text-red-700 text-xl">Dương tính (Positive)</span>
+                                        </div>
+                                        <div v-else>
+                                            <span  class="text-blue-700 text-xl">Âm tính (Negative)</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div v-else>
+
+                </div>
+            </div>
+        </div>
+         <table class="font-sans-Timenew table" >
+                        <tr class=" font-sans-Timenew">
+                            <td class="text-center font-bold" colspan="2"  style="border:none !important" width="50%"></td>
+                            <td class=" text-center " colspan="2"  style="border:none !important">
+                                <p class="italic leading-3 text-lg" style="border:none">Ngày (date): <span>{{currentDate}}</span></p>
+                                <p class="leading-3 text-lg font-bold" style="margin-bottom:80px; border:none">Trưởng Khoa GPB</p>
+                                <span class="text-xl font-bold" style=" border:none">ThS. BS. HUỲNH GIANG CHÂU</span>
+                            </td>
+                        </tr>
         </table>
     </div>
 
@@ -325,6 +444,12 @@ export default {
         logo:'',
         pathLogo:'',
         currentDate:'',
+        sco:'',
+    },
+    computed:{
+        getSCo(){
+            return this.sco.result
+        }
     },
 
     data(){

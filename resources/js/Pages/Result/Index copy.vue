@@ -125,7 +125,7 @@
                 v-show="bill.result_status==1"
                   title="Edit"
                   class="text-green-800"
-                    @click="editUser(bill)"
+                    @click="editResult(bill)"
                   >
                    <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
@@ -576,7 +576,7 @@ data(){
                    // this.reset();
                     this.closeModal();
                 },
-          editUser(bill) {
+          editResult(bill) {
               this.form = Object.assign({}, bill);
               console.log(bill);
                this.viewOutsent= bill.ousent.id;

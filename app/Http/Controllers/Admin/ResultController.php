@@ -37,21 +37,22 @@ class ResultController extends Controller
         $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
         if($request->ousentFill && $request->ousentFill !=='all'){
            // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('thinprep_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
         if($request->readcodeFill && $request->readcodeFill !=='all'){
            // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('thinprep_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
 
         else{
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->paginate($perpage);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->where('thinprep_code','!=',null)->paginate($perpage);
         }
 
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
-        $testElementsHpv = Testelement::where('testname_id',2)->select('id as idhpv','name','element_group')->get();
+        $testElementsHpv = Testelement::where('testname_id',2)->select('id','name','element_group')->get();
+        //dd($testElementsHpv);
         $ousents = Ousent::select('id','name')->get();
         $readcodes = Ouread::get();
         $doctors = Doctor::select('id','name','ousent_id')->get();
@@ -87,7 +88,7 @@ class ResultController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
                 foreach ($request->element_id as $eid=>$value) {
                     if($value!==null){
                         Result::insert([
@@ -150,14 +151,14 @@ class ResultController extends Controller
      */
     public function update(Request $request, $id)
     {
-       //dd($request->all());
+      // dd($request->all());
        Result::where('bill_id',$id)->delete();
        foreach ($request->element_id as $eid=>$value) {
                 if($value != 26){
 
                     Result::insert([
                         'bill_id'=>$id,
-                        'thin_code'=>$request->thin_code,
+                        'thin_code'=>$request->thinprep_code,
                         'element_id'=>$value,
                         'result'=>$value,
                         'created_at'=>date('Y-m-d H:i:s'),
@@ -167,9 +168,9 @@ class ResultController extends Controller
                 if($value == 26){
                     Result::insert([
                         'bill_id'=>$id,
-                        'thin_code'=>$request->thin_code,
+                        'thin_code'=>$request->thinprep_code,
                         'element_id'=>26,
-                        'result'=>$request->ket_luan,
+                        'result'=>$request->ketluan,
                         'created_at'=>date('Y-m-d H:i:s'),
                         'updated_at'=>date('Y-m-d H:i:s'),
                         ]);

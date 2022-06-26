@@ -126,7 +126,7 @@
                 v-show="bill.result_status==1"
                   title="Edit"
                   class="text-green-800"
-                    @click="editUser(bill)"
+                    @click="editResult(bill)"
                   >
                    <svg
                     class="w-6 h-6 text-blue-800 cursor-pointer"
@@ -309,6 +309,7 @@
 
              <div v-if="viewOutsent == 13 && viewOutsent !== 6  && viewOutsent !== 1 && viewOutsent !== 9">
                 <h1 class="text-bold text-xl text-blue-600">Nhập Kết quả HPV</h1>
+                {{testData}}
 
                  <div class="px-4 pb-0">
                     <div class="grid grid-cols-4 leading-6 mb-2">
@@ -320,16 +321,18 @@
                     <form
                         class="py-1 px-2 sm:p-1 sm:px-2 bg-white overflow-hidden shadow-xl sm:rounded-lg"
                         @submit.prevent="saveResultHPV(form)">
-                        <div>
+
+                           <div class="grid grid-cols-4">
                           <template v-for="(elm,i) in testElementsHpv" :key="i">
-                            <div class="flex mt-10"  v-if="elm.element_group == 20" >
-                                <div class="w-full">
+
+                                <div class="w-full px-2">
                                   <span class="font-bold" >{{elm.name}} </span>
                                     <span>
-                                      <input  type="text" class="w-full rounded-md h-10" v-model="form.sco[elm.idhpv]">
+                                      <JetInput  type="text" class="w-full rounded-md h-10"   v-model="form.elment_hpv[elm.id]"/>
+                                      <!-- <input  type="text" class="w-full rounded-md h-10" v-model="form.elment_hpv"> -->
                                     </span>
+
                                 </div>
-                            </div>
                           </template>
                         </div>
                         <div class="mt-4 text-center mb-1" >
@@ -341,7 +344,7 @@
                                   <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                     <button wire:click.prevent="store()" type="button"
                                     class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                                      v-show="editMode" @click.prevent="">
+                                      v-show="editMode" @click.prevent="updateResultHpv">
                                       Update
                                     </button>
                                   </span>
@@ -552,9 +555,10 @@ export default defineComponent({
   },
 data(){
   return{
+testData:'',
     viewInfo:'',
     viewSCO:true,
-    element_id:[],
+    elementHpv:[],
     checkedElement:[],
     ket_luan:[],
     ketluan:'',
@@ -580,7 +584,7 @@ data(){
 
     form: this.$inertia.form({
           element_id:[],
-          sco:[],
+          elment_hpv:[],
           ket_luan:[],
           bill_id:'',
           thin_code:'',
@@ -590,6 +594,7 @@ data(){
           resetOnSuccess: false,
         }
       ),
+
     }
   },
    watch:{
@@ -604,21 +609,75 @@ data(){
     },
   methods:{
      formatDate(value) {
-    if (value) {
-        return moment(String(value)).format('DD/MM/YYYY hh:mm')}
-    },
-//  callScoView(value) {
-//       if(value >=0.5){
-//         this.viewSCO = true;
-//       }
-//     },
+        if (value) {
+            return moment(String(value)).format('DD/MM/YYYY hh:mm')}
+        },
+    editResult(bill) {
+              this.form = Object.assign({}, bill);
+              //console.log('Heheheehehehe',bill);
+               this.viewOutsent= bill.ousent.id;
+              this.name = bill.custommer.name;
+                const elementChecked1 =bill.results;
+                let result = elementChecked1.map(({ element_id }) => element_id)
+                this.checkedElement = result;
+                this.form.element_id =result;
+
+
+              var ketluanFill = bill.results.find(obj => {
+                       return obj.element_id ==26
+                     })
+                     if(ketluanFill){
+                         this.form.ketluan = ketluanFill.result;
+                     }
+
+
+
+                let _result = []
+                bill.results.map(({element_id, result}) => _result[element_id] = result)
+                this.form.elment_hpv = _result
+
+                this.editMode = true;
+                this.showModal=true;
+              },
+     updateResult(bill){
+            //alert(123);
+           // let kl = bill.results.map(({ result }) => result)
+
+             //const ketluan = kl.slice(1)
+             const data2 = {
+              'ket_luan':bill.ketluan,
+              'thin_code': bill.thinprep_code,
+              'bill_id': bill.id,
+              'element_id': bill.element_id,
+              };
+              const data3 = {...bill, ...data2 }
+           //const data = bill;
+                bill._method = 'PUT';
+                this.$inertia.post('/dashboard/results/'+bill.id, bill);
+                this.reset();
+                this.closeModal();
+            },
+  updateResultHpv(bill){
+          //   alert(123);
+          //  // let kl = bill.results.map(({ result }) => result)
+
+          //    //const ketluan = kl.slice(1)
+          //    const data = {
+          //       'hpv_code': this.hpv_code,
+          //       'bill_id': this.test_id,
+          //     'element_id': bill.element_id,
+          //     };
+          //     //const data3 = {...bill, ...data2 }
+          //  //const data = bill;
+          //       bill._method = 'PUT';
+          //       this.$inertia.post('/dashboard/inputhpv/'+bill.id, bill);
+          //       this.reset();
+          //       this.closeModal();
+            },
     saveResultHPV(data) {
-
-
+console.log("Heheheheehehehehehe",data);
             const data2 = {
-              // 'sco':this.form.sco,
-              // 'sco16': this.form.sco16,
-              // 'sco18': this.form.sco18,
+
               'hpv_code': this.hpv_code,
               'bill_id': this.test_id,
                 };
@@ -628,6 +687,8 @@ data(){
                    // this.reset();
                     this.closeModal();
                 },
+
+
     getPageFill(){
         this.$inertia.get('results?',
             {
@@ -677,7 +738,7 @@ data(){
           reset() {
               this.form = {
                 element_id:[],
-                sco:[],
+                elment_hpv:[],
                 ket_luan:'',
                 bill_id:'',
                 thin_code:'',
@@ -689,24 +750,8 @@ data(){
               this.editMode=false;
               this.reset();
               },
-          updateResult(bill){
-            //alert(123);
-           // let kl = bill.results.map(({ result }) => result)
 
-             //const ketluan = kl.slice(1)
-             const data = {
-              'ket_luan':bill.ketluan,
-              'thin_code': bill.thinprep_code,
-              'bill_id': bill.id,
-              //'element_id': bill.element_id,
-              };
-              //const data3 = {...bill, ...data2 }
-           //const data = bill;
-                data._method = 'PUT';
-                this.$inertia.post('/dashboard/results/'+bill.id, data);
-                this.reset();
-                this.closeModal();
-            },
+
           saveResult(data) {
             const data2 = {
                 'ket_luan':this.form.ketluan,
@@ -715,29 +760,11 @@ data(){
               };
                 const data3 = {...data, ...data2 }
                     //this.$inertia.post('/dashboard/results',[{'form1':data, 'form2':thin_code}])
-                    this.$inertia.post('/dashboard/inputhpv',data3)
+                    this.$inertia.post('/dashboard/results',data3)
                    // this.reset();
                     this.closeModal();
                 },
-          editUser(bill) {
-              this.form = Object.assign({}, bill);
-              //console.log(bill);
-               this.viewOutsent= bill.ousent.id;
-              this.name = bill.custommer.name;
-              const elementChecked1 =bill.results;
 
-             var ketluanFill = elementChecked1.find(obj => {
-                      return obj.element_id ==26
-                    })
-            // console.log('Tessssssssssssssss',ketluanFill);
-
-                let result = elementChecked1.map(({ element_id }) => element_id)
-
-                this.form.ketluan = ketluanFill.result;
-                this.form.element_id =result;
-                this.editMode = true;
-                this.showModal=true;
-              },
           addResult(bill){
 
               const getBill = Object.assign({}, bill)

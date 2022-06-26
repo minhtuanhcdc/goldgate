@@ -116,4 +116,7 @@ Route::middleware(['auth', 'verified'])
     Route::get('/downloadPDF',[PDFController::class,'downloadPDF'])->name('downloadPDF');
     Route::get('/checkcodeoureads',[CheckCodeController::class,'checkcodeouread'])->name('checkcodeoureads');
 
+    Route::get('/printThinprep',[PrintController::class,'printThinprep'])->name('printThinprep');
+    Route::get('/printHpv',[PrintController::class,'printHpv'])->name('printHpv');
+
 });

@@ -60,9 +60,9 @@ class HandleInertiaRequests extends Middleware
                             //'pemissions' =>$pemissions,
                         ];
                     }
-                  
+
                 }
-            
+
          ]);
      }
 }

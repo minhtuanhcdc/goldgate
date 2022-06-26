@@ -5,6 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Result;
+use Inertia\Inertia;
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Ward;
+use App\Models\Ousent;
+use App\Models\Ouread;
+use App\Models\Doctor;
+use App\Models\Custommer;
+use App\Models\Billtest;
+use App\Models\Billname;
+use App\Models\Testname;
+use App\Models\Testelement;
+use App\Models\Custommeraddress;
+use App\Http\Requests\SaveCustommerRequest;
+use App\Http\Requests\SaveResultRequest;
+use App\Http\Resources\TestnameResource;
 use DB;
 
 class InputHpvController extends Controller
@@ -14,9 +30,45 @@ class InputHpvController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perpage = $request->perpageFill?$request->perpageFill:10;
+        $ousentFill=$request->ousentFill?$request->ousentFill:'all';
+        $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
+        if($request->ousentFill && $request->ousentFill !=='all'){
+           // dd($request->ousentFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('hpv_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
+                //dd($billtests);
+        }
+        if($request->readcodeFill && $request->readcodeFill !=='all'){
+           // dd($request->ousentFill);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('hpv_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+                //dd($billtests);
+        }
+
+        else{
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->where('hpv_code','!=',null)->paginate($perpage);
+        }
+
+        $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
+        $testElementsHpv = Testelement::where('testname_id',2)->select('id','name','element_group')->get();
+        //dd($testElementsHpv);
+        $ousents = Ousent::select('id','name')->get();
+        $readcodes = Ouread::get();
+        $doctors = Doctor::select('id','name','ousent_id')->get();
+        $filters=[
+            'ousentFill'=>$request->ousentFill,
+        ];
+        return Inertia::render('Result/IndexHpv',[
+            'billtests'=>$billtests,
+            'ousents'=>$ousents,
+            'testElements'=>$testElements,
+            'testElementsHpv'=>$testElementsHpv,
+            'doctors'=>$doctors,
+            'readcodes'=>$readcodes,
+            'filters'=>$filters,
+        ]);
+
     }
 
     /**
@@ -39,7 +91,7 @@ class InputHpvController extends Controller
     {
         //dd($request->all());
 
-        foreach ($request->sco as $eid=>$value) {
+        foreach ($request->elment_hpv as $eid=>$value) {
             if($value!==null){
                 Result::insert([
                     'bill_id'=>$request->bill_id,
@@ -51,6 +103,11 @@ class InputHpvController extends Controller
                     ]);
             };
             }
+            Billtest::where('hpv_code',$request->hpv_code)->update(
+                [
+                    'resultHpv'=>1
+                ]
+                );
 
         return back()->withInput()->with('success','Add  successfully!');
     }
@@ -63,7 +120,7 @@ class InputHpvController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -86,9 +143,26 @@ class InputHpvController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+       //dd($request->all());
+       Result::where('hpv_code',$request->hpv_code)->delete();
+       foreach ($request->elment_hpv as $eid=>$value) {
+        if($value!==null){
+            Result::insert([
+                'bill_id'=>$request->bill_id,
+                'hpv_code'=>$request->hpv_code,
+                'element_id'=>$eid,
+                'result'=>$value,
+                'created_at'=>date('Y-m-d H:i:s'),
+                'updated_at'=>date('Y-m-d H:i:s'),
+                ]);
+        };
 
+        Billtest::where('hpv_code',$request->hpv_code)
+            ->update([
+                'resultHpv'=>1
+            ]);
+    }
+    }
     /**
      * Remove the specified resource from storage.
      *
