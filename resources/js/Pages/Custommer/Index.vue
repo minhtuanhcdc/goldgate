@@ -370,7 +370,7 @@
                                       </div>
                                   <div class="col-span-3">
                                       <jet-input
-                                      required
+
                                       id="birthday"
                                       type="text"
                                       class="mt-1 block w-full h-8"

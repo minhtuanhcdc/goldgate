@@ -32,23 +32,94 @@ class InputHpvController extends Controller
      */
     public function index(Request $request)
     {
-        $perpage = $request->perpageFill?$request->perpageFill:10;
-        $ousentFill=$request->ousentFill?$request->ousentFill:'all';
-        $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
-        if($request->ousentFill && $request->ousentFill !=='all'){
-           // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('hpv_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
-                //dd($billtests);
+
+         $perpage = $request->perpageFill?$request->perpageFill:10;
+         $ousentFill=$request->ousentFill?$request->ousentFill:"all";
+       $startDate=$request->startDate?$request->startDate:'';
+       $endDate=$request->endDate?$request->endDate:'';
+
+       $query = Billtest::query();
+
+       if (request('term')) {
+        $query
+            ->where('hpv_code', 'like', '%' . request('term') . '%');
+            //->orWhere('hpv_code', 'like', '%' . request('term') . '%');
+            //->orWhere('id', 'like', '%' . request('term') . '%');
+    }
+
+    // if ($request->has(['ousentFill','startDate']) && $request->ousentFill != null) {
+    //     $query->where('ousent_id',$request->ousentFill)
+    //     ->whereDate('date_receive',$request->startDate);
+
+    // }
+    // if ($request->has(['ousentFill','startDate']) && $request->ousentFill != null) {
+    //     $query->where('ousent_id',$request->ousentFill)
+    //     ->whereDate('date_receive',$request->startDate);
+    // }
+    // if ($request->has(['ousentFill','startDate','endDate']) && $request->ousentFill != null) {
+    //     $query->where('ousent_id',$request->ousentFill)
+    //     ->whereDate('date_receive',$request->startDate)
+    //     ->whereDate('date_receive','>=',$request->startDate)
+    //     ->whereDate('date_receive','<=',$request->endDate);
+
+    // }
+
+        if($request->ousentFill && $request->ousentFill !=="all"){
+            $query
+            ->where('hpv_code','!=',null)
+            ->where('ousent_id',$request->ousentFill);
+
         }
-        if($request->readcodeFill && $request->readcodeFill !=='all'){
-           // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('hpv_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
-                //dd($billtests);
+        if($request->startDate){
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','resulthpvs'])
+            ->where('hpv_code','!=',null)
+            ->whereDate('date_receive',$request->startDate)
+            ->paginate($perpage)->withQueryString();
+
+        }
+        if($request->endDate){
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','resulthpvs'])
+            ->where('hpv_code','!=',null)
+            ->whereDate('date_receive',$request->endDate)
+            ->paginate($perpage)->withQueryString();
+        }
+        if($request->startDate && $request->endDate){
+            // $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','resulthpvs'])
+            // ->where('hpv_code','!=',null)
+            // ->whereDate('date_receive','>=',$request->startDate)
+            // ->whereDate('date_receive','<=',$request->endDate)
+            // ->paginate($perpage)->withQueryString();
+            $query
+            ->where('hpv_code','!=',null)
+            //->whereDate('date_receive','<=',$request->startDate)
+            //->whereDate('date_receive','<=',$request->endDate);
+            ->whereBetween('date_receive',[$request->startDate,$request->endDate]);
+            //->paginate($perpage)->withQueryString();
+        }
+        if(($request->ousentFill && $request->ousentFill !=="all")&& ($request->startDate && $request->endDate) ){
+            $query
+            ->where('hpv_code','!=',null)
+            ->where('ousent_id',$request->ousentFill)
+            ->whereBetween('date_receive',[$request->startDate,$request->endDate]);
+            // $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','resulthpvs'])
+            // ->where('hpv_code','!=',null)
+            // ->where('ousent_id',$request->ousentFill)
+            // ->whereDate('date_receive','>=',$request->startDate)
+            // ->whereDate('date_receive','<=',$request->endDate)
+            // ->paginate($perpage)->withQueryString();
+         }
+        if(($request->startDate && $request->endDate) && ($request->ousentFill =="all")){
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','resulthpvs'])
+            ->where('hpv_code','!=',null)
+            ->whereDate('date_receive','>=',$request->startDate)
+            ->whereDate('date_receive','<=',$request->endDate)
+            ->paginate($perpage)->withQueryString();
         }
 
-        else{
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->where('hpv_code','!=',null)->paginate($perpage);
-        }
+        // else{
+        //     $billtests=Billtest::with(['custommer','doctor','ousent','testnames','resulthpvs'])->where('hpv_code','!=',null)->paginate($perpage)->withQueryString();
+        // }
+
 
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
         $testElementsHpv = Testelement::where('testname_id',2)->select('id','name','element_group')->get();
@@ -60,7 +131,8 @@ class InputHpvController extends Controller
             'ousentFill'=>$request->ousentFill,
         ];
         return Inertia::render('Result/IndexHpv',[
-            'billtests'=>$billtests,
+           // 'billtests'=>$billtests,
+           'billtests'=>fn() => $query->with(['custommer','doctor','ousent','testnames','resulthpvs'])->where('hpv_code','!=',null)->paginate(10)->withQueryString(),
             'ousents'=>$ousents,
             'testElements'=>$testElements,
             'testElementsHpv'=>$testElementsHpv,

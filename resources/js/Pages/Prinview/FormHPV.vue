@@ -182,8 +182,6 @@
      <!--==================-->
      <!--===========================================================================-->
       <div style="border:none;border:none !important" class="pb-0 font-sans-Timenew"><span class="text-red-600  uppercase  underline font-bold text-lg">2. KẾT QUẢ:</span><span class="text-md italic">(Reporting result)</span></div>
-      <div>{{getbilltests.results}}</div>
-
      <table class="font-sans-Timenew " style="">
         <tr class="bg-black"><td class=" text-white font-sans-Timenew font-bold text-center" colspan="4">14 HPV high-risk</td></tr>
         <tr class="bg-gray-300 font-sans-Timenew font-bold">
@@ -228,12 +226,13 @@
                         </div>
                     </div>
 
-
                 </div>
             </td>
         </tr>
      </table>
-         <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2">
+    <div  class="pb-0 font-sans-Timenew mb-0 mt-3"><span class="text-red-600  uppercase  underline font-bold text-lg">3. KẾT Luận:</span><span class="text-md italic">(Reporting result)</span></div>
+
+    <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2 mt-0">
             <div v-if="sco2.element_id == 59">
                 <div v-if="sco2.result >= 0.5">
                     <table>
@@ -364,9 +363,8 @@
                     </table>
                 </div>
         </div>
-     </div>
-      <div  class="pb-0 font-sans-Timenew"><span class="text-red-600  uppercase  underline font-bold text-lg">3. KẾT Luận:</span><span class="text-md italic">(Reporting result)</span></div>
-        <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2">
+    </div>
+    <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2 mt-0">
             <div v-if="sco2.element_id == 59">
                 <div v-if="sco2.result >= 0.5">
                     <table class="font-sans-Timenew" >
@@ -408,8 +406,8 @@
 
                 </div>
             </div>
-        </div>
-         <table class="font-sans-Timenew table" >
+    </div>
+    <table class="font-sans-Timenew table" >
                         <tr class=" font-sans-Timenew">
                             <td class="text-center font-bold" colspan="2"  style="border:none !important" width="50%"></td>
                             <td class=" text-center " colspan="2"  style="border:none !important">
@@ -418,7 +416,7 @@
                                 <span class="text-xl font-bold" style=" border:none">ThS. BS. HUỲNH GIANG CHÂU</span>
                             </td>
                         </tr>
-        </table>
+    </table>
     </div>
 
 </template>
@@ -436,15 +434,10 @@ export default {
         printDoctor:'',
         selectedArray:'',
         testElements:'',
-        pathImageLeft:"",
-        pathThinLeft:'',
-        pathThinRight:'',
-        imageThinLeft:'',
-        ketluan:'',
         logo:'',
         pathLogo:'',
         currentDate:'',
-        sco:'',
+
     },
     computed:{
         getSCo(){

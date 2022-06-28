@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Billtest extends Model
 {
     use HasFactory;
-    protected $guarded = ['id'];
+    protected $guarded = ['id','hpv_code'];
     protected $table = "billtests";
-
+    protected $hidden = ['primary_key'];
     public function custommer(){
         return $this->hasOne(Custommer::class,'id','custommer_id')->with(['province','district']);
     }
@@ -25,7 +25,8 @@ class Billtest extends Model
          return $this->belongsTomany(Testname::class,'billnames','billtest_id','testname_id');
     }
     public function results(){
-         //dd($this->hasMany(Result::class,'bill_id','id'));
+        // dd($this->hasMany(Result::class,'bill_id','id'));
+        //$this->primaryKey = 'hpv_code';
          return $this->belongsTomany(Testelement::class,'results','bill_id','element_id')->select('element_id','result');
     }
     // public function province(){
@@ -50,6 +51,11 @@ class Billtest extends Model
     }
     public function cutommerupdate(){
           return $this->hasOne(Custommer::class);
+    }
+    public function resulthpvs(){
+        // dd($this->hasMany(Result::class,'bill_id','id'));
+        $this->primaryKey = 'hpv_code';
+         return $this->belongsTomany(Testelement::class,'results','hpv_code','element_id')->select('element_id','result');
     }
 
 

@@ -7,80 +7,97 @@
     <Container>
       <Card>
         <div class="px-2 grid grid-cols-1 mb-2 bg-gray-200">
-            <div class="grid grid-cols-7">
-              <div class="col-span-2 ">
-                <div class="flex flex-row">
-                    <div class="">
-                          <span>ĐV gửi mẫu:</span>
-                      </div>
-                    <div class="col-span-2 w-52">
-                          <select
-                              name="testgroup"
-                              id="testgroup"
-                              class="block py-0 w-full form-input h-8 rounded-lg text-md"
-                              v-model="ousentFill"
-                            >
-                              <option value="all">All</option>
-                              <option
-                                v-for="(ous,i) in ousents"
-                                :key="i"
-                                :value="ous.id"
-                              >
-                                {{ ous.name }}
-                              </option>
-                          </select>
-                    </div>
-                  </div>
+             <div class="grid grid-cols-7">
+        <div class="col-span-2 ">
+          <div class="flex flex-row">
+              <div class="">
+                  <span>ĐV gửi mẫu:</span>
+                </div>
+              <div class="col-span-2 w-52">
+                    <select
+                        name="testgroup"
+                        id="testgroup"
+                        class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                        v-model="ousentFill">
+                        <option value="all">All</option>
+                        <option
+                          v-for="(ous,i) in ousents"
+                          :key="i"
+                          :value="ous.id"
+                        >
+                          {{ ous.name }}
+                        </option>
+                    </select>
               </div>
-              <div class="col-span-2  mx-2">
-                <div class="flex flex-grow">
-                  <div class="">
-                        <span>Bác sỹ CĐ:</span>
-                      </div>
-                    <div class="col-span-2 w-52">
-                          <select
-                              name="testgroup"
-                              id="testgroup"
-                              class="block py-0 w-full form-input h-8 rounded-lg text-md"
-                              v-model="readcodeFill"
-                            >
-                              <option value="all">All</option>
-                              <option v-for="or in readcodes" :key="or.id" :value="or.read_code">({{or.read_code}})-{{or.name}}</option>
-
-                          </select>
-                    </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-span-2  mx-2">
+          <div class="flex flex-grow">
+            <div class="">
+                  <span>BS Chỉ định(of ĐV gửi mẫu):</span>
                 </div>
-              <div class="col-span-2">
-                <div class="flex flex-row">
-                <div>Ngày nhận mẫu</div>
-                <div class="mx-2">Từ</div>
-                <div class="">Đến</div>
-                </div>
+              <div class="col-span-2 w-52">
+                    <select
+                        name="testgroup"
+                        id="testgroup"
+                        class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                        v-model="doctorFill">
+                        <option value="all">All</option>
+                        <option value="">--</option>
+                        <option v-for="(dot, i) in getdoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}}</option>
+                    </select>
               </div>
-              <div class="items-center">
-                  <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
-                      Fill
-                  </button>
-                  <button @click="refreshFill" class="px-2 mx-2 py-2 justify-auto text-white font-bold bg-yellow-400 rounded-md text-sm h-8">
-                      Refresh
-                  </button>
-                </div>
+              </div>
           </div>
+        <div class="col-span-2">
+          <div class="flex flex-row">
+              <div class="flex flex-row">
+                  <span>Từ:</span>
+                      <div class="flex flex-row">
+                          <jet-input
+                          id="startDate"
+                          type="date"
+                          class="h-8 block w-full"
+                          v-model="startDate"
+                          autocomplete="startDate"/>
+                      </div>
+                </div>
+              <div class="flex flex-row ml-2">
+                  <span>Đến:</span>
+                      <jet-input
+                        id="endDate"
+                        type="date"
+                        class= "h-8 block w-full"
+                        v-model="endDate"
+                        autocomplete="endDate"/>
+              </div>
+          </div>
+        </div>
+      <div class="col-span-1 text-right">
+            <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
+                Fill
+            </button>
+            <button @click="refreshFill" class="px-2 mx-2 py-2 justify-auto text-white font-bold bg-yellow-400 rounded-md text-sm h-8">
+                Refresh
+            </button>
+          </div>
+      </div>
+  <hr class="mt-2">
           <div class="flex justify-between mt-2">
-           <Button  class="mb-1 float-right cursor-pointer"  >Nhập Kết quả <span class=" font-bold text-md">(9)</span> </Button>
+
             <div class=" bg-blue-100">
               <div class=" text-right">
                 <div class="flex mb-2 text-right h-8 px-2 w-full">
                             <jet-input
-                              required
+                              placeholder="...Nhập Mã XN"
                               id="search"
                               type="text"
                               class="mt-1 block w-full h-8 mr-2"
                               autocomplete="search"
-                              v-model="elementSearch"
+                              v-model="termSearch"
+                               @keyup="search"
                             />
-                        <span class="justify-center justify-items-center mt-2 cursor-pointer">
+                        <span class="justify-center justify-items-center mt-2 cursor-pointer" >
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
@@ -93,10 +110,11 @@
                     <div class=" p-0 w-56">
                       <input type="file"
                         class=" px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                        @change="previewImage" ref="photo"/>
+                        @change="previewImage" ref="photo" />
+
                     </div>
                     <div class="flex items-center mt-0">
-                      <button class="px-2 py-1 text-white bg-gray-900  rounded">Upload File</button>
+                      <button class="px-2 py-1 text-white bg-gray-900  rounded">Upload File Hpv</button>
                     </div>
                 </div>
               </form>
@@ -115,11 +133,41 @@
                 {{tn.name}},
               </span>
             </td>
+             <td class="border-r-2">{{bill.doctor.name}}</td>
+             <td class="border-r-2">{{formatDate(bill.date_receive)}}</td>
              <td class="border-r-2">{{bill.hpv_code}}</td>
-            <td class="border-r-2"></td>
-            <td class="border-r-2"></td>
-            <td class="border-r-2">Image</td>
-            <td class="border-r-2">Image</td>
+            <td class="border-r-2 text-center">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
+                  <span v-if="(rs.element_id==56)">
+                    <span v-if="rs.result>=0.5" class="text-red-700 font-bold text-lg">{{rs.result}}</span>
+                    <span v-else>{{rs.result}}</span>
+                  </span>
+              </span>
+            </td>
+            <td class="border-r-2 text-center">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
+                  <span v-if="(rs.element_id==59)">
+                    <span v-if="rs.result>=0.5" class="text-red-700 font-bold text-lg">{{rs.result}}</span>
+                    <span v-else>{{rs.result}}</span>
+                  </span>
+              </span>
+            </td>
+            <td class="border-r-2 text-center">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
+                  <span v-if="(rs.element_id==57)">
+                    <span v-if="rs.result>=1" class="text-red-700 font-bold text-lg">{{rs.result}}</span>
+                    <span v-else>{{rs.result}}</span>
+                  </span>
+              </span>
+            </td>
+            <td class="border-r-2 text-center">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
+                  <span v-if="(rs.element_id==58)">
+                    <span v-if="rs.result>=1" class="text-red-700 font-bold text-lg">{{rs.result}}</span>
+                    <span v-else>{{rs.result}}</span>
+                  </span>
+              </span>
+            </td>
 
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
@@ -161,7 +209,7 @@
         </Table>
         <div class="mt-4">
         </div>
-         <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
+          <DialogModal :show="showModal" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
             <template v-slot:title >
                <div class="flex justify-between text-blue-900 font-bold border-b-1 border-blue-200">
                 <h3 v-show="!editMode" >Nhập kết quả  </h3>
@@ -170,14 +218,11 @@
                </div>
             </template>
             <template v-slot:content>
-
-              <!--========================================-->
-
              <div>
-                <h1 class="text-bold text-xl text-blue-600">Nhập Kết quả HPV</h1>
+                <h1 class="text-bold text-xl text-red-600">Nhập Kết quả HPV</h1>
                  <div class="px-4 pb-0">
                     <div class="grid grid-cols-4 leading-6 mb-2">
-                        <div class="col-span-2  font-sans-Timenew italic underline underline_offset-1">Họ và tên (Name): <span class="font-bold">  {{name}}</span></div>
+                         <div class="col-span-2  font-sans-Timenew italic underline underline_offset-1">Họ và tên (Name): <span class="font-bold">  {{name}}</span></div>
                         <div class="  font-sans-Timenew italic underline underline-offset-1">Test Id:<span ref="" class="font-bold">{{test_id}}</span> </div>
                         <div class="  font-sans-Timenew italic underline underline-offset-1">Mã HPV:<span ref="span_thin" class="font-bold">{{hpv_code}}</span> </div>
                     </div>
@@ -189,13 +234,11 @@
                            <div class="grid grid-cols-4">
                           <template v-for="(elm,i) in testElementsHpv" :key="i">
 
-                                <div class="w-full px-2">
+                                 <div class="w-full px-2">
                                   <span class="font-bold" >{{elm.name}} </span>
                                     <span>
-                                      <JetInput  type="text" class="w-full rounded-md h-10"   v-model="form.elment_hpv[elm.id]"/>
-
+                                       <JetInput  type="text" class="w-full rounded-md h-10"   v-model="form.elment_hpv[elm.id]"/>
                                     </span>
-
                                 </div>
                           </template>
                         </div>
@@ -216,7 +259,7 @@
                     </form>
                   </div>
               </div>
-              <!--========================================-->
+
             </template>
         </DialogModal>
       </Card>
@@ -246,6 +289,7 @@ import JetInput from "@/Jetstream/Input";
 import AppImage from "@/Components/Image";
 import FormTuduVigor from "./FormTuduVigor.vue";
 import moment from 'moment'
+import { useForm } from '@inertiajs/inertia-vue3'
 
 export default defineComponent({
 
@@ -255,7 +299,8 @@ export default defineComponent({
     testElements:'',
     testElementsHpv:'',
     ousents:'',
-    readcodes:'',
+    doctors:'',
+    filters:'',
   },
   components: {
     AppLayout,
@@ -278,9 +323,15 @@ export default defineComponent({
     FormTuduVigor
 
   },
+
 data(){
   return{
-testData:'',
+    doctor_id:'',
+    getdoctors:this.doctors,
+    termSearch:'',
+    doctorFill:'',
+    ousentFill:this.filters.ousentFill,
+    testData:'',
     viewInfo:'',
     viewSCO:true,
     elementHpv:[],
@@ -297,7 +348,7 @@ testData:'',
     editMode: false,
     //titleModal:'Them user',
     maxWidth:"4xl",
-    titleHeader:'Nhập kết quả',
+    titleHeader:'Nhập kết quả HPV',
     example4: {
         mode: "tags",
         value: "value",
@@ -314,6 +365,7 @@ testData:'',
           bill_id:'',
           thin_code:'',
           hpv_code:'',
+          file: '',
       },
         {
           resetOnSuccess: false,
@@ -322,13 +374,13 @@ testData:'',
 
     }
   },
-   watch:{
+  watch:{
 
-    // "form.sco":function(value){
-    //   //alert(value)
-    //   // this.callScoView(value)
-    // },
+    "ousentFill":function(value){
+       this.getDoctorFill(value)
+    },
   },
+
    computed: {
     breadcrumbs() {
       return [
@@ -347,6 +399,8 @@ testData:'',
         { name: "Năm sinh", class:'border-l-2 text-center' },
         { name: "Đơn vị gửi mẫu", class:'border-l-2 text-center' },
         { name: "Chỉ định XN", class:'border-l-2 text-center' },
+        { name: "BS chỉ định", class:'border-l-2 text-center' },
+        { name: "Ngày nhận mẫu", class:'border-l-2 text-center' },
         { name: "Mã HPV", class:'border-l-2 text-center' },
         { name: "SCO", class:'border-l-2 text-center' },
         { name: "SCO2", class:'border-l-2 text-center' },
@@ -369,28 +423,69 @@ testData:'',
       }
     },
   methods:{
-     formatDate(value) {
+    formatDate(value) {
         if (value) {
             return moment(String(value)).format('DD/MM/YYYY hh:mm')}
         },
+    getDoctorFill(doctor){
+     const fillData = this.doctors.filter(function(el){
+       return el.ousent_id == doctor;
+     });
+     //console.log(fillData);
+     this.getdoctors = fillData;
+      },
+    search(){
+     // this.$inertia.replace(this.$route('inputhpv.index',{term: this.termSearch}));
+
+       this.$inertia.get('inputhpv?',
+            {
+              //alert(ousentFill);
+              term:this.termSearch,
+
+            },
+            {
+              preserveState:true,
+              replace:true            }
+            )
+    },
+    submitFile() {
+            if (this.$refs.photo) {
+                this.form.file = this.$refs.photo.files[0];
+            }
+            //this.form.post('/dashboard/importWard/');
+            this.form.post('/dashboard/importResult/');
+            this.form.file = ""
+        },
+    addResult(bill){
+              const getBill = Object.assign({}, bill)
+              this.viewOutsent= bill.ousent.id;
+              this.name = getBill.custommer.name;
+              this.thinprep_code = getBill.thinprep_code;
+              this.hpv_code = getBill.hpv_code;
+
+              this.test_id = getBill.id;
+
+              this.viewInfo = getBill;
+
+              this.showModal=true;
+            },
     editResult(bill) {
               this.form = Object.assign({}, bill);
               console.log('Heheheehehehe',bill);
                this.viewOutsent= bill.ousent.id;
               this.name = bill.custommer.name;
-              const viewInfo =bill.results;
-              var ketluanFill = bill.results.find(obj => {
-                       return obj.element_id ==26
-                     })
+             // const viewInfo =bill.results;
+              // var ketluanFill = bill.results.find(obj => {
+              //          return obj.element_id ==26
+              //        })
 
                 let _result = []
-                bill.results.map(({element_id, result}) => _result[element_id] = result)
+                bill.resulthpvs.map(({element_id, result}) => _result[element_id] = result)
                  //console.log({_result})
                    this.form.elment_hpv = _result
                 this.editMode = true;
                 this.showModal=true;
               },
-
   updateResultHpv(bill){
              const data2 = {
               'hpv_code': bill.hpv_code,
@@ -405,7 +500,7 @@ testData:'',
                  this.closeModal();
             },
     saveResultHPV(data) {
-       // console.log("Heheheheehehehehehe",data);
+       console.log("Heheheheehehehehehe",data);
             const data2 = {
               'hpv_code': this.hpv_code,
               'bill_id': this.test_id,
@@ -415,15 +510,15 @@ testData:'',
                    // this.reset();
                     this.closeModal();
                 },
-
-
     getPageFill(){
-        this.$inertia.get('results?',
+        this.$inertia.get('inputhpv?',
             {
               //alert(ousentFill);
               perPage:this.perPage,
               ousentFill:this.ousentFill,
-              readcodeFill:this.readcodeFill,
+              doctorFill:this.doctorFill,
+              startDate:this.startDate,
+              endDate:this.endDate,
             },
             {
               preserveState:true,
@@ -431,11 +526,13 @@ testData:'',
             )
      },
     getfilePerpage(){
-         this.$inertia.get('results?',
+         this.$inertia.get('inputhpv?',
             {  //search:this.search,
               perPage:this.perPage,
               ousentFill:this.ousentFill,
-              readcodeFill:this.readcodeFill,
+              doctorFill:this.doctorFill,
+              startDate:this.startDate,
+              endDate:this.endDate,
             },
             {
               preserveState:true,
@@ -443,27 +540,27 @@ testData:'',
             )
      },
      refreshFill(){
-        this.$inertia.get('results?',
+       this.startDate="",
+       this.endDate="",
+       this.doctorFill="",
+        this.ousentFill='',
+        this.$inertia.get('inputhpv?',
              {
-              perPage:this.perPage,
-              ousentFill:this.ousentFill,
-              readcodeFill:this.readcodeFill
+              ousentFill:'',
+              doctorFill:'',
+              startDate:"",
+              endDate:"",
+
              },
             {
               preserveState:true,
               replace:true            }
             )
      },
-     created(){
-   this.paymentmethods.forEach((value) => {
-     this.pays.push({id:value.value, ref: 'test123' , val: 0 })
-   });
-   console.log(this.pays);
-  },
-          openModal(){
-                this.showModal=true;
-              },
-          reset() {
+    openModal(){
+          this.showModal=true;
+        },
+    reset() {
               this.form = {
                 element_id:[],
                 elment_hpv:[],
@@ -479,35 +576,6 @@ testData:'',
               this.reset();
               },
 
-
-          saveResult(data) {
-            const data2 = {
-                'ket_luan':this.form.ketluan,
-                'thin_code': this.thinprep_code,
-                'bill_id': this.test_id,
-              };
-                const data3 = {...data, ...data2 }
-                    //this.$inertia.post('/dashboard/results',[{'form1':data, 'form2':thin_code}])
-                    this.$inertia.post('/dashboard/results',data3)
-                   // this.reset();
-                    this.closeModal();
-                },
-
-          addResult(bill){
-
-              const getBill = Object.assign({}, bill)
-              this.viewOutsent= bill.ousent.id;
-              this.name = getBill.custommer.name;
-              this.thinprep_code = getBill.thinprep_code;
-              this.hpv_code = getBill.hpv_code;
-
-              this.test_id = getBill.id;
-
-              this.viewInfo = getBill;
-
-
-              this.showModal=true;
-            },
   },
 
 });

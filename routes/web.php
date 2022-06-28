@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\DashboardController;
-//use App\Http\Controllers\Admin\InputInfoController;
-use App\Http\Controllers\Admin\InputResultController;
-use App\Http\Controllers\Admin\ResultController;
+use App\Http\Controllers\Admin\InputInfoController;
+//use App\Http\Controllers\Admin\InputResultController;
+//use App\Http\Controllers\Admin\ResultController;
 //use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\InfoLaboController;
 use App\Http\Controllers\Admin\UserController;
@@ -51,7 +51,7 @@ Route::middleware(['auth', 'verified'])
 ->group(function(){
     Route::get('/',[DashboardController::class,'index'])->name('dashboard');
     Route::resource('/inputinfo','InputInfoController');
-    Route::get('/inputresult',[InputResultController::class,'index'])->name('inputresult');
+    //Route::get('/inputresult',[InputResultController::class,'index'])->name('inputresult');
     Route::get('/infolabo',[InfoLaboController::class,'index'])->name('infolabo');
     //Route::get('/results',[ResultController::class,'index'])->name('results');
 
@@ -107,6 +107,7 @@ Route::middleware(['auth', 'verified'])
     Route::post('/importWard',[ImportController::class,'importWard'])->name('importWard');
 
     Route::post('/importcustommers',[ImportController::class,'importcustommers'])->name('importcustommers');
+    Route::post('/importResult',[ImportController::class,'importResult'])->name('importResult');
 
     Route::resource('/images','UploadImageController');
     Route::resource('/oureads','OureadController');

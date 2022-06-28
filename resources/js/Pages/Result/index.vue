@@ -7,66 +7,81 @@
     <Container>
       <Card>
         <div class="px-2 grid grid-cols-1 mb-2 bg-gray-200">
-            <div class="grid grid-cols-7">
-              <div class="col-span-2 ">
-                <div class="flex flex-row">
-                    <div class="">
-                          <span>ĐV gửi mẫu:</span>
-                      </div>
-                    <div class="col-span-2 w-52">
-                          <select
-                              name="testgroup"
-                              id="testgroup"
-                              class="block py-0 w-full form-input h-8 rounded-lg text-md"
-                              v-model="ousentFill"
-                            >
-                              <option value="all">All</option>
-                              <option
-                                v-for="(ous,i) in ousents"
-                                :key="i"
-                                :value="ous.id"
-                              >
-                                {{ ous.name }}
-                              </option>
-                          </select>
-                    </div>
-                  </div>
+              <div class="grid grid-cols-7">
+        <div class="col-span-2 ">
+          <div class="flex flex-row">
+              <div class="">
+                  <span>ĐV gửi mẫu:</span>
+                </div>
+              <div class="col-span-2 w-52">
+                    <select
+                        name="testgroup"
+                        id="testgroup"
+                        class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                        v-model="ousentFill">
+                        <option value="all">All</option>
+                        <option
+                          v-for="(ous,i) in ousents"
+                          :key="i"
+                          :value="ous.id"
+                        >
+                          {{ ous.name }}
+                        </option>
+                    </select>
               </div>
-              <div class="col-span-2  mx-2">
-                <div class="flex flex-grow">
-                  <div class="">
-                        <span>Bác sỹ CĐ:</span>
-                      </div>
-                    <div class="col-span-2 w-52">
-                          <select
-                              name="testgroup"
-                              id="testgroup"
-                              class="block py-0 w-full form-input h-8 rounded-lg text-md"
-                              v-model="readcodeFill"
-                            >
-                              <option value="all">All</option>
-                              <option v-for="or in readcodes" :key="or.id" :value="or.read_code">({{or.read_code}})-{{or.name}}</option>
-
-                          </select>
-                    </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-span-2  mx-2">
+          <div class="flex flex-grow">
+            <div class="">
+                  <span>BS Chỉ định(of ĐV gửi mẫu):</span>
                 </div>
-              <div class="col-span-2">
-                <div class="flex flex-row">
-                <div>Ngày nhận mẫu</div>
-                <div class="mx-2">Từ</div>
-                <div class="">Đến</div>
-                </div>
+              <div class="col-span-2 w-52">
+                    <select
+                        name="testgroup"
+                        id="testgroup"
+                        class="block py-0 w-full form-input h-8 rounded-lg text-md"
+                        v-model="doctorFill">
+                        <option value="all">All</option>
+                        <option value="">--</option>
+                        <option v-for="(dot, i) in getDoctors" :key="i" :value="dot.id" class="text-lg">{{dot.name}}</option>
+                    </select>
               </div>
-              <div class="items-center">
-                  <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
-                      Fill
-                  </button>
-                  <button @click="refreshFill" class="px-2 mx-2 py-2 justify-auto text-white font-bold bg-yellow-400 rounded-md text-sm h-8">
-                      Refresh
-                  </button>
-                </div>
+              </div>
           </div>
+        <div class="col-span-2">
+          <div class="flex flex-row">
+              <div class="flex flex-row">
+                  <span>Từ:</span>
+                      <div class="flex flex-row">
+                          <jet-input
+                          id="startDate"
+                          type="date"
+                          class="h-8 block w-full"
+                          v-model="startDate"
+                          autocomplete="startDate"/>
+                      </div>
+                </div>
+              <div class="flex flex-row ml-2">
+                  <span>Đến:</span>
+                      <jet-input
+                        id="endDate"
+                        type="date"
+                        class= "h-8 block w-full"
+                        v-model="endDate"
+                        autocomplete="endDate"/>
+              </div>
+          </div>
+        </div>
+      <div class="col-span-1 text-right">
+            <button @click="getPageFill" class="px-4 ml-2 py-2 justify-auto text-white font-bold bg-blue-400 rounded-md text-sm h-8">
+                Fill
+            </button>
+            <button @click="refreshFill" class="px-2 mx-2 py-2 justify-auto text-white font-bold bg-yellow-400 rounded-md text-sm h-8">
+                Refresh
+            </button>
+          </div>
+      </div>
           <div class="flex justify-between mt-2">
            <Button  class="mb-1 float-right cursor-pointer"  >Nhập Kết quả <span class=" font-bold text-md">(9)</span> </Button>
             <div class=" bg-blue-100">
@@ -524,12 +539,13 @@ import moment from 'moment'
 
 export default defineComponent({
 
-  name: "Nhập Kết quả",
+  name: "Nhập Kết quả ThinPrep",
   props: {
     billtests:'',
     testElements:'',
     testElementsHpv:'',
     ousents:'',
+    doctors:'',
     readcodes:'',
   },
   components: {
@@ -555,7 +571,9 @@ export default defineComponent({
   },
 data(){
   return{
-testData:'',
+    ousentFill:'',
+    getDoctors:this.doctors,
+    testData:'',
     viewInfo:'',
     viewSCO:true,
     elementHpv:[],
@@ -572,7 +590,7 @@ testData:'',
     editMode: false,
     //titleModal:'Them user',
     maxWidth:"4xl",
-    titleHeader:'Nhập kết quả',
+    titleHeader:'Nhập kết quả Thinprep',
     example4: {
         mode: "tags",
         value: "value",
@@ -598,11 +616,9 @@ testData:'',
     }
   },
    watch:{
-
-    // "form.sco":function(value){
-    //   //alert(value)
-    //   // this.callScoView(value)
-    // },
+    "ousentFill":function(value){
+          this.getDoctorFill(value)
+        },
   },
   computed: {
 
@@ -612,6 +628,14 @@ testData:'',
         if (value) {
             return moment(String(value)).format('DD/MM/YYYY hh:mm')}
         },
+    getDoctorFill(doctor){
+
+      const fillData = this.doctors.filter(function(el){
+        return el.ousent_id == doctor;
+      });
+      //console.log(fillData);
+      this.getDoctors = fillData;
+      },
     editResult(bill) {
               this.form = Object.assign({}, bill);
               //console.log('Heheheehehehe',bill);
@@ -675,9 +699,8 @@ testData:'',
           //       this.closeModal();
             },
     saveResultHPV(data) {
-console.log("Heheheheehehehehehe",data);
+        console.log("Heheheheehehehehehe",data);
             const data2 = {
-
               'hpv_code': this.hpv_code,
               'bill_id': this.test_id,
                 };
@@ -726,16 +749,10 @@ console.log("Heheheheehehehehehe",data);
               replace:true            }
             )
      },
-     created(){
-   this.paymentmethods.forEach((value) => {
-     this.pays.push({id:value.value, ref: 'test123' , val: 0 })
-   });
-   console.log(this.pays);
-  },
-          openModal(){
+    openModal(){
                 this.showModal=true;
               },
-          reset() {
+    reset() {
               this.form = {
                 element_id:[],
                 elment_hpv:[],
@@ -745,7 +762,7 @@ console.log("Heheheheehehehehehe",data);
                 hpv_code:'',
                 }
             },
-          closeModal(){
+    closeModal(){
               this.showModal=false;
               this.editMode=false;
               this.reset();
@@ -785,7 +802,7 @@ console.log("Heheheheehehehehehe",data);
     breadcrumbs() {
       return [
         {
-          label: "Nhập kết quả",
+          label: "Nhập kết quả ThinPrep",
           class: "text-white",
         },
       ];
@@ -820,17 +837,7 @@ console.log("Heheheheehehehehehe",data);
         return this.thinprep_code;
       }
     },
-    mounted() {
-    if (this.edit) {
-     // this.form.role_id=[1];
-      // //this.form.role_id = this.roleOfUser !== "" ? this.roleOfUser : "";
-      //this.form.element_id =[1,3];
-      // this.form.username =this.user.data.username;
-      // this.form.email = this.user.data.email;
-      // this.form.phone = this.user.data.phone;
-      // this.imageUrl = this.user.data.profile_photo_path;
-    }
-  },
+
 });
 </script>
  <style src="@vueform/multiselect/themes/default.css"></style>
