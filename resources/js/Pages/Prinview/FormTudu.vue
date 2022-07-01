@@ -142,9 +142,9 @@
 
                                   </div>
                                 <div class="text-center">
-                                  <img  v-if="getbilltests['thinprep_code'] == imageThinLeft"
+                                  <img  v-if="getbilltests['thinprep_code'] == imageThinRight"
                                       class="w-80 max-h-52 "
-                                      :src="pathThinRight+imageThinLeft"
+                                      :src="pathThinRight+imageThinRight"
                                       :alt="LogoThin"/>
                                   <img v-else
                                       class="w-80 max-h-52 "

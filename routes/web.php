@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\UpdateCustommerController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PDFController;
 use App\Http\Controllers\Admin\PrintController;
+use App\Http\Controllers\Admin\UploadImageController;
+use App\Http\Controllers\Admin\ImagethinController;
 
 use App\Http\Controllers\Admin\CheckCodeController;
 
@@ -110,6 +112,16 @@ Route::middleware(['auth', 'verified'])
     Route::post('/importResult',[ImportController::class,'importResult'])->name('importResult');
 
     Route::resource('/images','UploadImageController');
+    Route::post('/imagesRight','UploadImageController@storeRight');
+
+    Route::get('/imagethins','ImagethinController@index')->name('imagethins');
+
+    Route::post('/uploadthinlefts','ImagethinController@storeLeft')->name('uploadthinlefts');
+    Route::post('/uploadthinrights','ImagethinController@storeRight')->name('uploadthinrights');
+
+    Route::delete('/imagethinlefts/{id}','ImagethinController@detroyLeft')->name('imagethinlefts');
+
+
     Route::resource('/oureads','OureadController');
     Route::resource('/inputhpv','InputHpvController');
 
@@ -119,5 +131,6 @@ Route::middleware(['auth', 'verified'])
 
     Route::get('/printThinprep',[PrintController::class,'printThinprep'])->name('printThinprep');
     Route::get('/printHpv',[PrintController::class,'printHpv'])->name('printHpv');
+    Route::get('/printMutiThin',[PrintController::class,'printMutiThin'])->name('printMutiThin');
 
 });

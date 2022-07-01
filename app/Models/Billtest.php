@@ -18,7 +18,7 @@ class Billtest extends Model
         return $this->hasOne(Doctor::class,'id','doctor_id')->select('id','name','title');
     }
     public function ousent(){
-        return $this->hasOne(Ousent::class,'id','ousent_id')->select('id','name','logo');
+        return $this->hasOne(Ousent::class,'id','ousent_id');
     }
     public function testnames(){
      //dd($this->belongsTomany(Testname::class,'billnames','billtest_id','testname_id'));
@@ -47,8 +47,10 @@ class Billtest extends Model
     }
     public function imageLeft(){
          //return $this->belongsTomany(Testname::class,'billnames');
+        // return $this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code');
          return $this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code');
     }
+
     public function cutommerupdate(){
           return $this->hasOne(Custommer::class);
     }

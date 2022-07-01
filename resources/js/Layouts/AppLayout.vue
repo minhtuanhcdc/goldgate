@@ -13,7 +13,13 @@
                 <Link :href="route('dashboard')">
                   <jet-application-mark class="block h-9 w-auto" />
                 </Link>
+
               </div>
+                 <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-items-center">
+                    <Link :href="route('articles.index')">
+                        Article
+                      </Link>
+                  </div> -->
                <div class="">
                  <ul class="flex justify-between items-center mx-auto space-x-1 sm:ml-1 relative">
                    <li
@@ -101,8 +107,8 @@
                       class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
                     >
                       <img
-                        class="h-8 w-8 rounded-full object-cover"
-                        :src="pathImgUser"
+                        class="h-14 w-14 rounded-full object-cover"
+                        :src="pathImgUser + $page.props.user.profile_photo_path"
                         :alt="$page.props.user.name"
                       />
                     </button>
@@ -135,9 +141,7 @@
                     <jet-dropdown-link :href="route('profile.show')">
                       Profile
                     </jet-dropdown-link>
-                    <jet-dropdown-link :href="route('setting.create')">
-                      Setting
-                    </jet-dropdown-link>
+
                     <jet-dropdown-link
                       :href="route('api-tokens.index')"
                       v-if="$page.props.jetstream.hasApiFeatures"
@@ -307,7 +311,7 @@ export default defineComponent({
 
   data() {
     return {
-      pathImgUser:'/storage/Image_users/202111081331.jpg',
+      pathImgUser:'/storage/Image_users/',
       showingNavigationDropdown: false,
     };
   },

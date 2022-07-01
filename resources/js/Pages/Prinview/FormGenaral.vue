@@ -125,8 +125,8 @@
                               </div>
                             </div>
                             <div class="grid grid-cols-2 mt-2 text-center">
-                                <div  class="text-center">
-                                  <img v-if="getbilltests['thinprep_code'] == imageThinLeft"
+                                <div  class="text-center flex justify-center">
+                                  <img v-if="getbilltests['thinprep_code']"
                                       class="w-80 max-h-52 "
                                       :src="pathThinLeft+imageThinLeft"
                                       :alt="imageThinLeft"/>
@@ -137,15 +137,15 @@
                                       alt="imageThinLeft"/>
 
                                   </div>
-                                <div class="text-center">
-                                  <img  v-if="getbilltests['thinprep_code'] == imageThinLeft"
+                                <div class="text-center flex justify-center">
+                                  <img  v-if="getbilltests['thinprep_code']"
                                       class="w-80 max-h-52 "
-                                      :src="pathThinRight+imageThinLeft"
+                                      :src="pathThinRight+imageThinRight"
                                       :alt="LogoThin"/>
                                   <img v-else
                                       class="w-80 max-h-52 "
                                       :src="pathImageLeft"
-                                      alt="imageThinLeft"/>
+                                      alt="imageThinRight"/>
 
                                   </div>
                             </div>
@@ -189,6 +189,7 @@ export default {
         pathThinLeft:'',
         pathThinRight:'',
         imageThinLeft:'',
+        imageThinRight:'',
         ketluan:'',
         logo:'',
         pathLogo:'',

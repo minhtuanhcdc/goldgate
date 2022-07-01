@@ -80,7 +80,7 @@ class User extends Authenticatable
        $imageName = $this->$column;
        return $imageName === null
            ? "https://ui-avatars.com/api/?name={$column}&color=7F9CF5&background=EBF4FF"
-           : Storage::url("{$this->uploadFolder()}/{$imageName}"); 
+           : Storage::url("{$this->uploadFolder()}/{$imageName}");
    }
 
    public function deleteImage(string $column = 'profile_photo_path'): void
@@ -90,7 +90,7 @@ class User extends Authenticatable
        if ($imageName !== null) {
            Storage::delete("{$this->uploadFolder()}/{$imageName}");
        }
-   } 
+   }
 
     public function menus() {
         //dd($this->belongsTo(MenuUser::class));
@@ -103,7 +103,8 @@ class User extends Authenticatable
 
     public function roles(){
         //dd($this->belongsToMany(Role::class,'user_role','user_id','role_id'));
-        return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
+        //return $this->belongsToMany(Role::class,'user_role','user_id','role_id');
+        return $this->belongsToMany(Role::class,'role_users','user_id','role_id');
     }
     public function menuRoles(){
         //dd($this->belongsToMany(Menu::class,'menu-users','user_id','role_id'));

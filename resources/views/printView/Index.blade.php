@@ -34,7 +34,7 @@
           @elseif ($value->ousent_id == 9)
               @include('printView.FormVigor')
           @else{
-                  <span>Form chung</span>
+                   @include('printView.FormGenaral')
                   }
                   @endif
       @endforeach

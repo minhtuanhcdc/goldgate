@@ -157,6 +157,7 @@ class OusentController extends Controller
         public function destroy(Ousent $ousent)
         {
             //dd($ousent);
+            $ousent->deleteImage();
             $ousent->delete();
             return redirect()->route('ousents.index')->with('success', "Deleted successfully!");
         }

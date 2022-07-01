@@ -128,13 +128,14 @@
             <td class="border-r-2">{{bill.custommer.gender}}</td>
             <td class="border-r-2">{{bill.custommer.birthday}}</td>
             <td class="border-r-2">{{bill.ousent.name}}</td>
-            <td class="border-r-2">
+             <td class="border-r-2">
               <span v-for="(tn,i) in bill.testnames" :key="i">
                 {{tn.name}},
               </span>
             </td>
-             <td class="border-r-2">{{bill.doctor.name}}</td>
-             <td class="border-r-2">{{formatDate(bill.date_receive)}}</td>
+           <td class="border-r-2" v-if="bill.doctor">{{bill.doctor.name}}</td>
+           <td class="border-r-2" v-else></td>
+            <td class="border-r-2">{{formatDate(bill.date_receive)}}</td>
              <td class="border-r-2">{{bill.hpv_code}}</td>
             <td class="border-r-2 text-center">
               <span v-for="(rs,i) in bill.resulthpvs" :key="i">
@@ -482,7 +483,7 @@ data(){
                 let _result = []
                 bill.resulthpvs.map(({element_id, result}) => _result[element_id] = result)
                  //console.log({_result})
-                   this.form.elment_hpv = _result
+                this.form.elment_hpv = _result
                 this.editMode = true;
                 this.showModal=true;
               },

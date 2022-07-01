@@ -47,7 +47,7 @@ class UserController extends Controller
             'view' => Auth::user()->checkPermissionAccess(config('permissions.access.list-user')),
 
         ],
-            'users'=>UserResource::collection(User::with(['permissionroles'])->orderBy('id','asc')->paginate(4)),
+            'users'=>UserResource::collection(User::with(['permissionroles'])->orderBy('id','asc')->paginate(10)),
 
            'roles'=>RoleResource::collection(Role::select('id','name')->get()),
        ]);

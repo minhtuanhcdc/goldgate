@@ -135,10 +135,10 @@
                     alt="imageThinLeft"/>
                 </div>
             <div class="text-center">
-               <img v-if="imageThinLeft"
+               <img v-if="imageThinRight"
                     class="w-80 max-h-52 "
-                    :src="pathThinRight+imageThinLeft"
-                    :alt="imageThinLeft"/>
+                    :src="pathThinRight+imageThinRight"
+                    :alt="imageThinRight"/>
 
                 <img v-else
                     class="w-80 max-h-52 "
@@ -196,6 +196,7 @@ export default {
         pathThinLeft:'',
         pathThinRight:'',
         imageThinLeft:'',
+        imageThinRight:'',
         ketluan:'',
         currentDate:'',
 

@@ -58,4 +58,24 @@ class UploadFile
         $this->file->storeAs($this->uploadPath, $imageName);
         return $imageName;
     }
+    public function executeImgaLeft(): ?string
+    {
+        if (!$this->file) {
+            return null;
+        }
+        $tempName = (string) $this->file->getClientOriginalName();
+        $imageName = 'L_'.$tempName;
+        $this->file->storeAs($this->uploadPath, $imageName);
+        return $imageName;
+    }
+    public function executeImgaRight(): ?string
+    {
+        if (!$this->file) {
+            return null;
+        }
+        $tempName = (string) $this->file->getClientOriginalName();
+        $imageName = 'R_'.$tempName;
+        $this->file->storeAs($this->uploadPath, $imageName);
+        return $imageName;
+    }
 }

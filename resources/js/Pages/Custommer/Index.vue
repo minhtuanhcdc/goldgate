@@ -13,30 +13,12 @@
         </div>
       <div class="grid grid-cols-1 mb-2">
         <div class="flex flex-1 justify-between">
-
-            <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
             <div class="flex flex-row">
              <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Print PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
             <button  class="ml-2 bg-green-600 px-2 py-0 rounded-md float-right cursor-pointer h-8 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
-            </div>
 
-        <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200 h-8">
-
-           <form @submit.prevent="submitFile">
-             <div class="flex flex-row">
-                <div>
-                    <input type="file"
-                      class="w-full px-2 py-0 mt-0 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-                      @change="previewImage" ref="photo"/>
-                </div>
-                <div class="flex items-center mt-0">
-                    <button class="px-2 py-1 text-white bg-gray-900 rounded " >Upload</button>
-                </div>
-              </div>
-            </form>
-
-        </div>
-        </div>
+          </div>
+      </div>
       </div>
         <!---/////==================------->
         <!---==================------->
@@ -183,6 +165,7 @@
           </div>
       </div>
       <!---//////////==================------->
+
       <Table :headers="headers" :addClass="addClass" id="exportMe">
           <tr class="hover:bg-gray-300 " v-for="(bill,i) in billtests.data" :key="i">
              <td><input type="checkbox" :value="bill.id" v-model="checkPrint"></td>
@@ -209,10 +192,11 @@
               <td class="border-r-2 text-center">{{bill.hpv_code}}</td>
              <td class="border-r-2" ><span v-if="bill.doctor">{{bill.doctor.title}} {{bill.doctor.name}}</span></td>
             <td class="border-r-2" ><span v-if="bill.ousent">{{bill.ousent.name}}</span></td>
-            <td class="border-r-2 text-center" ><span class="text-center">
-
+            <td class="border-r-2 text-center" >
+              <span class="text-center">
                 {{formatDate(bill.date_receive) }}
-              </span></td>
+              </span>
+            </td>
             <td class="border-r-2" ><span>{{bill.read_code}}</span></td>
             <td class="border-r-2" >
               <span v-for="(rs,i) in bill.results" :key="i">
@@ -221,57 +205,17 @@
                 </span>
               </span>
             </td>
-
-            <!-- <td class="text-center border-r-2">
-                <EditBtn
-                  title="View"
-                  class="text-green-800"
-                  v-if="bill.result_status == 1"
-                  >
-                 <svg
-                  class="w-6 h-6 text-blue-800"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                </EditBtn>
-               <EditBtn
-               v-else
-                  title="View"
-                  class="text-green-800">
-              <svg
-                class="w-6 h-6 text-gray-200"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-              </EditBtn>
-            </td> -->
              <td class="border-r-2">{{bill.userupdate_id}}</td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
-                <EditBtn
+                <!-- <EditBtn
                   title="Print"
                   class="text-gray-600"
                     @click="printResult(bill)">
                  <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                   </svg>
-                </EditBtn>
+                </EditBtn> -->
                 <EditBtn
                   title="Edit"
                   class="text-blue-800"
@@ -648,15 +592,7 @@
                             </div>
                              <div class=" w-1/2">
                               <div class="mt-2">
-                                <div class="flex flex-row">
-                                <jet-label for="readsample" class="text-center pr-1 text-bold text-lg text-blue-800 w-48" value="Đơn vị đọc mẫu:" />
-                                <jet-input
-                                  id="readsample"
-                                  type="text-local"
-                                  class="mt-1 block w-full h-8"
-                                  v-model="form.read_code"
-                                  autocomplete="readsample"/>
-                                </div>
+
                               </div>
                             </div>
                         </div>
@@ -678,7 +614,7 @@
               </div>
             </template>
         </DialogModal>
-        <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
+        <!-- <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
              <template v-slot:content>
                 <div class="text-right w-full flex-row justify-items-between" >
 
@@ -687,7 +623,7 @@
                     <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
                 <div v-for="(lan,i) in [1]" :key="i">
-                <!-- <div>{{selectedArray['name']}}</div> -->
+
                 <div v-if="printOutsent.id == 1">
                      <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
@@ -751,7 +687,7 @@
                 </div>
         </div>
             </template>
-        </DialogModal>
+        </DialogModal> -->
       </Card>
     </Container>
   </app-layout>
@@ -794,7 +730,7 @@ import moment from 'moment'
 
 export default defineComponent({
 
-  name: "Danh sách bệnh nhân",
+  name: "Danh sách(Report)",
   props: {
     billtests:'',
     nametests:'',
@@ -926,7 +862,7 @@ setup() {
     breadcrumbs() {
       return [
         {
-          label: "Danh sách gửi mẫu",
+          label: "Danh sách(Report)",
           class: "text-white",
         },
       ];

@@ -6,7 +6,8 @@
     </template>
     <Container>
       <Card>
-           <Button v-show="$page.props.can.create"  class="mb-1 float-right cursor-pointer"  @click="addUser">Add User</Button>
+           <!-- <Button v-show="$page.props.can.create"  class="mb-1 float-right cursor-pointer"  @click="addUser">Add User</Button> -->
+           <Button   class="mb-1 float-right cursor-pointer"  @click="addUser">Add User</Button>
         <Table :headers="headers" :addClass="addClass">
 
           <tr v-for="(user, i) in users.data" :key="i">
@@ -32,7 +33,7 @@
               <div class="flex items-center justify-end space-x-3">
                    <!-- <EditBtn :href="route('users.edit', { user: user.id })" title="Edit">Edit </EditBtn> -->
                 <EditBtn
-                v-show="$page.props.can.edit"
+
                   @click="editUser(user)"
                   title="Edit"
                   class="text-green-800"
@@ -52,7 +53,7 @@
                     ></path></svg>
                 </EditBtn>
                 <DeleteBtn
-                v-show="$page.props.can.delete"
+
                   :url="route('users.destroy', { user: user.id })"
                   title="Xóa"
                   class="p-0 cursor-pointer text-red-800"
@@ -209,7 +210,7 @@ import AppImage from "@/Components/Image";
 
 export default defineComponent({
 
-  name: "Users",
+  name: "Users List",
   props: {
     //role_id:[1],
     edit: Boolean,
@@ -280,7 +281,7 @@ data(){
     breadcrumbs() {
       return [
         {
-          label: "User",
+          label: "User List",
           class: "text-white",
         },
       ];

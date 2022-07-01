@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class Role extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function permissions(){
         //dd(123);
@@ -22,6 +22,6 @@ class Role extends Model
         return $this->belongsToMany(User::class,'user_role', 'user_id','role_id');
     }
 
-   
-   
+
+
 }

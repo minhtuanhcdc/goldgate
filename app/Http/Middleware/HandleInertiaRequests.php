@@ -45,16 +45,18 @@ class HandleInertiaRequests extends Middleware
                 'menuPermission' => function() use($request){
                     $user = $request->user();
                     if($user){
+
                         $menuAccess=RoleUser::where('user_id',auth()->id())
                         ->join('roles','roles.id','role_users.role_id')
-                        ->join('permission_role','permission_role.role_id','roles.id')
-                        ->join('permissions','permissions.id','permission_role.permission_id')
+                       ->join('permission_role','permission_role.role_id','roles.id')
+                       ->join('permissions','permissions.id','permission_role.permission_id')
                         ->join('menus','menus.id','permissions.menu_id')
                         ->select('menus.id as menuId','menus.status as menuStatus','menus.name as menuName','menus.url as Url','menus.parent_id as parent_id')
                         ->where('menus.status','!=',0)
                         ->groupBy('menuId')
                         ->orderBy('menuName','asc')
                         ->get();
+                        //dd($menuAccess);
                         return [
                             'menuAccess' =>$menuAccess,
                             //'pemissions' =>$pemissions,

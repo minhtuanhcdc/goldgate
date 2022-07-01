@@ -16,8 +16,9 @@
 
             <button  class="cursor-pointe bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-800 hover:text-gray-900 h-8 text-white"   @click="addCustommer">+ Add</button>
             <div class="flex flex-row">
-             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Print PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
-            <button  class="ml-2 bg-green-600 px-2 py-0 rounded-md float-right cursor-pointer h-8 text-white">Export EXCEL<span class="text-xs ml-1">(1)</span></button>
+             <a :href="route('downloadPDF',checkPrint)" class="bg-green-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >Export PDF <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
+            <!-- <button @click="multiPrint(checkPrint)"  class="ml-2 bg-green-600 px-2 py-0 rounded-md float-right cursor-pointer h-8 text-white">Print Multi<span class="text-xs ml-1">({{checkPrint?checkPrint.length:0}})</span></button> -->
+              <a :href="route('printMutiThin',checkPrint)" class="ml-4 bg-blue-800 py-1 px-2 rounded-md text-white cursor-pointer h-8" target="blank" >PrintMulti <span class="text-xs m-0 ">({{checkPrint?checkPrint.length:0}})</span></a>
             </div>
 
         <div class="flex flex-row border-solid border-1 border-gray-300 py-0 bg-green-200 h-8">
@@ -259,18 +260,21 @@
                         :printOutsent="printOutsent" :printDoctor="printDoctor"
                         :pathImageLeft="pathImageLeft"
                         :pathThinLeft='pathThinLeft'
-                        :pathThinRight='pathThinLeft'
+                        :pathThinRight='pathThinRight'
                         :selectedArray='selectedArray'
                         :ketluan='ketluan'
                          :currentDate='currentDate()'
-                        :imageThinLeft='imgeLeft'/>
+                        :imageThinLeft='imgeLeft'
+                         :imageThinRight='imageRight'
+                        />
                 </div>
                 <div v-if="(printOutsent.id == 6)">
                         <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathImageLeft="pathImageLeft"
                           :pathThinLeft='pathThinLeft'
-                          :pathThinRight='pathThinLeft'
+                          :pathThinRight='pathThinRight'
+                           :imageThinRight='imageRight'
                            :ketluan='ketluan'
                             :currentDate='currentDate()'
                           :imageThinLeft='imgeLeft'/>
@@ -281,7 +285,8 @@
                           :pathThinLeft='pathThinLeft'
                           :ketluan='ketluan'
                            :pathImageLeft="pathImageLeft"
-                          :pathThinRight='pathThinLeft'
+                            :imageThinRight='imageRight'
+                          :pathThinRight='pathThinRight'
                            :currentDate='currentDate()'
                           :imageThinLeft='imgeLeft'/>
 
@@ -294,27 +299,82 @@
                           :logo='logo'
                           :pathLogo='pathLogo'
                            :pathImageLeft="pathImageLeft"
-                          :pathThinRight='pathThinLeft'
+                          :pathThinRight='pathThinRight'
                           :imageThinLeft='imgeLeft'
+                          :imageThinRight='imageRight'
                           :currentDate='currentDate()'
                           />
 
                 </div>
 
-                <div v-if="printOutsent.id == 13">
-                         <PrintHPV :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+        </div>
+            </template>
+        </DialogModal>
+        <DialogModal :show="showModlPrintMulti" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
+             <template v-slot:content>
+                <div class="text-right w-full flex-row justify-items-between" >
+
+                    <button class="px-4 rounded-md mb-1 mr-1  bg-gray-800 text-white cursor-pointer text-md py-1 hover:bg-gray-600" type=""
+                       @click="printDiv('printMe')" >Print</button>
+                    <button  @click="closeModalPrintMulti" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
+                </div>
+          <div v-for="(lan,i) in billPrint" :key="i">
+               <!-- <div>{{billPrint}}</div> -->
+                <div v-if="printOutsent.id == 1">
+                     <PrintviewTudu :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                        :printOutsent="printOutsent" :printDoctor="printDoctor"
+                        :pathImageLeft="pathImageLeft"
+                        :pathThinLeft='pathThinLeft'
+                        :pathThinRight='pathThinRight'
+                        :selectedArray='selectedArray'
+                        :ketluan='ketluan'
+                         :currentDate='currentDate()'
+                        :imageThinLeft='imgeLeft'
+                         :imageThinRight='imageRight'
+                        />
+                </div>
+             <div style="page-break-after:always !important"></div>
+                <div v-if="(printOutsent.id == 6)">
+                        <PrintviewSaigon :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                          :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                          :pathImageLeft="pathImageLeft"
+                          :pathThinLeft='pathThinLeft'
+                          :pathThinRight='pathThinRight'
+                           :imageThinRight='imageRight'
+                           :ketluan='ketluan'
+                            :currentDate='currentDate()'
+                          :imageThinLeft='imgeLeft'/>
+                </div>
+             <div style="page-break-after:always !important"></div>
+                <div v-if="printOutsent.id == 9">
+                         <PrintviewVigor :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
+                          :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
+                          :pathThinLeft='pathThinLeft'
+                          :ketluan='ketluan'
+                           :pathImageLeft="pathImageLeft"
+                            :imageThinRight='imageRight'
+                          :pathThinRight='pathThinRight'
+                           :currentDate='currentDate()'
+                          :imageThinLeft='imgeLeft'/>
+                </div>
+      <div style="page-break-after:always !important"> </div>
+                <div v-if="printOutsent.id != 6 && printOutsent.id != 9 && printOutsent.id != 1">
+                         <PrintviewGenaral :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                           :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
                           :pathThinLeft='pathThinLeft'
                           :ketluan='ketluan'
                           :logo='logo'
                           :pathLogo='pathLogo'
                            :pathImageLeft="pathImageLeft"
-                          :pathThinRight='pathThinLeft'
+                          :pathThinRight='pathThinRight'
                           :imageThinLeft='imgeLeft'
-                          :sco='sco'
-                          :currentDate='currentDate()'/>
+                          :imageThinRight='imageRight'
+                          :currentDate='currentDate()'
+                          />
 
                 </div>
+        <div style="page-break-after:always !important"></div>
+
         </div>
             </template>
         </DialogModal>
@@ -413,6 +473,7 @@ data(){
     testselect:[1],
     checkDPF:[''],
     checkPrint:[],
+    billPrint:'',
     url: null,
     getbilltests:'',
      printCustommers:'',
@@ -424,16 +485,18 @@ data(){
     printNameTest:'',
     selectedArray:'',
     imgeLeft:'',
+    imageRight:'',
     ketluan:'',
 
     output: null,
     ousentFill:this.filters.ousentFill,
+
     pathThinLeft:'/storage/imageThinLeft/',
+    pathThinRight:'/storage/imageThinRight/',
     pathLogo:'/storage/Image_Ousent/',
     pathImageLeft:'/images/Logo/Thinprep.jpg',
-   // pathThinLeft:'/images/Thinprep/hLeft.jpg',
-   // pathThinRight:'/images/Thinprep/hRight.jpg',
-    pathThinRight:'/storage/imageThinRight/',
+
+
     getOusents:this.ousents,
     getdistricts:this.district,
     getwards:'',
@@ -447,6 +510,7 @@ data(){
     userEdit:'',
     showModal:'',
     showModlPrint:false,
+    showModlPrintMulti:false,
     editMode: false,
     //titleModal:'Them user',
     maxWidth:"4xl",
@@ -492,7 +556,7 @@ setup() {
     breadcrumbs() {
       return [
         {
-          label: "Danh sách ThinPrep",
+          label: "Danh sách In ThinPrep",
           class: "text-white",
         },
       ];
@@ -532,6 +596,17 @@ setup() {
 
   },
   methods:{
+     multiPrint(data){
+
+      const fillArr = Object.values(data);
+      //const list = [{id: 1, name: "foo"}, {id: 2, name: "bar"}, {id: 3, name: "baz"}];
+      const list = this.billtests.data;
+
+      //const ids = [1, 5];
+      this.billPrint = fillArr.map(i => list.find(({id}) => i === id));
+
+      this.showModlPrintMulti = true;
+    },
     formatDate(value) {
     if (value) {
         return moment(String(value)).format('DD/MM/YYYY hh:mm')}
@@ -573,6 +648,9 @@ setup() {
     closeModalPrint(){
          this.showModlPrint = false;
     },
+    closeModalPrintMulti(){
+         this.showModlPrintMulti = false;
+    },
     printResult(bill){
         this.getbilltests= bill;
         this.printCustommers = bill.custommer;
@@ -596,10 +674,13 @@ setup() {
         }
         if(bill.image_left){
           this.imgeLeft = bill.image_left.thinLeft;
+          this.imageRight = bill.image_left.thinRight;
         }
         else{
           this.imageLeft='';
+          this.imageRight='';
         }
+
         const elementChecked1 = bill.results;
          let results = elementChecked1.map(({ element_id }) => element_id)
 
@@ -862,9 +943,10 @@ setup() {
     /*Chagen print here size: A5; landscape*/
     font-family: 'Times New Roman';
     /* font-size: 20px; */
+
    }
      @page :top {
-         margin-top: 0.5cm;
+         margin-top: 0cm;
 
       }
      @page :left {
@@ -877,9 +959,13 @@ setup() {
          margin-right: 1cm;
       }
 
-.page-break {page-break-before: always !important; }
+  div.page-break * {
+        page-break-after:avoid;
+        page-break-before:avoid;
+    }
 
 }
+
 
 
 </style>

@@ -109,7 +109,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-         //dd($request->all());
+        // dd($request->all());
          $permission=Permission::create([
             'menu_id'=>$request->menu_id,
             'display_name'=>$request->display_name,

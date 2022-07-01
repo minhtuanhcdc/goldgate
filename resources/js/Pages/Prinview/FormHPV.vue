@@ -1,21 +1,20 @@
 <template>
   <div id="printMe" ref="printMe" class="px-0 my-0">
-        <div class="grid grid-cols-3 mt-0">
-            <div class="w-60  m-0 p-0"><img :src="logoPath"></div>
+        <div class="grid grid-cols-3 mt-0 mb-2 pb-2 align-middle border-b-2 border-gray-400">
+            <div class="m-0 p-0 flex flex-wrap justify-end brightness-100" v-if="getbilltests.ousent"><img class="w-40 object object-end mt-0 pt-0 pr-4" :src="logoPath+getbilltests.ousent['logo']"></div>
             <div class="col-span-2">
-                <p class="uppercase font-sans-Timenew font-bold text-xl">Erolab - phòng xét nghiệm y khoa</p>
+                <p class="uppercase font-sans-Timenew font-bold text-xl" v-if="getbilltests.ousent">{{getbilltests.ousent['name']}}</p>
                 <div class="grid grid-cols-8 text-xl">
-                    <div class="font-bold font-sans-Timenew">Địa chỉ:</div>
+                    <div class="font-bold font-sans-Timenew">Địa chỉ: </div>
                     <div class="col-span-7 text-left ml-0 pl-0 font-sans-Timenew">
-                        <p class="">Tầng 1 tòa nhà 21T1 (Cổng số 3)-Hapulico</p>
-                        <p class="leading-3">83 Vũ Trọng Phụng - Thanh Xuân - Hà Nội</p>
-                    </div>
+                        <p class="" v-if="getbilltests.ousent">{{getbilltests.ousent['address']}}</p>
 
+                    </div>
                 </div>
-                <div class="grid grid-cols-8 text-lg mt-1">
+                <div class="grid grid-cols-8 text-lg mt-1" style="line-height:80%">
                     <div class="font-bold font-sans-Timenew">Hostline:</div>
-                    <div class="col-span-7 text-left ml-0 pl-0 font-sans-Timenew">
-                        <p class="">0243.555.9988</p>
+                    <div class="col-span-7 text-left ml-0 pl-0 font-sans-Timenew" >
+                        <p class="" v-if="getbilltests.ousent">{{getbilltests.ousent['logo']}}</p>
 
                     </div>
 
@@ -23,7 +22,7 @@
 
             </div>
         </div>
-    <hr style="border: 1px solic black">
+
     <div class="text-center font-bold text-2xl font-sans-Timenew mt-2 text-red-600">
         <P>PHIẾU TRẢ KẾT QUẢ XÉT NGHỆM E6/E7 mRNA HPV</P>
         <P class="leading-3">(<span class="mt-0 pl-0">APTIMA</span> <span class="ml-0 pl-0" style="vertical-align: super; font-size:16px ; padding:0px">&reg;</span> HPV Assay)</P>
@@ -190,7 +189,7 @@
         </tr>
         <tr class=" font-sans-Timenew border-1">
             <td class=" text-red-700 text-center align-middle font-bold border-1  border-gray-900" colspan="2" width="50%">
-                <div v-for="(sco, i) in getbilltests.results" :key="i">
+                <div v-for="(sco, i) in getbilltests.resulthpvs" :key="i">
                      <span v-if="sco.element_id == 56" class="text-lg">{{sco.result}}</span>
                 </div>
             </td>
@@ -213,7 +212,7 @@
             </td>
             <td class=" border-1 border-gray-900 text-center" colspan="2">
                 <div class="text-left ">
-                    <div v-for="(sco, i) in getbilltests.results" :key="i">
+                    <div v-for="(sco, i) in getbilltests.resulthpvs" :key="i">
                         <div v-if="sco.element_id == 56">
                            <div v-if="sco.result >= 0.5">
                                 <span class=" mr-2 text-lg font-bold text-red-700">Dương tính </span>
@@ -232,7 +231,7 @@
      </table>
     <div  class="pb-0 font-sans-Timenew mb-0 mt-3"><span class="text-red-600  uppercase  underline font-bold text-lg">3. KẾT Luận:</span><span class="text-md italic">(Reporting result)</span></div>
 
-    <div v-for="(sco2, i) in getbilltests.results" :key="i" class="mb-2 mt-0">
+    <div v-for="(sco2, i) in getbilltests.resulthpvs" :key="i" class="mb-2 mt-0">
             <div v-if="sco2.element_id == 59">
                 <div v-if="sco2.result >= 0.5">
                     <table>
@@ -257,7 +256,7 @@
                         </tr>
                         <tr class=" font-sans-Timenew">
                             <td class="  text-center align-middle font-bold border-1 border-gray-900">
-                                <div v-for="(sco16, i) in getbilltests.results" :key="i">
+                                <div v-for="(sco16, i) in getbilltests.resulthpvs" :key="i">
                                     <div v-if="sco16.element_id == 57">
                                         <div v-if="sco16.result>=1">
                                             <span  class="text-red-700 text-xl">{{sco16.result}}</span>
@@ -280,7 +279,7 @@
                                 </div>
                             </td>
                             <td class="text-center align-middle font-bold border-1 border-gray-900">
-                                 <div v-for="(sco18, i) in getbilltests.results" :key="i">
+                                 <div v-for="(sco18, i) in getbilltests.resulthpvs" :key="i">
                                     <div v-if="sco18.element_id == 58">
                                         <div v-if="sco18.result>=1">
                                             <span  class="text-red-700 text-xl">{{sco18.result}}</span>
@@ -310,7 +309,7 @@
                                     <p class="leading-3 italic text-md">(HPV 16 result)</p></td>
                             <td class="  text-center border-1 border-gray-900">
                                  <div class="text-left ">
-                                    <div v-for="(sco16, i) in getbilltests.results" :key="i">
+                                    <div v-for="(sco16, i) in getbilltests.resulthpvs" :key="i">
                                         <div v-if="sco16.element_id == 57">
                                         <div v-if="sco16.result >= 1">
                                                 <span class=" mr-2 text-lg font-bold text-red-700">Dương tính </span>
@@ -329,7 +328,7 @@
                                     <p class="leading-3 italic text-md">(HPV 18/45result)</p></td>
                             <td class="  text-center border-1 border-gray-900">
                                 <div class="text-left ">
-                                    <div v-for="(sco18, i) in getbilltests.results" :key="i">
+                                    <div v-for="(sco18, i) in getbilltests.resulthpvs" :key="i">
                                         <div v-if="sco18.element_id == 58">
                                         <div v-if="sco18.result >= 1">
                                                 <span class=" mr-2 text-lg font-bold text-red-700">Dương tính </span>
@@ -447,7 +446,7 @@ export default {
 
     data(){
         return{
-            logoPath:'/images/Logo/logohpv.jpg',
+            logoPath:'/storage/Image_Ousent/',
         }
     },
     methods:{

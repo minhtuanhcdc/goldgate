@@ -67,8 +67,8 @@
               >
 
                 <Checkbox
-                  v-model:checkedChile="form.menuParentchecked"
-                  :value="permission.menu_id"
+                  v-model:checkedChile="form.menuselected"
+                  :value="permission.id"
                 />
 
                 <span class="ml-2">{{ permission.menus.name }}</span>
@@ -156,7 +156,7 @@ export default {
   data() {
     return {
       checkededit: "",
-      selected:false,
+      selected:'',
       form: this.$inertia.form(
         {
           _method: this.edit ? "PUT" : "",
@@ -194,7 +194,7 @@ export default {
         : this.form.post(route("roles.store"));
     },
     checkAll() {
-   this.selected = !this.selected;
+   //this.selected = !this.selected;
       var arrAll=[];
       if(!this.selected){
          var $test= this.permissions.data;

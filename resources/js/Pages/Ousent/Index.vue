@@ -27,6 +27,9 @@
             <td class="border-r-2">{{ou.person_contact}}</td>
             <td class="border-r-2">{{ou.phone}}</td>
             <td class="border-r-2">{{ou.id_ou}}</td>
+            <td class="border-r-2"></td>
+            <td class="border-r-2"></td>
+            <td class="border-r-2"></td>
             <td class="border-r-2">
               <div class="flex items-center justify-end space-x-3">
                 <EditBtn
@@ -129,6 +132,25 @@
                         v-model="form.logo"
                         :image-url="logoUrl"
                         label="Logo"
+                      />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2">
+
+                     <div class="ml-4 mt-4">
+                      <AppImage
+                        class="mt-2 rounded-none"
+                        v-model="form.imageHeader"
+                        :image-url="imageHeader"
+                        label="Image Header"
+                      />
+                    </div>
+                     <div class="ml-4 mt-4">
+                      <AppImage
+                        class="mt-2 rounded-none"
+                        v-model="form.imageFooter"
+                        :image-url="imageFooter"
+                        label="Image Footer"
                       />
                     </div>
                 </div>
@@ -299,8 +321,11 @@ data(){
         { name: "Logo", class:'border-l-2 text-center' },
         { name: "Địa chỉ", class:'border-l-2 text-center' },
         { name: "Người liên hệ" , class:'text-center border-l-2'},
-        { name: "Phone", class:'border-l-2 text-center' },
+        { name: "Phone ", class:'border-l-2 text-center' },
         { name: "Mã đơn vị", class:'border-l-2 text-center' },
+        { name: "Image Header", class:'border-l-2 text-center' },
+        { name: "Image Footer", class:'border-l-2 text-center' },
+        { name: "Phone đơn vị", class:'border-l-2 text-center' },
         { name: "Action", class: "text-right border-l-2" },
       ];
     },

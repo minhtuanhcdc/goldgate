@@ -10,7 +10,7 @@ use App\Models\Menu;
 use App\Models\MenuUser;
 use App\Models\Permission;
 use DB;
-
+use Str;
 use Inertia\Inertia;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\MenuResource;
@@ -45,10 +45,13 @@ class RoleController extends Controller
      */
     public function create()
     {
+
         return Inertia::render('Admin/Role/AddRole',[
             'edit'=>false,
             'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->select(['id','name','menu_id','parent_id'])->get()),
-            'role'=>new RoleResource(new Role())
+            'role'=>new RoleResource(new Role()),
+
+
         ]);
     }
     /**
@@ -60,13 +63,14 @@ class RoleController extends Controller
     public function store(Request $request)
     {
 
-        //dd($request->menuParentCheck);
-        $role=$this->role->create([
-            'name'=>$request->name,
-            'display_name'=>$request->display_name,
-            'status'=>$request->status,
+
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'display_name' => ['required', 'string'],
         ]);
-        $role->permissions()->attach($request->menuselected);
+        $role=$this->role->create($data);
+       // $this->$role->create($data);
+       $role->permissions()->attach($request->menuselected);
         return redirect()->route('roles.index')->with('success', 'Add role successfully!');
     }
     /**
@@ -104,7 +108,8 @@ class RoleController extends Controller
             'role'=>new RoleResource($role),
             'permissions'=>PermissionResource::collection(Permission::with(['menus','menuchiles'])->select(['id','name','menu_id','parent_id'])->get()),
             //'permissions'=>PermissionResource::collection(Permission::select(['id','name','parent_id'])->get()),
-            'permisionData'=>$permisionData
+            'permisionData'=>$permisionData,
+
         ]);
     }
     /**
@@ -118,18 +123,20 @@ class RoleController extends Controller
     {
        //dd($request->all());
 
-        MenuUser::where('user_id',$request->user_id)->delete();
-        $data1=[];
-        foreach($request->menuParentchecked as $menu_id){
-            $data1[]=[
-                'user_id'=>$role->id,
-                'menu_id'=>$menu_id,
-                'created_at'=>date('Y-m-d H:i:s'),
-                'updated_at'=>date('Y-m-d H:i:s'),
-            ];
-        }
-        //dd($data1);
-        MenuUser::insert($data1);
+       //$role->permissions()->sync($request->menuselected);
+
+    //     MenuUser::where('user_id',$request->user_id)->delete();
+    //     $data1=[];
+    //     foreach($request->menuParentchecked as $menu_id){
+    //         $data1[]=[
+    //             'user_id'=>$role->id,
+    //             'menu_id'=>$menu_id,
+    //             'created_at'=>date('Y-m-d H:i:s'),
+    //             'updated_at'=>date('Y-m-d H:i:s'),
+    //         ];
+    //     }
+    //    // dd($data1);
+    //     MenuUser::insert($data1);
 
         $data = $request->validate([
             'name' => ['required', 'string'],

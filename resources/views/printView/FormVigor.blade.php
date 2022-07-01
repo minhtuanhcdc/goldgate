@@ -185,22 +185,22 @@
 
                     <tr class="py-0 m-0 bordered align-middle">
                         <td colspan="5"  style="border:none !important" class="text-center p-0 pl-2">
-                            @if ($value->imageLeft)
+                            {{-- @if ($value->imageLeft) --}}
                                 <img class="" style="width:260px; height:180px"
                                 src="{{ public_path('/storage') }}/imageThinLeft/{{$value->imageLeft->thinLeft}}"
                             />
-                            @endif
+                            {{-- @endif
                                     <img class="" style="width:260px; height:180px; opacity:0.3"
-                                src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/>
+                                src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/> --}}
                         </td>
                         <td colspan="5" class="p-0"  style="border:none !important">
-                             @if ($value->imageLeft)
+                             {{-- @if ($value->imageLeft) --}}
                                 <img class="" style="width:260px; height:180px"
                                 src="{{ public_path('/storage') }}/imageThinLeft/{{$value->imageLeft->thinLeft}}"
                             />
-                            @endif
+                            {{-- @endif
                             <img class="" style="width:260px; height:180px; opacity:0.3"
-                                src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/>
+                                src="{{ public_path('/storage') }}/Logo/Thinprep.jpg"/> --}}
                         </td>
                     </tr>
             <tr class="py-0 m-0 bordered align-middle">

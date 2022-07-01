@@ -26,19 +26,17 @@ class Ousent extends Model
 
     public function imageUrl(string $column = 'logo'): ?string
     {
-      
         $imageName = $this->$column;
         return $imageName === null
         ? "https://ui-avatars.com/api/?name={$column}&color=7F9CF5&background=EBF4FF"
-        : Storage::url("{$this->uploadFolder()}/{$imageName}"); 
+        : Storage::url("{$this->uploadFolder()}/{$imageName}");
     }
     public function getImage(): ?string
     {
-      
         $imageName = $this->$column;
         return $imageName === null
         ? "https://ui-avatars.com/api/?name={$column}&color=7F9CF5&background=EBF4FF"
-        : Storage::url("{$this->uploadFolder()}/{$imageName}"); 
+        : Storage::url("{$this->uploadFolder()}/{$imageName}");
     }
     public function deleteImage(string $column = 'logo'): void
    {
@@ -49,5 +47,5 @@ class Ousent extends Model
        }
    }
 
-   
+
 }

@@ -212,7 +212,7 @@
               </td>
             <td class="border-r-2 text-center">{{bill.hpv_code}}</td>
             <td class="border-r-2 text-center">
-              <span v-for="(rs,i) in bill.results" :key="i">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
                 <span v-if="rs.element_id == 56">
                   <span v-if="rs.result >= 0.5" class="text-red-700 font-bold">
                        {{rs.result}}
@@ -226,7 +226,7 @@
               </span>
             </td>
             <td class="border-r-2 text-center">
-              <span v-for="(rs,i) in bill.results" :key="i">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
                 <span v-if="rs.element_id == 59">
                   <span v-if="rs.result >= 0.5" class="text-red-700 font-bold">
                       {{rs.result}}
@@ -238,7 +238,7 @@
               </span>
             </td>
             <td class="border-r-2 text-center">
-              <span v-for="(rs,i) in bill.results" :key="i">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
                 <span v-if="rs.element_id == 57">
                   <span v-if="rs.result >= 0.5" class="text-red-700 font-bold">
                        {{rs.result}}
@@ -250,7 +250,7 @@
               </span>
             </td>
             <td class="border-r-2 text-center">
-              <span v-for="(rs,i) in bill.results" :key="i">
+              <span v-for="(rs,i) in bill.resulthpvs" :key="i">
                 <span v-if="rs.element_id == 58">
                   <span v-if="rs.result >= 0.5" class="text-red-700 font-bold">
                        {{rs.result}}
@@ -290,7 +290,7 @@
                     <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
                 <div v-for="(lan,i) in [1]" :key="i">
-                <!-- <div>{{selectedArray['name']}}</div> -->
+
                 <div>
                   <PrintHPV :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                     :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
@@ -586,27 +586,15 @@ setup() {
         else{
           this.imageLeft='';
         }
-        const elementChecked1 = bill.results;
-         let results = elementChecked1.map(({ element_id }) => element_id)
+        const elementChecked1 = bill.resulthpvs;
+
 
 
          //let keluanfill = elementChecked1.map(({result }) =>result)
 
-          var ketluanFill = elementChecked1.find(obj => {
-                      return obj.element_id ==26
-                    })
-          this.sco = bill.results.find(obj => {
-                      return obj.element_id ==56
-                    })
 
-                      console.log('Heheheehehe',this.sco);
 
-        //  var last = keluanfill.slice(-1)[0]
-        if(ketluanFill){
-            this.ketluan = ketluanFill.result;
-        }
 
-        this.selectedArray = results;
         this.printAddress=' '+ bill.custommer.address;
         this.showModlPrint = true;
 
