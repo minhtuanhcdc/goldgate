@@ -32,12 +32,13 @@ use Importable, SkipsErrors;
 
         $custommerId = Custommer::insertGetId([
                'name' => $row['name'],
-               'gender' => $row['gender'],
+               'gender' => 0,
                'birthday' => $row['birthday'],
                'address' => $row['address'],
-               'province_id' => $row['province_id'],
-               'district_id' => $row['district_id'],
-               'ward_id' => $row['ward_id'],
+               'phone' => $row['phone'],
+               //'province_id' => $row['province_id'],
+               //'district_id' => $row['district_id'],
+               //'ward_id' => $row['ward_id'],
            ]);
 
            $readCode =   substr ( $row['thinprep_code'] ,0, 4 );
@@ -47,12 +48,15 @@ use Importable, SkipsErrors;
                 'ousent_id' => $row['ousent_id'],
                 'doctor_id' => $row['doctor_id'],
                 'diagnose' => $row['diagnose'],
-                'thinprep_code' => $row['thinprep_code'],
-                'hpv_code' => $row['hpv_code'],
-                'sample_code' => $row['sample_code'],
-                'read_code' => $readCode,
                 'para' => $row['para'],
                 'kinhchot' => $row['kinhchot'],
+                'sample_code' => $row['sample_code'],
+                'thinprep_code' => $row['thinprep_code'],
+                'read_code' => $readCode,
+                'hpv_code' => $row['hpv_code'],
+                //'date_receive' => $row['date_receive'],
+
+
             ]);
 
             Billname::create([

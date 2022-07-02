@@ -134,6 +134,7 @@ class CustommerController extends Controller
                 'sample_code'=>$request->sample_code,
                 'date_receive'=>$request->date_re,
                 'read_code'=>$readCode,
+
                 'status'=>1,
                 'usercreate_id'=>$userCreate,
                 'created_at' => date('Y-m-d H:i:s'),

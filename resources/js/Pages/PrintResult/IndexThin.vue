@@ -684,7 +684,7 @@ setup() {
         const elementChecked1 = bill.results;
          let results = elementChecked1.map(({ element_id }) => element_id)
 
-
+console.log('Heheheheehehehe',results);
          //let keluanfill = elementChecked1.map(({result }) =>result)
 
           var ketluanFill = elementChecked1.find(obj => {
@@ -939,18 +939,18 @@ setup() {
   }
   @page{
     size: a4;
-   /* //margin: 0mm 0mm 0mm 0mm; */
+   /* margin: 10cm 0mm 0mm 0mm; */
     /*Chagen print here size: A5; landscape*/
     font-family: 'Times New Roman';
     /* font-size: 20px; */
 
    }
      @page :top {
-         margin-top: 0cm;
+         margin-top: 10cm !important;
 
       }
      @page :left {
-         margin-left: 1cm;
+         margin-left: 3cm;
 
       }
 

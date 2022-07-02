@@ -56,7 +56,8 @@ class UploadImageController extends Controller
            // $pictures = [];
             foreach($request->file('files') as $file){
 
-                $uploadeFile->setFile( $file)
+
+                make($file)->resize(30,30)->$uploadeFile->setFile( $file)
                 ->setUploadPath((new ImageThinprep())->uploadFolderLeft())
                  ->executeImgaLeft();
                 $filename = $file->getClientOriginalName();

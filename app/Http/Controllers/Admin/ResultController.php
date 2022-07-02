@@ -37,17 +37,17 @@ class ResultController extends Controller
         $readcodeFill=$request->readcodeFill?$request->readcodeFill:'all';
         if($request->ousentFill && $request->ousentFill !=='all'){
            // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('thinprep_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results','imageleft'])->where('thinprep_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
         if($request->readcodeFill && $request->readcodeFill !=='all'){
            // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results'])->where('thinprep_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','results','imageleft'])->where('thinprep_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
 
         else{
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results'])->where('thinprep_code','!=',null)->paginate($perpage);
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','results','imageleft'])->where('thinprep_code','!=',null)->paginate($perpage);
         }
 
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();

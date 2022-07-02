@@ -133,12 +133,26 @@
             </td>
              <td class="border-r-2">{{bill.hpv_code}}</td>
             <td class="border-r-2">{{bill.thinprep_code}}</td>
-            <td class="border-r-2">Image</td>
-
+            <td class="border-r-2 text-center ">
+              <span v-if="bill.imageleft" class="flex justify-center">
+                <AppImageView :imageUrl="pathThinLeft + bill.imageleft.thinLeft"/>
+              </span>
+              <span v-else>
+                  -
+              </span>
+              </td>
+            <td class="border-r-2">
+              <span v-if="bill.imageleft">
+                 <AppImageView :imageUrl="pathThinRight + bill.imageleft.thinRight"/>
+              </span>
+              <span v-else>
+                  -
+              </span>
+              </td>
             <td class="border-r-2 w-32">
               <div class="flex items-center justify-end space-x-3">
                 <EditBtn
-                v-show="bill.result_status==1"
+                v-show="bill.result_status == 1"
                   title="Edit"
                   class="text-green-800"
                     @click="editResult(bill)"
@@ -157,7 +171,7 @@
                       d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                     ></path></svg>
                 </EditBtn>
-                <EditBtn v-if="bill.result_status ==1" disabled>
+                <EditBtn v-if="bill.result_status == 1" disabled>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-200" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z" />
                       <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
@@ -523,7 +537,7 @@ import Card from "@/Components/Card";
 import Table from "@/Components/Table";
 import Checkbox from "@/Jetstream/Checkbox";
 
-import AppImageView from "@/Components/ImageView";
+import AppImageView from "@/Components/ImageViewSqua";
 import EditBtn from "@/Components/EditButton";
 import DeleteBtn from "@/Components/DeleteBtn";
 import JetButton from "@/Jetstream/Button";
@@ -571,6 +585,8 @@ export default defineComponent({
   },
 data(){
   return{
+    pathThinLeft:'/storage/ImageThinLeft/',
+    pathThinRight:'/storage/ImageThinRight/',
     ousentFill:'',
     getDoctors:this.doctors,
     testData:'',
@@ -819,7 +835,8 @@ data(){
         { name: "Chỉ định XN", class:'border-l-2 text-center' },
         { name: "Mã HPV", class:'border-l-2 text-center' },
         { name: "Mã ThinPrep", class:'border-l-2 text-center' },
-        { name: "Image", class:'border-l-2 text-center' },
+        { name: "Image Left", class:'border-l-2 text-center' },
+        { name: "Image Right", class:'border-l-2 text-center' },
 
         { name: "Action", class: "text-right border-l-2" },
       ];

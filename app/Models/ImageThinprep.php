@@ -11,13 +11,7 @@ class ImageThinprep extends Model
     use HasFactory;
     protected $table = "image_thinpreps";
     protected $guarded = [];
-    protected $fillable = [
-        'id',
-        'thinprep_code',
-        'thinLeft',
-        'thinRight',
-        'status',
-    ];
+
 
     public function uploadFolderLeft(): string{
         return "public/ImageThinLeft";
@@ -37,7 +31,7 @@ class ImageThinprep extends Model
     }
     public function deleteImageLefts(string $column = 'image'): void
     {
-        dd($column);
+        //dd($column);
         $imageName = $this->$column;
 
         if ($imageName !== null) {

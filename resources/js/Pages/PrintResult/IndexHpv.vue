@@ -189,7 +189,7 @@
             <td class="border-r-2 text-center">{{bill.id}}</td>
              <td class="border-r-2">{{bill.custommer.name}}</td>
              <td class="border-r-2">
-               <span v-if="bill.custommer.gender==0">Nữ</span>
+               <span v-if="bill.custommer.gender == 0">Nữ</span>
                <span v-else>Nam</span>
                </td>
              <td class="border-r-2">{{bill.custommer.birthday}}</td>
@@ -281,7 +281,6 @@
               <Pagination :links="billtests.links"/>
           </div>
           </div>
-
         <DialogModal :show="showModlPrint" class="mb-0 pb-0 bg-green-700" :bgHeader="editMode ? bgEdit : bgSave" :maxWidth="maxWidth">
              <template v-slot:content>
                 <div class="text-right w-full flex-row justify-items-between" >
@@ -290,7 +289,6 @@
                     <button  @click="closeModalPrint" class="text-white text-md bg-green-500 px-2 py-1 rounded-md hover:bg-green-300">Close</button>
                 </div>
                 <div v-for="(lan,i) in [1]" :key="i">
-
                 <div>
                   <PrintHPV :getbilltests="getbilltests" :testElements="testElements" :printCustommers="printCustommers"
                     :printOutsent="printOutsent" :printDoctor="printDoctor" :selectedArray="selectedArray"
@@ -300,7 +298,7 @@
                     :pathImageLeft="pathImageLeft"
                     :currentDate='currentDate()'/>
                 </div>
-        </div>
+            </div>
             </template>
         </DialogModal>
       </Card>

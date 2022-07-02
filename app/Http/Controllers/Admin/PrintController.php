@@ -33,17 +33,17 @@ class PrintController extends Controller
 
         if($request->ousentFill && $request->ousentFill !=='all'){
            // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('thinprep_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageleft','results'])->where('thinprep_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
 
         if($request->readcodeFill && $request->readcodeFill !=='all'){
             //dd($request->readcodeFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->where('thinprep_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageleft','results'])->where('thinprep_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
         if($startDate && $endDate && $ousentFill){
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageleft','results'])
             ->where('thinprep_code','!=',null)
             ->whereDate('date_receive','>=',$startDate)
             ->whereDate('date_receive','<=',$endDate)
@@ -52,7 +52,7 @@ class PrintController extends Controller
         }
         else{
            // dd($request->perpage);
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageleft','results'])
         ->where('thinprep_code','!=',null)
         ->paginate($perpage)->withQueryString();
         }
@@ -93,16 +93,16 @@ class PrintController extends Controller
 
         if($request->ousentFill && $request->ousentFill !=='all'){
            // dd($request->ousentFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','resulthpvs'])->where('hpv_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','resulthpvs'])->where('hpv_code','!=',null)->where('ousent_id',$ousentFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
         if($request->readcodeFill && $request->readcodeFill !=='all'){
             //dd($request->readcodeFill);
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','resulthpvs'])->where('hpv_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','resulthpvs'])->where('hpv_code','!=',null)->where('read_code',$readcodeFill)->paginate($perpage)->withQueryString();
                 //dd($billtests);
         }
         if($startDate && $endDate && $ousentFill){
-            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','resulthpvs'])
+            $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','resulthpvs'])
             ->where('hpv_code','!=',null)
             ->whereDate('date_receive','>=',$startDate)
             ->whereDate('date_receive','<=',$endDate)
@@ -111,7 +111,7 @@ class PrintController extends Controller
         }
         else{
            // dd($request->perpage);
-        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','resulthpvs'])
+        $billtests=Billtest::with(['custommer','doctor','ousent','testnames','district','ward','resulthpvs'])
         ->where('hpv_code','!=',null)
         ->paginate($perpage)->withQueryString();
         }
@@ -149,13 +149,18 @@ class PrintController extends Controller
         $keys = collect($rq->all());
         $ids = $keys->keys();
 
-        $billtests=Billtest::whereIn('id',$ids)->with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])->get();
+        $billtests=Billtest::whereIn('id',$ids)->with(['custommer','doctor','ousent','testnames','district','ward','imageleft','results'])->get();
 
-        $billTudus = Billtest::whereIn('id',$ids)->with(['custommer','doctor','ousent','testnames','district','ward','imageLeft','results'])
-                ->where('ousent_id',1)
+        $billTudus = Billtest::whereIn('id',$ids)->with(['custommer','doctor','ousent','testnames','district','ward','imageleft','results'])
+                //->where('ousent_id',1)
                 ->get();
-        //dd($billtests);
+        //dd($billTudus);
         $testElements = Testelement::where('testname_id',1)->select('id','name','element_group')->get();
+        $elementChecked = [];
+
+
+
+
         return Inertia::render('PrintMulti/Index',
             [
                 'billtests'=>$billtests,

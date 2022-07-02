@@ -974,6 +974,8 @@ setup() {
          let results = elementChecked1.map(({ element_id }) => element_id)
 
 
+
+
          //let keluanfill = elementChecked1.map(({result }) =>result)
 
           var ketluanFill = elementChecked1.find(obj => {

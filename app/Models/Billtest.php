@@ -45,11 +45,10 @@ class Billtest extends Model
          //return $this->belongsTomany(Testname::class,'billnames');
          return $this->belongsTo(Custommeraddress::class, 'custommer_id','id');
     }
-    public function imageLeft(){
-         //return $this->belongsTomany(Testname::class,'billnames');
-        // return $this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code');
-         return $this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code');
-    }
+    public function imageleft(){
+        //dd($this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code'));
+        return $this->belongsTo(ImageThinprep::class, 'thinprep_code','thinprep_code');
+   }
 
     public function cutommerupdate(){
           return $this->hasOne(Custommer::class);

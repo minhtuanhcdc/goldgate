@@ -1533,14 +1533,14 @@ select {
 .w-36 {
 	width: 9rem;
 }
+.w-72 {
+	width: 18rem;
+}
 .w-56 {
 	width: 14rem;
 }
 .w-28 {
 	width: 7rem;
-}
-.w-72 {
-	width: 18rem;
 }
 .min-w-0 {
 	min-width: 0px;

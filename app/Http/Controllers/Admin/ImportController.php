@@ -24,7 +24,6 @@ class ImportController extends Controller
     // }
     public function importcustommers(Request $request)
     {
-        dd($request->file);
 
        Excel::import(new CustommerImport, $request->file);
         //(new CustommerImport)->import($request->file);

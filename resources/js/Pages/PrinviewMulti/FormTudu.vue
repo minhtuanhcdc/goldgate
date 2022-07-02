@@ -1,4 +1,5 @@
 <template>
+
  <div class="" v-for="(td,i) in getbilltests" :key="i">
 
                       <div class="grid grid-cols-8 mx-0 py-0">
@@ -20,7 +21,8 @@
                                 </div>
                           </div>
                           <div class="col-span-2 text-right text-italy text-sm font-bold font-sans-Timenew  mt-8 w-full">
-                                <span class="p-0 m-0 w-full text-xs">Số(Number):{{td.thinprep_code}}/2022</span>
+                                <span class="p-0 m-0 w-full text-xs">Số(Number):{{td.thinprep_code}}</span>
+
                           </div>
                       </div>
                         <div class="grid grid-cols-4 leading-6 text-md">
@@ -48,36 +50,36 @@
                               <div class="font-sans-Timenew leading-6">Bs. Chỉ định(Physician):<span class="font-bold pl-2" v-if="printDoctor"> {{td.doctor.name}}</span></div>
                           </div>
                       <div>
-                            <div class="text-center font-bold text-md font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
-
+                          <div class="text-center font-bold text-md font-sans-Timenew mt-2 text-red-600">KẾT QUẢ TẾ BÀO HỌC CỔ TỬ CUNG THEO HỆ THỐNG BETHESDA 2014</div>
                             <div class="grid grid-cols-5 font-sans-Timenew leading-6">
                               <div class="font-bold italic col-span-2">Đánh giá lam (Specimen evalueation)</div>
                                 <div class="col-span-3 grid grid-cols-2" >
                                   <div class="" v-for="eg1 in testElements" :key="eg1.id">
-                                    <span class="font-bold" v-if="eg1.element_group == 1">{{eg1.name}}
-                                        <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg1.id" v-model="selectedArray"/>
-                                      </span>
+                                    <div class="font-bold " v-if="eg1.element_group == 1">{{eg1.name}}
+                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg1.id === x) !== -1" />
+                                    </div>
                                   </div>
                             </div>
                             </div>
                             <div class="grid grid-cols-1">
                                   <div class="" v-for="eg2 in testElements" :key="eg2.id">
-                                      <span class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">- {{eg2.name}}
-                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg2.id" v-model="selectedArray"/>
-                                      </span>
+                                      <div class="text-left font-bold text-md  font-sans-Timenew text-blue-900" v-if="eg2.element_group ==2">
+                                        <span>- {{eg2.name}}</span>
+                                       <input type="checkbox" disabled class="ml-1 text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg2.id === x) !== -1" />
+                                      </div>
                                   </div>
                               </div>
                           <div class="flex flex-cols-5">
                               <div class="" v-for="eg3 in testElements" :key="eg3.id">
                                   <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg3.element_group == 3">+ {{eg3.name}}
-                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg3.id" v-model="selectedArray"/>
+                                     <input type="checkbox" disabled class="text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg3.id === x) !== -1" />
                                   </span>
                               </div>
                           </div>
                           <div class="grid grid-cols-1">
                               <div class="" v-for="eg4 in testElements" :key="eg4.id">
                                   <span class="text-left font-bold text-xs  font-sans-Timenew mr-5 " v-if="eg4.element_group == 4">+ {{eg4.name}}
-                                      <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :value="eg4.id" v-model="selectedArray"/>
+                                     <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg4.id === x) !== -1" />
                                   </span>
                               </div>
                           </div>
@@ -88,14 +90,14 @@
                                     <div class="flex flex-col">
                                        <div class="" v-for="eg5 in testElements" :key="eg5.id">
                                       <span class="ml-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg5.element_group == 5">{{eg5.name}}
-                                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg5.id" v-model="selectedArray"/>
+                                           <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg5.id === x) !== -1" />
                                         </span>
                                 </div>
                                     </div>
                                     <div class="flex flex-col">
                                         <div class="" v-for="eg6 in testElements" :key="eg6.id">
                                         <span class="pl-2 text-left font-bold text-xs  font-sans-Timenew " v-if="eg6.element_group == 6">{{eg6.name}}
-                                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg6.id" v-model="selectedArray"/>
+                                            <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg6.id === x) !== -1" />
                                         </span>
                                     </div>
                                     </div>
@@ -110,7 +112,7 @@
                                     <div v-for="eg7 in testElements" :key="eg7.id">
                                       <div v-if="eg7.element_group == 7">
                                         <span class="text-left font-bold text-xs ml-4 mr-6  font-sans-Timenew" >{{eg7.name}}
-                                          <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg7.id" v-model="selectedArray"/>
+                                            <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg7.id === x) !== -1" />
                                           </span>
                                         </div>
                                 </div>
@@ -123,18 +125,19 @@
                                 <div class="flex flex-rows-2">
                                 <div  v-for="eg8 in testElements" :key="eg8.id">
                                     <span class="font-bold text-xs w-full mr-3" v-if="eg8.element_group ==8 && eg8.element_group !==null ">{{eg8.name}}
-                                      <input type="checkbox" class="form-checkbox text-blue-800 h-3 w-3" :value="eg8.id" v-model="selectedArray"/>
+                                            <input type="checkbox" disabled class="form-checkbox text-blue-800 h-3 w-3" :checked="td.results.map((x) =>+x.element_id).findIndex((x) => eg8.id === x) !== -1" />
+
                                     </span>
                                   </div>
                                   </div>
                               </div>
                             </div>
                             <div class="grid grid-cols-2 mt-2 text-center">
-                                <div  class="text-center">
-                                  <img v-if="getbilltests['thinprep_code'] == imageThinLeft"
+                                <div  class="text-center flex justify-center">
+                                  <img v-if="td.thinprep_code"
                                       class="w-72 max-h-48 "
-                                      :src="pathThinLeft+imageThinLeft"
-                                      :alt="imageThinLeft"/>
+                                      :src="pathThinLeft+td.image_left.thinLeft"
+                                      :alt="td.thinprep_code"/>
 
                                    <img v-else
                                       class="w-72 max-h-48 "
@@ -142,32 +145,32 @@
                                       alt="imageThinLeft"/>
 
                                   </div>
-                                <div class="text-center">
-                                  <img  v-if="getbilltests['thinprep_code'] == imageThinRight"
+                               <div  class="text-center flex items-center">
+                                  <img  v-if="td.thinprep_code"
                                       class="w-72 max-h-48 "
-                                      :src="pathThinRight+imageThinRight"
+                                      :src="pathThinRight+td.image_left.thinRight"
                                       :alt="LogoThin"/>
-                                  <img v-else
+
+                                       <img v-else
                                       class="w-72 max-h-48 "
                                       :src="pathImageLeft"
                                       alt="imageThinLeft"/>
-
-                                  </div>
+                                </div>
                             </div>
                             <div class="grid grid-cols-3">
                               <div class="col-span-2">
                                 <div class="grid grid-cols-1">
                                   <span class="font-bold text-red-800 font-sans-Timenew text-md underline underline-offset-2">KẾT LUẬN (Conclution):</span>
                                  <div  v-for="eg9 in testElements" :key="eg9.id">
-                                    <span class="font-bold text-xs w-full mr-3" v-if="eg9.element_group ==9 && eg9.element_group !==null ">
-
-                                         <p v-if="ketluan" class="uppercase text-red-800 font-sans-Timenew text-lg pl-2" >- {{ketluan}}</p>
+                                    <span class="font-bold text-xs w-full mr-2" v-if="eg9.element_group ==9 && eg9.element_group !==null ">
+                                      <span class="uppercase text-red-800 font-sans-Timenew text-lg pl-2 m-0" style="line-heigh:30%" v-if="td.results">
+                                           {{td.results.find((result) => result.element_id === "26").result}}
+                                        </span>
 
                                     </span>
                                   </div>
                                 </div>
                               </div>
-
                               <div class="grid grid-cols-1 text-center">
                                 <span class="font-bold font-sans-Timenew text-md">Ngày đọc kết quả: {{currentDate}}</span>
                                 <span class="mb-16 font-bold font-sans-Timenew text-md" style="margin-bottom:60px">BS/KTV đọc kết quả:</span>
@@ -205,6 +208,12 @@ export default {
     },
     components:{
       CheckIcon
+    },
+    data(){
+      return{
+      test:[1, 2,3,4,5,6,7],
+
+      }
     },
      methods:{
 

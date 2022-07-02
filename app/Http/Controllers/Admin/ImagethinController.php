@@ -29,13 +29,13 @@ class ImagethinController extends Controller
     }
 
     public function storeLeft(Request $request,  UploadFile $uploadeFile)
-    {
+    {dd(123);
 
         if($request->hasFile('files')){
             $pictures = [];
             foreach($request->file('files') as $file){
 
-                $uploadeFile->setFile( $file)
+                $uploadeFile->make($file)->resize(30,30)->setFile( $file)
                 ->setUploadPath((new Imagethin())->uploadFolderLeft())
                  ->executeImgaLeft();
                 $filename = $file->getClientOriginalName();
